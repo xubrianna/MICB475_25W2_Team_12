@@ -7,7 +7,7 @@
   - human related, not enviornmental
   - infant feeding, columbia, parkinsons (popular)
   - kidney stone disease (potential option)
-  - trasplantation 
+  - transplantation 
 
 Notes (Naomi): 
 - we can email him with coding bugs and questions 
@@ -30,5 +30,6 @@ Notes (Naomi):
 - start a thread with all of our emails for future communication 
 - use the actual email not by Canvas
 - add Hans and Evelyn to Github 
+
 
 
