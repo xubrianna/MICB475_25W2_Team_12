@@ -9,7 +9,7 @@
   - kidney stone disease (potential option)
   - trasplantation 
 
-Notes: 
+Notes (Naomi): 
 - we can email him with coding bugs and questions 
 - watch refresher module for Github
 - create repo with reproducible scripts and images and notes - keep on Github
@@ -30,4 +30,5 @@ Notes:
 - start a thread with all of our emails for future communication 
 - use the actual email not by Canvas
 - add Hans and Evelyn to Github 
+
 
