@@ -5,5 +5,5 @@
 - individual functions or grouped functions?
 3. Optimize # features or samples??
 - We decided to choose a sample depth of 43,000 to maximize the number of features (62.2%) in samples for downstream analysis. As a result, we lost 39 samples from our initial pool of 146 which is justified because we have chosen to optimize features.  
-
+4. Ask about rationale
 
