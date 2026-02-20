@@ -1,9 +1,11 @@
 # Questions
+
 1. Is it overkill to conduct 3 analyses for Aim 2: To identify differentially abundant and core microbial taxa associated with endometriosis among CPP patients, compared to CPP patients without endometriosis and healthy controls
   - Core Microbiome + DESeq2 + ISA? which one is best 
-2. PICRUSt2 outputs KO, EC, MetaCyc, do we do all 3 or pick 1 dataset?
-- individual functions or grouped functions?
-3. Optimize # features or samples for rarefaction? 
+2. For the PICRUSt2 analysis it gives us 3 outputs KO, EC, MetaCyc, do we do all 3 or pick 1 for downstream analysis? 
+- individual functions or grouped functions for microbes?
+3. Should we optimize the # features or samples for rarefaction?
+  - We thought 43,000 since it kept the most ASVs but we lost a lot of samples 
 - We decided to choose a sample depth of 43,000 to maximize the number of features (62.2%) in samples for downstream analysis. As a result, we lost 39 samples from our initial pool of 146 which is justified because we have chosen to optimize features.  
 4. Ask about rationale and whether it seems justified and biologically valid
 5. ask about the healthy controls - are we comparing CPP to healthy first, and then CPP-endo to CPP? is healthy control the baseline? 
@@ -20,5 +22,6 @@ discuss overall points/flow:
 - main interest: 
 
 - we are first looking at taxonomy, then DEGS and core microbiome to see which taxa are unique to each condition, then trying to establish the functional pathways that could be contributing to pain, then potentially if we find unique taxa trying to train a predictive classifier to differentiate endo-CPP vs CPP alone
+
 
 
