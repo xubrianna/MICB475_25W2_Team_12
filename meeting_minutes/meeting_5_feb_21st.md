@@ -8,7 +8,10 @@
   - We thought 43,000 since it kept the most ASVs but we lost a lot of samples 
 - We decided to choose a sample depth of 43,000 to maximize the number of features (62.2%) in samples for downstream analysis. As a result, we lost 39 samples from our initial pool of 146 which is justified because we have chosen to optimize features.  
 4. Ask about rationale and whether it seems justified and biologically valid
-5. ask about the healthy controls - are we comparing CPP to healthy first, and then CPP-endo to CPP? is healthy control the baseline? 
+5. ask about the healthy controls - are we comparing CPP to healthy first, and then CPP-endo to CPP? is healthy control the baseline?
+6. Differential abundance analysis on functions, should we do it at individual level or grouped?
+- aggregated individual KOs  into higher-level KEGG pathways??
+- then do Differential abundance analysis at both the KO and pathway levels to identify enriched or depleted functional categories among CPP+endometriosis, CPP-only, and control groups??
 
 discuss overall points/flow: 
 
@@ -22,6 +25,7 @@ discuss overall points/flow:
 - main interest: 
 
 - we are first looking at taxonomy, then DEGS and core microbiome to see which taxa are unique to each condition, then trying to establish the functional pathways that could be contributing to pain, then potentially if we find unique taxa trying to train a predictive classifier to differentiate endo-CPP vs CPP alone
+
 
 
 
