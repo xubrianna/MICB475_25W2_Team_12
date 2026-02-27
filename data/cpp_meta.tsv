@@ -1,0 +1,147 @@
+sample-id	abnormal_uterine_bleeding	Blood_in_sample	Collection_Date	collection_method	Confirmed_adenomyosis	Confirmed_cysts	Confirmed_fibroids	Endo_location	Endo_stage	env_broad_scale	env_local_scale	env_medium	Heavy_menstrual_bleeding	Host_disease	HOST	Irregular_menstrual_bleeding	version	barcode
+SRR27830964	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	Control	Homo sapiens	1	1	SRR27830964
+SRR27830965	0	Not applicable	Jul-21	rectal_swab	0	1	1	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830965
+SRR27830966	1	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	1	1	SRR27830966
+SRR27830967	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27830967
+SRR27830968	1	Not applicable	Jul-21	rectal_swab	0	0	0	Multiple_sites	Not applicable	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	0	1	SRR27830968
+SRR27830969	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27830969
+SRR27830970	1	Not applicable	Jul-21	rectal_swab	0	1	1	Mulitple_sites	1	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	0	1	SRR27830970
+SRR27830971	0	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	2	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830971
+SRR27830972	0	Not applicable	Jul-21	rectal_swab	0	1	0	Other	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830972
+SRR27830973	0	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830973
+SRR27830974	1	Not applicable	Jul-21	rectal_swab	1	1	1	Peritoneum	1	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	1	1	SRR27830974
+SRR27830975	1	Not applicable	Jul-21	rectal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	1	1	SRR27830975
+SRR27830976	0	Not applicable	Jul-21	rectal_swab	0	1	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27830976
+SRR27830977	0	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830977
+SRR27830978	1	Not applicable	Jul-21	rectal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	1	1	SRR27830978
+SRR27830979	0	Not applicable	Jul-21	rectal_swab	0	1	0	Peritoneum	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830979
+SRR27830980	0	1	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27830980
+SRR27830981	0	1	Jul-21	vaginal_swab	0	0	0	Other	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27830981
+SRR27830982	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	1	1	SRR27830982
+SRR27830983	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	Control	Homo sapiens	1	1	SRR27830983
+SRR27830984	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27830984
+SRR27830985	0	Not applicable	Jul-21	rectal_swab	0	0	0	Multiple_sites	2	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830985
+SRR27830986	1	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	1	1	SRR27830986
+SRR27830987	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	1	1	SRR27830987
+SRR27830988	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27830988
+SRR27830989	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27830989
+SRR27830990	1	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	0	1	SRR27830990
+SRR27830991	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27830991
+SRR27830992	1	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	0	1	SRR27830992
+SRR27830993	1	1	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	Control	Homo sapiens	1	1	SRR27830993
+SRR27830994	0	Not applicable	Jul-21	rectal_swab	0	0	1	Other	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27830994
+SRR27830995	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27830995
+SRR27830996	1	Not applicable	Jul-21	rectal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	0	1	SRR27830996
+SRR27830997	1	Not applicable	Jul-21	rectal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	1	1	SRR27830997
+SRR27830998	0	1	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27830998
+SRR27830999	1	0	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	1	1	SRR27830999
+SRR27831000	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831000
+SRR27831001	1	0	Jul-21	vaginal_swab	0	0	0	Multiple_sites	Not applicable	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	0	1	SRR27831001
+SRR27831002	0	Not applicable	Jul-21	rectal_swab	0	0	0	Other	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831002
+SRR27831003	0	1	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831003
+SRR27831004	1	0	Jul-21	vaginal_swab	0	1	1	Mulitple_sites	1	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	0	1	SRR27831004
+SRR27831005	0	0	Jul-21	vaginal_swab	0	0	0	Peritoneum	2	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831005
+SRR27831006	0	0	Jul-21	vaginal_swab	0	1	0	Other	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831006
+SRR27831007	0	0	Jul-21	vaginal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831007
+SRR27831008	1	1	Jul-21	vaginal_swab	1	1	1	Peritoneum	1	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	1	1	SRR27831008
+SRR27831009	1	1	Jul-21	vaginal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	1	1	SRR27831009
+SRR27831010	0	0	Jul-21	vaginal_swab	0	0	0	Peritoneum	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831010
+SRR27831011	1	1	Jul-21	vaginal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	1	1	SRR27831011
+SRR27831012	0	1	Jul-21	vaginal_swab	0	1	0	Peritoneum	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831012
+SRR27831013	0	Not applicable	Jul-21	rectal_swab	0	1	0	Other	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831013
+SRR27831014	0	1	Jul-21	vaginal_swab	0	0	0	Other	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831014
+SRR27831015	0	0	Jul-21	vaginal_swab	0	1	0	Other	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831015
+SRR27831016	0	1	Jul-21	vaginal_swab	0	0	0	Multiple_sites	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831016
+SRR27831017	1	1	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	1	1	SRR27831017
+SRR27831018	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831018
+SRR27831019	0	1	Jul-21	vaginal_swab	0	1	1	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831019
+SRR27831020	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831020
+SRR27831021	0	1	Jul-21	vaginal_swab	0	1	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831021
+SRR27831022	0	0	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831022
+SRR27831023	0	0	Jul-21	vaginal_swab	0	0	0	Multiple_sites	2	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831023
+SRR27831024	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831024
+SRR27831025	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831025
+SRR27831026	0	0	Jul-21	vaginal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831026
+SRR27831027	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27831027
+SRR27831028	0	Not applicable	Jul-21	rectal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27831028
+SRR27831029	1	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	1	1	SRR27831029
+SRR27831030	0	Not applicable	Jul-21	rectal_swab	0	0	0	Endometrioma_ovary	3	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831030
+SRR27831031	1	Not applicable	Jul-21	rectal_swab	0	1	1	Multiple_sites	Not applicable	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	0	1	SRR27831031
+SRR27831032	1	Not applicable	Jul-21	rectal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	Control	Homo sapiens	1	1	SRR27831032
+SRR27831033	1	Not applicable	Jul-21	rectal_swab	1	1	1	Other	Not applicable	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	0	1	SRR27831033
+SRR27831034	0	Not applicable	Jul-21	rectal_swab	0	0	0	Multiple_sites	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831034
+SRR27831035	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831035
+SRR27831036	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27831036
+SRR27831037	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831037
+SRR27831038	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831038
+SRR27831039	1	Not applicable	Jul-21	rectal_swab	0	0	1	Other	Not applicable	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	0	1	SRR27831039
+SRR27831040	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	2	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831040
+SRR27831041	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	Control	Homo sapiens	0	1	SRR27831041
+SRR27831042	0	Not applicable	Jul-21	rectal_swab	1	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831042
+SRR27831043	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831043
+SRR27831044	1	Not applicable	Jul-21	rectal_swab	0	0	1	Other	Not applicable	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	1	1	SRR27831044
+SRR27831045	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831045
+SRR27831046	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	0	1	SRR27831046
+SRR27831047	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831047
+SRR27831048	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27831048
+SRR27831049	0	Not applicable	Jul-21	rectal_swab	0	1	0	Other	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831049
+SRR27831050	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831050
+SRR27831051	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831051
+SRR27831052	0	Not applicable	Jul-21	rectal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831052
+SRR27831053	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831053
+SRR27831054	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831054
+SRR27831055	0	Not applicable	Jul-21	rectal_swab	0	0	0	Other	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831055
+SRR27831056	0	Not applicable	Jul-21	rectal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831056
+SRR27831057	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831057
+SRR27831058	1	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	2	urban biome	anatomical cavity	feces	1	CPP Endo	Homo sapiens	1	1	SRR27831058
+SRR27831059	0	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831059
+SRR27831060	0	0	Jul-21	vaginal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831060
+SRR27831061	1	1	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	1	1	SRR27831061
+SRR27831062	0	0	Jul-21	vaginal_swab	0	0	0	Endometrioma_ovary	3	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831062
+SRR27831063	1	0	Jul-21	vaginal_swab	0	1	1	Multiple_sites	Not applicable	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	0	1	SRR27831063
+SRR27831064	1	0	Jul-21	vaginal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	1	1	SRR27831064
+SRR27831065	0	0	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831065
+SRR27831066	1	0	Jul-21	vaginal_swab	0	0	1	Other	Not applicable	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	0	1	SRR27831066
+SRR27831067	0	0	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	2	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831067
+SRR27831068	1	0	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	Control	Homo sapiens	0	1	SRR27831068
+SRR27831069	0	1	Jul-21	vaginal_swab	0	0	1	Other	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831069
+SRR27831070	0	1	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831070
+SRR27831071	0	1	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831071
+SRR27831072	0	0	Jul-21	vaginal_swab	0	0	0	Multiple_sites	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831072
+SRR27831073	1	1	Jul-21	vaginal_swab	1	1	1	Other	Not applicable	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	0	1	SRR27831073
+SRR27831074	1	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	0	1	SRR27831074
+SRR27831075	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831075
+SRR27831076	0	Not applicable	Jul-21	rectal_swab	0	1	0	Other	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831076
+SRR27831077	0	1	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831077
+SRR27831078	0	1	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831078
+SRR27831079	0	0	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831079
+SRR27831080	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	Control	Homo sapiens	0	1	SRR27831080
+SRR27831081	0	0	Jul-21	vaginal_swab	0	1	0	Other	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831081
+SRR27831082	0	0	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831082
+SRR27831083	0	0	Jul-21	vaginal_swab	0	1	0	Endometrioma_ovary	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831083
+SRR27831084	0	0	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831084
+SRR27831085	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831085
+SRR27831086	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	Control	Homo sapiens	0	1	SRR27831086
+SRR27831087	1	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	0	1	SRR27831087
+SRR27831088	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831088
+SRR27831089	1	Not applicable	Jul-21	rectal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	feces	1	CPP	Homo sapiens	1	1	SRR27831089
+SRR27831090	1	1	Jul-21	vaginal_swab	0	0	0	Peritoneum	2	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	1	1	SRR27831090
+SRR27831091	0	0	Jul-21	vaginal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831091
+SRR27831092	0	0	Jul-21	vaginal_swab	0	0	0	Other	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831092
+SRR27831093	0	1	Jul-21	vaginal_swab	0	1	0	Other	4	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	0	1	SRR27831093
+SRR27831094	1	1	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	1	1	SRR27831094
+SRR27831095	1	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	1	1	SRR27831095
+SRR27831096	0	0	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831096
+SRR27831097	1	1	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	Control	Homo sapiens	1	1	SRR27831097
+SRR27831098	1	0	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	1	1	SRR27831098
+SRR27831099	0	0	Jul-21	vaginal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831099
+SRR27831100	1	0	Jul-21	vaginal_swab	1	0	1	Other	Not applicable	urban biome	anatomical cavity	vagina	1	CPP Endo	Homo sapiens	1	1	SRR27831100
+SRR27831101	0	0	Jul-21	vaginal_swab	0	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831101
+SRR27831102	0	0	Jul-21	vaginal_swab	1	1	0	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	0	CPP	Homo sapiens	0	1	SRR27831102
+SRR27831103	0	Not applicable	Jul-21	rectal_swab	0	0	0	Other	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831103
+SRR27831104	0	Not applicable	Jul-21	rectal_swab	0	0	0	Not applicable	Not applicable	urban biome	anatomical cavity	feces	0	CPP	Homo sapiens	0	1	SRR27831104
+SRR27831105	0	Not applicable	Jul-21	rectal_swab	0	0	0	Peritoneum	1	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831105
+SRR27831106	0	Not applicable	Jul-21	rectal_swab	0	0	0	Multiple_sites	4	urban biome	anatomical cavity	feces	0	CPP Endo	Homo sapiens	0	1	SRR27831106
+SRR27831107	1	0	Jul-21	vaginal_swab	0	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	0	1	SRR27831107
+SRR27831108	1	1	Jul-21	vaginal_swab	0	0	1	Peritoneum	1	urban biome	anatomical cavity	vagina	0	CPP Endo	Homo sapiens	1	1	SRR27831108
+SRR27831109	1	0	Jul-21	vaginal_swab	1	0	1	Not applicable	Not applicable	urban biome	anatomical cavity	vagina	1	CPP	Homo sapiens	0	1	SRR27831109
