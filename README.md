@@ -11,7 +11,7 @@ Here are the notes and the agenda for every team meeting:
 | Month | Week 1 | Week 2 | Week 3 | Week 4 | Week 5 |
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
 | January | NA | NA | NA | NA |[Jan 26th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_1_jan_26th.md) |
-| February | [Feb 2nd](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_2_feb_2nd.md) | [Feb 9th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_3_feb_9th.md) | [Feb 17th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_4_feb_17th.md) | [Feb 21st](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_5_feb_21st.md) |
+| February | [Feb 2nd](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_2_feb_2nd.md) | [Feb 9th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_3_feb_9th.md) | [Feb 17th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_4_feb_17th.md) | [Feb 21st](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_5_feb_21st.md) | NA |
 
 
 #insert images 
