@@ -11,6 +11,9 @@ set.seed(2026)
 
 
 meta <- read_delim("data/cpp_meta.tsv", delim = "\t")
+meta$env_medium <- gsub("feces", "rectal", meta$env_medium)
+meta$env_medium <- gsub("vagina", "vaginal", meta$env_medium)
+
 otu <- read_delim("data/feature-table.txt", delim = "\t", skip = 1)
 tax <- read_delim("data/taxonomy.tsv", delim = "\t")
 phylotree <- read.tree("data/tree.nwk")
