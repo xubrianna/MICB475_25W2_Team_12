@@ -32,3 +32,6 @@
 
 ## Interpretation for discussion
 - For next steps, disease-associated signals may be more detectable in taxon-level differential abundance** and functional pathway analyses (Aims 2 and 3) rather than broad community diversity alone.
+
+#Questions 
+- editing the manuscript - we had few changes, so we will submit? 
