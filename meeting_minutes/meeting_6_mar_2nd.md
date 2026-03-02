@@ -34,4 +34,28 @@
 - For next steps, disease-associated signals may be more detectable in taxon-level differential abundance** and functional pathway analyses (Aims 2 and 3) rather than broad community diversity alone.
 
 #Questions 
-- editing the manuscript - we had few changes, so we will submit? 
+- editing the manuscript - we had few changes, so we will submit?
+
+
+#Edits from the meeting 
+- find a theme to express plot (theme_classic) (theme(___)) -> set a constant theme 
+
+- colour brewer 
+- 95% elipses 
+- x axis titles (variance) 
+- combine the plots 
+
+- try violin plot 
+
+- axis limits higher and lower than extreme limits (make 5 the 0, and have the 20 limit - on the beta plot too 
+
+- geom point vs geom jitter 
+
+- don’t need legend for alpha diversity 
+- its okay if not significant - signal can be lost when looking at a top down view (diluted out) 
+
+talking about presentation: 
+- have the data for all of the aims by the second meeting before presentation - march 23rd -> start to put together as a story and assemble into a presentation 
+- prepare slides for the 30th - go together with Hans (typos, story, etc) 
+- presenting another teams 
+
