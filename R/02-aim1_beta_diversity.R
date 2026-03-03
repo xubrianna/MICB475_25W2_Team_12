@@ -14,7 +14,12 @@ ps_rarefied <- readRDS('data/phyloseq_rarefied.rds')
 #beta diversity
 unifrac_dm <- distance(ps_rarefied, method = "unifrac")  # unweighted by default
 
-#pcoa
+#PCoA ordination
+pcoa_uni <- ordinate(ps_rarefied,
+                     method = "PCoA",
+                     distance = "unifrac")
+
+#prepare metadata
 meta_df <- as(sample_data(ps_rarefied), "data.frame")
 
 sample_data(ps_rarefied)$Host_disease <- factor(meta_df$Host_disease,
