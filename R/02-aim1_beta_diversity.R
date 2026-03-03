@@ -89,19 +89,22 @@ pval <- permanova_all$`Pr(>F)`[2]  # Host_disease term
 # Create new PCoA plot object
 gg_uni_ellipse <- (
   plot_ordination(ps_rarefied, pcoa_uni, type = "samples", color = "Host_disease")
-  + geom_point(size = 3.5, alpha = 0.9)
-  + stat_ellipse(aes(group = Host_disease, color = Host_disease), level = 0.95, linewidth = 1)
+  + geom_point(aes(shape = env_medium), size = 3.5, alpha = 0.9)
+  + stat_ellipse(aes(group = interaction(Host_disease, env_medium), color = Host_disease),
+                 level = 0.95, linewidth = 1)
   + theme_bw()
   + scale_color_manual(values = group_cols)
+  + scale_shape_manual(values = c(16, 17)) 
   + labs(
     color = "Host Disease",
+    shape = "Body Site",
     x = paste0("PCoA Axis 1 (", var_explained[1], "%)"),
     y = paste0("PCoA Axis 2 (", var_explained[2], "%)"),
     title = "Host disease/Sample type: Unweighted UniFrac"
   )
   + scale_x_continuous(
     expand = expansion(mult = 0.25),
-    breaks = pretty(pcoa_uni$vectors[,1], n = 5) 
+    breaks = pretty(pcoa_uni$vectors[,1], n = 5)
   )
   + scale_y_continuous(
     expand = expansion(mult = 0.25),
