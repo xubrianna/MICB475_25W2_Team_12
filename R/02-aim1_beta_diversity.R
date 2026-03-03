@@ -107,10 +107,11 @@ gg_uni_ellipse <- (
     breaks = pretty(pcoa_uni$vectors[,1], n = 5)
   )
   + scale_y_continuous(
-    expand = expansion(mult = 0.45),
-    breaks = seq(floor(min(pcoa_uni$vectors[,2])*15)/15,
-                 ceiling(max(pcoa_uni$vectors[,2])*15)/15,
-                 by = 0.1)
+    limits = c(floor(min(pcoa_uni$vectors[,2])*15)/15 - 0.5,
+               ceiling(max(pcoa_uni$vectors[,2])*15)/15 + 0.5), 
+    breaks = seq(floor(min(pcoa_uni$vectors[,2])*15)/15 - 0.5,
+                 ceiling(max(pcoa_uni$vectors[,2])*15)/15 + 0.5,
+                 by = 0.25)  # start seq at padded bottom
   )
 )
 
@@ -121,3 +122,4 @@ gg_uni_ellipse
 ggsave("results/aim1/02-pcoa_ellipse.png",
        plot = gg_uni_ellipse,
        width = 10, height = 7, units = "in", dpi = 300)
+
