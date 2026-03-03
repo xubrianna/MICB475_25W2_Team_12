@@ -41,15 +41,15 @@
 - find a theme to express plot (theme_classic) (theme(___)) -> set a constant theme 
 
 - colour brewer 
-- 95% elipses 
-- x axis titles (variance) 
-- combine the plots 
+- 95% elipses (beta diversity)
+- x axis titles (variance) (beta diversity)
+- combine the plots (beta diversity)
 
-- try violin plot 
+- try violin plot (alpha diversity)
 
-- axis limits higher and lower than extreme limits (make 5 the 0, and have the 20 limit - on the beta plot too 
+- axis limits higher and lower than extreme limits (make 5 the 0, and have the 20 limit - on the beta plot too) 
 
-- geom point vs geom jitter 
+- geom point vs geom jitter (choose one)
 
 - don’t need legend for alpha diversity 
 - its okay if not significant - signal can be lost when looking at a top down view (diluted out) 
