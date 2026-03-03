@@ -107,9 +107,9 @@ gg_uni_ellipse <- (
     breaks = pretty(pcoa_uni$vectors[,1], n = 5)
   )
   + scale_y_continuous(
-    expand = expansion(mult = 0.25),
-    breaks = seq(floor(min(pcoa_uni$vectors[,2])*20)/20,
-                 ceiling(max(pcoa_uni$vectors[,2])*20)/20,
+    expand = expansion(mult = 0.45),
+    breaks = seq(floor(min(pcoa_uni$vectors[,2])*15)/15,
+                 ceiling(max(pcoa_uni$vectors[,2])*15)/15,
                  by = 0.1)
   )
 )
