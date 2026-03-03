@@ -67,7 +67,7 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   ) +
   scale_y_continuous(
     limits = c(0, 25),
-    breaks = seq(0, 25, by = 1)
+    breaks = seq(0, 25, by = 2)
   )
 
 print(p)
@@ -87,7 +87,7 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
     axis.text = element_text(size = 12),
     axis.title = element_text(size = 14)
   ) +
-  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 1))
+  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 
 print(p2)
 ggsave("results/aim1/01_faith_PD_violin.png", plot = p2, width = 10, height = 5, units = "in", dpi = 300)
