@@ -53,35 +53,35 @@ saveRDS(ps_rarefied, "data/phyloseq_rarefied.rds")
 # ...
 
 ####diversity metrics####
-# 1. Extract OTU matrix
+#extract OTU matrix
 otu_mat <- as(otu_table(ps_rarefied), "matrix")
 
-## samples as rows
+##samples as rows
 if(taxa_are_rows(ps_rarefied)) {
   otu_mat <- t(otu_mat)
 }
 
-# 2. Calculate Faith's PD
+#calculate Faith's PD
 alpha_faith <- pd(otu_mat, phy_tree(ps_rarefied), include.root = TRUE)
 
-# 3. Add sample names
+#add sample names
 alpha_faith$sample <- rownames(alpha_faith)
 
-# 4. Merge with metadata (use your existing META)
+#merge with metadata (use your existing META)
 meta_df <- as(sample_data(ps_rarefied), "data.frame") %>%
   rownames_to_column("sample")
 
 alpha_faith <- alpha_faith %>%
   left_join(meta_df, by = "sample")
 
-# 5. Check which samples remain
+#check which samples remain
 table(alpha_faith$env_medium, useNA="ifany")
 
 # 6. Factor env_medium for consistent facet order
 
 alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("rectal","vaginal"))
 
-# 7. Plot Faith's PD by Host Disease, faceted by env_medium
+#plot Faith's PD by Host Disease, faceted by env_medium
 p <- ggplot(alpha_faith, aes(x=Host_disease, y=PD, fill=Host_disease)) +
   geom_boxplot(lwd=0.8) +
   geom_jitter(width=0.2, size=3) +
@@ -100,17 +100,53 @@ ggsave("results/aim1/01_faith_PD_boxplot.png",
        plot =gg_uni, 
        width = 10, height = 5, units = "in", dpi = 300)
 
-# 8. Kruskal-Wallis per env_medium
+#Kruskal-Wallis per env_medium
 kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="vaginal"))
 kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="rectal"))
 
 
-# 9. Dunn's test pairwise comparisons 
+#Dunn's test pairwise comparisons 
 dunnTest(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="vaginal"), method="bh") 
 dunnTest(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="rectal"), method="bh")
+
+#Faith's PD as violin
+p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +                 
+  geom_jitter(width = 0.15, size = 3, alpha = 0.9, color = "black") + 
+  facet_wrap(~env_medium) +
+  theme_bw() +
+  ylab("Faith's Phylogenetic Diversity") +
+  xlab("Host Disease") +
+  scale_fill_manual(values = group_cols) +                 
+  theme(
+    legend.position = "none",                              
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14)
+  ) +
+  scale_y_continuous(
+    limits = {
+      y_range <- max(alpha_faith$PD) - min(alpha_faith$PD)
+      y_mid <- mean(alpha_faith$PD)
+      c(y_mid - 0.5 * y_range, y_mid + 0.5 * y_range)
+    },
+    breaks = seq(
+      floor(min(alpha_faith$PD)), 
+      ceiling(max(alpha_faith$PD)), 
+      by = 1  
+    )
+  )
+
+# Display plot
+print(p2)
+
+# Save plot
+ggsave("results/aim1/01_faith_PD_violin.png",
+       plot = p2,
+       width = 10, height = 5, units = "in", dpi = 300)
 
 # [TODO]
 # Multiple testing correction: Benjamini–Hochberg false discovery rate (FDR) 
 # 
 # Significance cutoff: 
 #   FDR-adjusted p < 0.05 
+
