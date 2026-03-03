@@ -98,8 +98,8 @@ gg_uni_ellipse <- (
   + labs(
     color = "Host Disease",
     shape = "Body Site",
-    x = paste0("PCoA Axis 1 (", var_explained[1], "%)"),
-    y = paste0("PCoA Axis 2 (", var_explained[2], "%)"),
+    x = sprintf("PCoA Axis 1 (%.1f%% of community dissimilarity)", var_explained[1]),
+    y = sprintf("PCoA Axis 2 (%.1f%% of community dissimilarity)", var_explained[2]),
     title = "Host disease/Sample type: Unweighted UniFrac"
   )
   + scale_x_continuous(
