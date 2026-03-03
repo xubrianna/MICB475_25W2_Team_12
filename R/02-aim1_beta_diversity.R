@@ -108,8 +108,8 @@ gg_uni_ellipse <- (
   )
   + scale_y_continuous(
     expand = expansion(mult = 0.25),
-    breaks = seq(floor(min(pcoa_uni$vectors[,2])*10)/10,
-                 ceiling(max(pcoa_uni$vectors[,2])*10)/10,
+    breaks = seq(floor(min(pcoa_uni$vectors[,2])*20)/20,
+                 ceiling(max(pcoa_uni$vectors[,2])*20)/20,
                  by = 0.1)
   )
 )
