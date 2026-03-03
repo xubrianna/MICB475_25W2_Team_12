@@ -99,8 +99,14 @@ gg_uni_ellipse <- (
     y = paste0("PCoA Axis 2 (", var_explained[2], "%)"),
     title = "Host disease/Sample type: Unweighted UniFrac"
   )
-  + scale_x_continuous(expand = expansion(mult = 0.15))
-  + scale_y_continuous(expand = expansion(mult = 0.15))
+  + scale_x_continuous(
+    expand = expansion(mult = 0.25),
+    breaks = seq(floor(min(pcoa_uni$vectors[,1])*10)/10, ceiling(max(pcoa_uni$vectors[,1])*10)/10, by = 0.1)
+  )
+  + scale_y_continuous(
+    expand = expansion(mult = 0.25),
+    breaks = seq(floor(min(pcoa_uni$vectors[,2])*10)/10, ceiling(max(pcoa_uni$vectors[,2])*10)/10, by = 0.1)
+  )
 )
 
 # Display the new plot
