@@ -37,7 +37,7 @@ gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Genus))
   geom_bar(stat = "identity", position = "stack") +
   facet_wrap(~collection_method, scales = "free_x") +
   theme_bw() +
-  scale_fill_brewer(palette = "Set3") +
+  scale_y_continuous(expand = c(0,0)) +
   labs(
     title = "Mean Taxonomic Composition by Disease and Body Site",
     x = "Disease Status",
@@ -49,7 +49,7 @@ gg_agg
 
 #save plot
 ggsave(
-  filename = "results/aim2/02_taxa_barplot.png",
+  filename = "results/aim2/03_taxa_barplot.png",
   plot = gg_agg,
   width = 12,
   height = 8,
