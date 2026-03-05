@@ -1,7 +1,7 @@
 library(phyloseq)
 library(tidyverse)
 
-#load phyloseq object
+#load and preprocess phyloseq object
 phyloseq <- readRDS("data/phyloseq_filtered.rds")
 
 #remove zero-abundance taxa
@@ -24,23 +24,33 @@ phyloseq_genus <- tax_glom(phyloseq_RA, taxrank = "Genus")
 top_genera <- names(sort(taxa_sums(phyloseq_genus), decreasing = TRUE))[1:15]
 phyloseq_top <- prune_taxa(top_genera, phyloseq_genus)
 
-#create taxa bar plot by disease and body site
-gg_taxa <- plot_bar(phyloseq_top, fill = "Genus") +
-  facet_grid(collection_method ~ Host_disease, scales = "free_x") +
+#melt to long format for aggregation 
+phy_melt <- psmelt(phyloseq_top)
+
+#aggregate by Host_disease and collection_method
+phy_agg <- phy_melt %>%
+  group_by(Host_disease, collection_method, Genus) %>%
+  summarise(RelAbundance = mean(Abundance), .groups = "drop")
+
+#plot taxa barplot
+gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Genus)) +
+  geom_bar(stat = "identity", position = "stack") +
+  facet_wrap(~collection_method, scales = "free_x") +
   theme_bw() +
+  scale_fill_brewer(palette = "Set3") +
   labs(
-    title = "Taxonomic Composition Across Disease Status and Body Site",
-    x = "Sample",
+    title = "Mean Taxonomic Composition by Disease and Body Site",
+    x = "Disease Status",
     y = "Relative Abundance"
   )
 
 #view plot
-gg_taxa
+gg_agg
 
 #save plot
 ggsave(
   filename = "results/aim2/02_taxa_barplot.png",
-  plot = gg_taxa,
+  plot = gg_agg,
   width = 12,
   height = 8,
   dpi = 300
