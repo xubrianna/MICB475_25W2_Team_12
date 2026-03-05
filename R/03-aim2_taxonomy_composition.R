@@ -26,6 +26,7 @@ phyloseq_top <- prune_taxa(top_genera, phyloseq_genus)
 
 #melt to long format for aggregation 
 phy_melt <- psmelt(phyloseq_top)
+phy_melt$Genus <- gsub("^g_+", "", phy_melt$Genus)
 
 #aggregate by Host_disease and collection_method
 phy_agg <- phy_melt %>%
@@ -37,7 +38,11 @@ gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Genus))
   geom_bar(stat = "identity", position = "stack") +
   facet_wrap(~collection_method, scales = "free_x") +
   theme_bw() +
-  scale_y_continuous(expand = c(0,0)) +
+  scale_y_continuous(
+    limits = c(0, 1.05),
+    breaks = seq(0, 1, by = 0.25),
+    expand = c(0,0)
+  ) +
   labs(
     title = "Mean Taxonomic Composition by Disease and Body Site",
     x = "Disease Status",
