@@ -39,7 +39,7 @@ gg_taxa
 
 #save plot
 ggsave(
-  filename = "results/aim1/02_taxa_barplot.png",
+  filename = "results/aim2/02_taxa_barplot.png",
   plot = gg_taxa,
   width = 12,
   height = 8,
