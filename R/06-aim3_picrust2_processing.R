@@ -8,6 +8,7 @@ library(tidyverse)
 library(phyloseq)
 library(ggpicrust2)
 library(DESeq2)
+library(ggplot2)
 
 ps <- readRDS("data/phyloseq_filtered.rds")
 
@@ -72,5 +73,48 @@ res_vaginal_df <- res_vaginal_df[order(res_vaginal_df$padj), ]
 
 sig_vaginal <- subset(res_vaginal_df, !is.na(padj) & padj < 0.05)
 nrow(sig_vaginal)
-
 head(sig_vaginal, 10)
+
+#PCA plots
+
+rectal_mat_filtered <- rectal_mat[
+  apply(rectal_mat, 1, var) != 0,
+]
+
+rectal_pca <- prcomp(t(log1p(rectal_mat_filtered)), scale. = TRUE)
+
+rectal_pca_df <- data.frame(rectal_pca$x)
+rectal_pca_df$Host_disease <- rectal_meta$Host_disease
+
+var_explained <- summary(rectal_pca)$importance[2,]
+
+ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+  geom_point(size = 3) +
+  stat_ellipse(level = 0.95) +
+  theme_minimal() +
+  labs(
+    title = "PCA of KEGG KO Abundance (Rectal)",
+    x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
+    y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
+  )
+
+vaginal_mat_filtered <- vaginal_mat[
+  apply(vaginal_mat, 1, var) != 0,
+]
+
+vaginal_pca <- prcomp(t(log1p(vaginal_mat_filtered)), scale. = TRUE)
+
+vaginal_pca_df <- data.frame(vaginal_pca$x)
+vaginal_pca_df$Host_disease <- vaginal_meta$Host_disease
+
+var_explained <- summary(vaginal_pca)$importance[2,]
+
+ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+  geom_point(size = 3) +
+  stat_ellipse(level = 0.95) +
+  theme_minimal() +
+  labs(
+    title = "PCA of KEGG KO Abundance (Vaginal)",
+    x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
+    y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
+  )
