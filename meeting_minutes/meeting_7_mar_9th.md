@@ -27,38 +27,48 @@
 ### Aim 2
 
 #### Taxa Barplot - Rectal
-![Taxa Barplot Rectal](../results/aim2/01_taxa_barplot_rectal.png)
+![Taxa Barplot Rectal](../results/aim2/03-tax_composition/01_taxa_barplot_rectal.png)
 > Taxonomic composition of rectal samples at the genus level, grouped by disease status.
 
 #### Taxa Barplot - Vaginal
-![Taxa Barplot Vaginal](../results/aim2/01_taxa_barplot_vaginal.png)
+![Taxa Barplot Vaginal](../results/aim2/03-tax_composition/01_taxa_barplot_vaginal.png)
 > Taxonomic composition of vaginal samples at the genus level, grouped by disease status.
 
 #### Taxa Barplot (Combined)
-![Taxa Barplot](../results/aim2/03_taxa_barplot.png)
+![Taxa Barplot](../results/aim2/03-tax_composition/03_taxa_barplot.png)
 > Combined taxonomy barplot across both body sites for an overview of community structure.
 
-#### Venn Diagram - CPP Only vs Healthy
-![Venn CPP vs Healthy](../results/aim2/04_venn_CPP_only_vs_healthy.png)
-> Venn diagram of core microbiome taxa shared and unique between CPP-only and healthy control groups.
+#### Venn Diagram - CPP Only vs Healthy (0 detection + 0.5 prevalence)
+![Venn all diseases (rectal 0)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.png)
+![Venn all diseases (vaginal 0)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.png)
 
-#### DESeq Volcano - CPP vs Control
-![CPP vs Control](../results/aim2/05-cpp_control_contrast.png)
+#### Venn Diagram - CPP Only vs Healthy (0.001 detection + 0.5 prevalence)
+![Venn all diseases (rectal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png)
+![Venn all diseases (vaginal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png)
+
+#### Venn Diagram - CPP Only vs Healthy (0.01 detection + 0.5 prevalence)
+![Venn all diseases (rectal 0.01)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.01.png)
+![Venn all diseases (vaginal 0.01)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.01.png)
+
+
+#### DESeq Volcano - CPP vs Control (sanity check)
+![CPP vs Control](../results/aim2/05-deseq2/05-cpp_control_contrast.png)
 > Volcano plots (rectal & vaginal) of differentially abundant taxa between CPP and Control. Red points pass padj < 0.05 and |log2FC| > 1.
 
-#### DESeq Volcano - CPP Endo vs Control
-![CPP Endo vs Control](../results/aim2/05-cpp_endo_control_contrast.png)
+#### DESeq Volcano - CPP Endo vs Control (sanity check)
+![CPP Endo vs Control](../results/aim2/05-deseq2/05-cpp_endo_control_contrast.png)
 > Volcano plots (rectal & vaginal) of differentially abundant taxa between CPP Endo and Control.
 
 #### DESeq Volcano - CPP Endo vs CPP
-![CPP Endo vs CPP](../results/aim2/05-cpp_endo_cpp_contrast.png)
+![CPP Endo vs CPP](../results/aim2/05-deseq2/05-cpp_endo_cpp_contrast.png)
 > Volcano plots (rectal & vaginal) of differentially abundant taxa between CPP Endo and CPP-only groups.
 
 #### Significant ASVs - Rectal
-![SigASVs Rectal](../results/aim2/05-sigASVs_rect.png)
+![SigASVs Rectal](../results/aim2/05-deseq2/05-sigASVs_rect.png)
 > Bar plot of significantly differentially abundant genera in rectal samples (CPP Endo vs CPP), with log2 fold change and standard error.
 
 #### Significant ASVs - Vaginal
-![SigASVs Vaginal](../results/aim2/05-sigASVs_vag.png)
+![SigASVs Vaginal](../results/aim2/05-deseq2/05-sigASVs_vag.png)
 > Bar plot of significantly differentially abundant genera in vaginal samples (CPP Endo vs CPP), with log2 fold change and standard error.
+
 
