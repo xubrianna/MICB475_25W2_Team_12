@@ -1,3 +1,4 @@
+
 library(DESeq2)
 library(phyloseq)
 library(EnhancedVolcano)
@@ -270,3 +271,4 @@ bar_vag
 
 ggsave(plot = bar_vag, "results/aim2/05-sigASVs_vag.png",
        width = 10, height = 7, units = "in", dpi = 300)
+
