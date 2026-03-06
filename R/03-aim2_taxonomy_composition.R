@@ -61,8 +61,6 @@ ggsave(
   dpi = 300
 )
 
-
-
 # label "Other" genera
 other_genera <- setdiff(taxa_names(phyloseq_genus), top_genera)
 tax_tab <- tax_table(phyloseq_genus)
@@ -129,6 +127,3 @@ ggsave(
   height = 10,
   dpi = 300
 )
-
-
-
