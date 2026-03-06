@@ -88,7 +88,7 @@ rectal_pca_df$Host_disease <- rectal_meta$Host_disease
 
 var_explained <- summary(rectal_pca)$importance[2,]
 
-ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+rectal_KO_PCA <- ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   theme_minimal() +
@@ -109,7 +109,7 @@ vaginal_pca_df$Host_disease <- vaginal_meta$Host_disease
 
 var_explained <- summary(vaginal_pca)$importance[2,]
 
-ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+vaginal_KO_PCA <- ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
   theme_minimal() +
@@ -118,3 +118,9 @@ ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
     x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
     y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
   )
+ggsave("results/aim3/KO_rectal_pcoa_ellipse.png",
+       plot = rectal_KO_PCA,
+       width = 10, height = 7, units = "in", dpi = 300)
+ggsave("results/aim3/KO_vaginal_pcoa_ellipse.png",
+       plot = vaginal_KO_PCA,
+       width = 10, height = 7, units = "in", dpi = 300)
