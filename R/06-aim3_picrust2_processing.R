@@ -72,4 +72,5 @@ res_vaginal_df <- res_vaginal_df[order(res_vaginal_df$padj), ]
 
 sig_vaginal <- subset(res_vaginal_df, !is.na(padj) & padj < 0.05)
 nrow(sig_vaginal)
+
 head(sig_vaginal, 10)
