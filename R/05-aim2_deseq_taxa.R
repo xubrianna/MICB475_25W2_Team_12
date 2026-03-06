@@ -1,163 +1,274 @@
-#load packages
-library(phyloseq)
+
 library(DESeq2)
-library(dplyr)
-library(ggplot2)
+library(phyloseq)
+library(EnhancedVolcano)
 
-#load and preprocess
-phyloseq <- readRDS("data/phyloseq_filtered.rds")
-phyloseq <- prune_taxa(taxa_sums(phyloseq) > 0, phyloseq)
-prev_threshold <- 0.1 * nsamples(phyloseq)
-phyloseq_filtered <- prune_taxa(apply(otu_table(phyloseq), 1, function(x) sum(x > 0)) > prev_threshold, phyloseq)
-phyloseq_genus_counts <- tax_glom(phyloseq_filtered, taxrank = "Genus")
-phyloseq_genus_counts <- prune_taxa(taxa_sums(phyloseq_genus_counts) > 5, phyloseq_genus_counts)
+library(patchwork)
 
-#DESeq2 wrapper for a comparison
-run_deseq_pair <- function(phylo_site, group1, group2, site_name){
-  phylo_site <- prune_taxa(taxa_sums(phylo_site) > 0, phylo_site)
-  sample_data(phylo_site)$Host_disease <- make.names(sample_data(phylo_site)$Host_disease)
-  dds <- phyloseq_to_deseq2(phylo_site, ~ Host_disease)
-  dds <- estimateSizeFactors(dds, type="poscounts")
-  dds <- DESeq(dds)
+phylo <- readRDS('data/phyloseq_filtered.rds')
+
+# subset into body site 
+phylo_rectal <- subset_samples(phylo, env_medium == "rectal")
+phylo_vaginal <- subset_samples(phylo, env_medium == "vaginal")
+
+# datasets contain zeroes
+phylo_rectal <- transform_sample_counts(phylo_rectal, function(x) x+1)
+phylo_vaginal <- transform_sample_counts(phylo_vaginal, function(x) x+1)
+
+# transform into DeSeq object
+deseq_rectal <- phyloseq_to_deseq2(phylo_rectal, ~`Host_disease`)
+deseq_vaginal <- phyloseq_to_deseq2(phylo_vaginal, ~`Host_disease`)
+
+# run DESeq model
+DESEQ_rect <- DESeq(deseq_rectal)
+DESEQ_vag <- DESeq(deseq_vaginal)
+
+### CASE-CONTROL COMPARISIONS: sanity check 
+## CPP vs Control
+res_cpp_control_rect <- results(DESEQ_rect, tidy=TRUE, 
+                    contrast = c("Host_disease","CPP","Control"))
+df_res_cpp_control_rect <- as.data.frame(res_cpp_control_rect)
+res_cpp_control_vag <- results(DESEQ_vag, tidy=TRUE, 
+                   contrast = c("Host_disease","CPP","Control"))
+df_res_cpp_control_vag <- as.data.frame(res_cpp_control_vag)
+
+taxdf_rectal <- as.data.frame(tax_table(phylo_rectal))
+
+taxdf_vaginal <- as.data.frame(tax_table(phylo_vaginal))
+
+df_cpp_control_rectal_taxa <- cbind(df_res_cpp_control_rect, taxdf_rectal)
+df_cpp_control_vaginal_taxa <- cbind(df_res_cpp_control_vag, taxdf_vaginal)
+
+write_tsv(df_cpp_control_rectal_taxa, "results/aim2/05-cpp_control_rect_results.tsv")
+write_tsv(df_cpp_control_vaginal_taxa, "results/aim2/05-cpp_control_vag_results.tsv")
+
+
+ggplot(res_cpp_control_rect) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj))) +
+  theme_classic()
   
-  res <- results(dds, contrast = c("Host_disease", make.names(group1), make.names(group2)))
-  res_df <- as.data.frame(res)
-  res_df$Genus <- gsub("^g_+", "", tax_table(phylo_site)[rownames(res_df), "Genus"])
-  res_df <- res_df[!is.na(res_df$Genus), ]
-  res_df <- res_df[order(res_df$padj), ]
-  return(res_df)
-}
 
-#volcano plot in ALDEx2 style
-plot_volcano_fixed_shape <- function(res_df, site_name, lfc_thresh = 1, padj_thresh = 0.05,
-                                     x_lim = NULL, y_lim = NULL) {
-  
-  res_df <- res_df %>% filter(!is.na(padj)) %>%
-    mutate(Significant = ifelse(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh,
-                                "Significant","Not_Significant"))
-  res_df$Significant <- factor(res_df$Significant, levels = c("Not_Significant","Significant"))
-  res_df$negLog10P <- -log10(res_df$padj)
-  if(is.null(x_lim)) x_lim <- max(abs(res_df$log2FoldChange)) * 1.05
-  if(is.null(y_lim)) y_lim <- max(res_df$negLog10P) * 1.05
-  
-  ggplot(res_df, aes(x = log2FoldChange, y = negLog10P, color = Significant)) +
-    geom_point(alpha = 0.7, size = 2) +
-    geom_vline(xintercept = c(-lfc_thresh, lfc_thresh), color = "red", linetype = "dashed") +
-    geom_hline(yintercept = -log10(padj_thresh), color = "red", linetype = "dashed") +
-    scale_color_manual(values = c("Significant"="red","Not_Significant"="gray")) +
-    theme_bw() +
-    labs(title = paste0("Differentially Abundant Taxa (", site_name, ")"),
-         x = "Log2 Fold Change",
-         y = "-log10 Adjusted p-value") +
-    theme(plot.title = element_text(face="bold", size=14),
-          legend.position = "none") +
-    scale_x_continuous(limits = c(-x_lim, x_lim)) +
-    scale_y_continuous(limits = c(0, y_lim))
-}
+ggplot(res_cpp_control_vag) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj))) +
+  theme_classic()
 
-#rectal comparisons
-phy_rectal <- subset_samples(phyloseq_genus_counts, collection_method=="rectal_swab")
-res_cpp_vs_endo <- run_deseq_pair(phy_rectal, "CPP Endo", "CPP", "Rectal_CPP_vs_CPPEndo")
-res_cpp_vs_ctrl <- run_deseq_pair(phy_rectal, "CPP", "Control", "Rectal_CPP_vs_Control")
-res_endo_vs_ctrl <- run_deseq_pair(phy_rectal, "CPP Endo", "Control", "Rectal_CPPEndo_vs_Control")
+cpp_control_rect <- res_cpp_control_rect %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+  ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP vs Control Contrast") 
 
-all_res <- bind_rows(res_cpp_vs_endo, res_cpp_vs_ctrl, res_endo_vs_ctrl)
-global_x_lim <- max(abs(all_res$log2FoldChange)) * 1.05
-global_y_lim <- max(-log10(all_res$padj), na.rm = TRUE) * 1.05
+cpp_control_vag <- res_cpp_control_vag %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(10, 10, 10, 10),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+    ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP vs Control Contrast") 
 
-volcano_cpp_vs_endo <- plot_volcano_fixed_shape(res_cpp_vs_endo, "Rectal CPP Endo vs CPP",
-                                                x_lim = global_x_lim, y_lim = global_y_lim)
-volcano_cpp_vs_ctrl <- plot_volcano_fixed_shape(res_cpp_vs_ctrl, "Rectal CPP vs Control",
-                                                x_lim = global_x_lim, y_lim = global_y_lim)
-volcano_endo_vs_ctrl <- plot_volcano_fixed_shape(res_endo_vs_ctrl, "Rectal CPP Endo vs Control",
-                                                 x_lim = global_x_lim, y_lim = global_y_lim)
+cpp_control_rect <- cpp_control_rect + ggtitle("Rectal")
+cpp_control_vag  <- cpp_control_vag + ggtitle("Vaginal")
 
-#print
-volcano_cpp_vs_endo
-volcano_cpp_vs_ctrl
-volcano_endo_vs_ctrl
+bar_panel <- cpp_control_rect + cpp_control_vag
+bar_panel
 
-ggsave("results/aim2/volcano_rectal_cpp_vs_endo.png", volcano_cpp_vs_endo, width=8, height=6)
-ggsave("results/aim2/volcano_rectal_cpp_vs_ctrl.png", volcano_cpp_vs_ctrl, width=8, height=6)
-ggsave("results/aim2/volcano_rectal_endo_vs_ctrl.png", volcano_endo_vs_ctrl, width=8, height=6)
+ggsave(plot= bar_panel,"results/aim2/05-cpp_control_contrast.png",
+       width = 10, height = 7, units = "in", dpi = 300)
 
-# Vaginal comparisons using fixed-shape volcano plots
-phy_vaginal <- subset_samples(phyloseq_genus_counts, collection_method=="vaginal_swab")
-res_cpp_vs_endo_vag <- run_deseq_pair(phy_vaginal, "CPP Endo", "CPP", "Vaginal_CPP_vs_CPPEndo")
-res_cpp_vs_ctrl_vag <- run_deseq_pair(phy_vaginal, "CPP", "Control", "Vaginal_CPP_vs_Control")
-res_endo_vs_ctrl_vag <- run_deseq_pair(phy_vaginal, "CPP Endo", "Control", "Vaginal_CPPEndo_vs_Control")
+## CPP Endo vs Control
+res_cpp_endo_control_rect <- results(DESEQ_rect, tidy=TRUE, 
+                                contrast = c("Host_disease","CPP Endo","Control"))
+res_cpp_endo_control_vag <- results(DESEQ_vag, tidy=TRUE, 
+                               contrast = c("Host_disease","CPP Endo","Control"))
 
-# Compute global limits across vaginal comparisons
-all_res_vag <- bind_rows(res_cpp_vs_endo_vag, res_cpp_vs_ctrl_vag, res_endo_vs_ctrl_vag)
-global_x_lim_vag <- max(abs(all_res_vag$log2FoldChange)) * 1.05
-global_y_lim_vag <- max(-log10(all_res_vag$padj), na.rm = TRUE) * 1.05
+ggplot(res_cpp_endo_control_rect) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj)))+
+  theme_classic()
 
-#generate fixed-shape volcano plots
-volcano_cpp_vs_endo_vag <- plot_volcano_fixed_shape(res_cpp_vs_endo_vag, "Vaginal CPP Endo vs CPP",
-                                                    x_lim = global_x_lim_vag, y_lim = global_y_lim_vag)
-volcano_cpp_vs_ctrl_vag <- plot_volcano_fixed_shape(res_cpp_vs_ctrl_vag, "Vaginal CPP vs Control",
-                                                    x_lim = global_x_lim_vag, y_lim = global_y_lim_vag)
-volcano_endo_vs_ctrl_vag <- plot_volcano_fixed_shape(res_endo_vs_ctrl_vag, "Vaginal CPP Endo vs Control",
-                                                     x_lim = global_x_lim_vag, y_lim = global_y_lim_vag)
-#print plots
-volcano_cpp_vs_endo_vag
-volcano_cpp_vs_ctrl_vag
-volcano_endo_vs_ctrl_vag
+ggplot(res_cpp_endo_control_vag) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj))) +
+  theme_classic()
 
-#save plots
-ggsave("results/aim2/volcano_vaginal_cpp_vs_endo.png", volcano_cpp_vs_endo_vag, width=8, height=6)
-ggsave("results/aim2/volcano_vaginal_cpp_vs_ctrl.png", volcano_cpp_vs_ctrl_vag, width=8, height=6)
-ggsave("results/aim2/volcano_vaginal_endo_vs_ctrl.png", volcano_endo_vs_ctrl_vag, width=8, height=6)
 
-#thresholds
-padj_thresh <- 0.05
-lfc_thresh <- 1
+cpp_endo_control_rect <- res_cpp_endo_control_rect %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+  ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP Endo vs Control Contrast")
 
-# Rectal CPP Endo vs CPP
-sig_rectal <- res_cpp_vs_endo %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Rectal CPP Endo vs CPP:")
-print(sig_rectal$Genus)
 
-# Rectal CPP vs Control
-sig_cpp_vs_ctrl <- res_cpp_vs_ctrl %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Rectal CPP vs Control:")
-print(sig_cpp_vs_ctrl$Genus)
+cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(10, 10, 10, 10),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+  ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP Endo vs Control Contrast")
 
-# Rectal CPP Endo vs Control
-sig_endo_vs_ctrl <- res_endo_vs_ctrl %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Rectal CPP Endo vs Control:")
-print(sig_endo_vs_ctrl$Genus)
+cpp_endo_control_rect <- cpp_endo_control_rect + ggtitle("Rectal")
+cpp_endo_control_vag  <- cpp_endo_control_vag + ggtitle("Vaginal")
 
-# Vaginal CPP Endo vs CPP
-sig_vag_cppendo_vs_cpp <- res_cpp_vs_endo_vag %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Vaginal CPP Endo vs CPP:")
-print(sig_vag_cppendo_vs_cpp$Genus)
+bar_panel_endo_control <- cpp_endo_control_rect + cpp_endo_control_vag
+bar_panel_endo_control
 
-# Vaginal CPP vs Control
-sig_vag_cpp_vs_ctrl <- res_cpp_vs_ctrl_vag %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Vaginal CPP vs Control:")
-print(sig_vag_cpp_vs_ctrl$Genus)
+ggsave(plot= bar_panel_endo_control,"results/aim2/05-cpp_endo_control_contrast.png",
+       width = 10, height = 7, units = "in", dpi = 300)
 
-# Vaginal CPP Endo vs Control
-sig_vag_endo_vs_ctrl <- res_endo_vs_ctrl_vag %>%
-  filter(!is.na(padj)) %>%
-  filter(padj <= padj_thresh & abs(log2FoldChange) >= lfc_thresh) %>%
-  arrange(padj)
-print("Vaginal CPP Endo vs Control:")
-print(sig_vag_endo_vs_ctrl$Genus)
+
+### CPP - CPP Endo COMPARISONS: 
+res_rect <- results(DESEQ_rect, tidy=TRUE, 
+                    contrast = c("Host_disease","CPP Endo","CPP"))
+res_vag <- results(DESEQ_vag, tidy=TRUE, 
+                   contrast = c("Host_disease","CPP Endo","CPP"))
+
+ggplot(res_rect) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj))) +
+  theme_classic()
+
+
+ggplot(res_vag) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj))) +
+  theme_classic()
+
+
+cpp_endo_cpp_rect <- res_rect %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+  ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP Endo vs CPP Contrast")
+
+
+cpp_endo_cpp_vag <- res_vag %>%
+  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>1, "Significant", "Non-significant")) %>%
+  ggplot() +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
+  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+  theme_classic() +
+  theme(
+    plot.margin = margin(10, 10, 10, 10),
+    legend.position = "none",
+    plot.title = element_text(size = 18)
+  ) +
+  geom_vline(xintercept = 1, linetype = "dashed")+
+  geom_vline(xintercept = -1, linetype = "dashed") +
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  ggtitle("CPP Endo vs CPP Contrast")
+
+cpp_endo_cpp_rect <- cpp_endo_cpp_rect + ggtitle("Rectal")
+cpp_endo_cpp_vag  <- cpp_endo_cpp_vag + ggtitle("Vaginal")
+
+bar_panel_endo_cpp <- cpp_endo_cpp_rect + cpp_endo_cpp_vag
+bar_panel_endo_cpp
+
+ggsave(plot= bar_panel_endo_cpp,"results/aim2/05-cpp_endo_cpp_contrast.png",
+       width = 10, height = 7, units = "in", dpi = 300)
+
+
+# To get table of results
+sigASVs_rect <- res_rect %>% 
+  filter(padj<0.05 & abs(log2FoldChange)>1) %>%
+  dplyr::rename(ASV=row)
+
+sigASVs_vag <- res_vag %>% 
+  filter(padj<0.05 & abs(log2FoldChange)>1) %>%
+  dplyr::rename(ASV=row)
+
+
+# Get only asv names
+sigASVs_vec_rect <- sigASVs_rect %>%
+  pull(ASV)
+
+sigASVs_vec_vag <- sigASVs_vag %>%
+  pull(ASV)
+
+
+### PRUNE PHYLOSEQ FILE
+# RECTAL
+DESeq_pruned_rect <- prune_taxa(sigASVs_vec_rect, phylo_rectal)
+
+sigASVs_rect <- tax_table(DESeq_pruned_rect) %>% as.data.frame() %>%
+  rownames_to_column(var="ASV") %>%
+  right_join(sigASVs_rect) %>%
+  arrange(log2FoldChange) %>%
+  mutate(Genus = make.unique(Genus)) %>%
+  mutate(Genus = factor(Genus, levels=unique(Genus)))
+
+
+bar_rect <- ggplot(sigASVs_rect) +
+  geom_bar(aes(x=log2FoldChange, y=Genus), stat="identity")+
+  geom_errorbar(aes(y=Genus, xmin=log2FoldChange-lfcSE, xmax=log2FoldChange+lfcSE)) +
+  theme(axis.text.y = element_text(angle=90, hjust=1, vjust=0.5)) +
+  theme_classic()
+bar_rect
+
+ggsave(plot = bar_rect, "results/aim2/05-sigASVs_rect.png",
+       width = 10, height = 7, units = "in", dpi = 300)
+
+
+# VAGINAL
+DESeq_pruned_vag <- prune_taxa(sigASVs_vec_vag, phylo_vaginal)
+
+sigASVs_vag <- tax_table(DESeq_pruned_vag) %>% as.data.frame() %>%
+  rownames_to_column(var="ASV") %>%
+  right_join(sigASVs_vag) %>%
+  arrange(log2FoldChange) %>%
+  mutate(Genus = make.unique(Genus)) %>%
+  mutate(Genus = factor(Genus, levels=unique(Genus)))
+
+
+bar_vag <- ggplot(sigASVs_vag) +
+  geom_bar(aes(x=log2FoldChange, y=Genus), stat="identity")+
+  geom_errorbar(aes(y=Genus, xmin=log2FoldChange-lfcSE, xmax=log2FoldChange+lfcSE)) +
+  theme(axis.text.y = element_text(angle=90, hjust=1, vjust=0.5)) +
+  theme_classic()
+bar_vag
+
+ggsave(plot = bar_vag, "results/aim2/05-sigASVs_vag.png",
+       width = 10, height = 7, units = "in", dpi = 300)
 
