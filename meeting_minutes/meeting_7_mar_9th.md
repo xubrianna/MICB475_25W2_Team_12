@@ -84,6 +84,12 @@ Beta diversity (ML):
 - Substantial overlap between host disease groups (Control, CPP, CPP Endo) within each body site, suggesting disease status does not strongly drive community differences.
 - PCoA Axis 1 explains most variation (24.7%), largely reflecting differences between sample types rather than disease groups.
 
+Taxa barplot (combined) (ML):
+- Mean taxonomic composition (Genus level)
+- Clear differences between body sites:** vaginal samples are dominated by **Lactobacillus**, while rectal samples show a more diverse mix of genera.
+- Similar overall composition across disease groups within each body site, suggesting disease status does not strongly shift dominant taxa.
+- Rectal microbiota are more evenly distributed across multiple genera, whereas **vaginal microbiota are largely Lactobacillus-dominated**.
+- Body site drives microbial composition more strongly than disease status.
 
 Coremicrobiome: 
 - Rectal samples at 0.5 prevalence and 0.001 detection (remove rare ASVs) has 3% of the ASVs shared that are unique to CPP-Endo 
@@ -93,6 +99,7 @@ Coremicrobiome:
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo 
+
 
 
 
