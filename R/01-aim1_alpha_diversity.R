@@ -46,9 +46,9 @@ alpha_faith <- alpha_faith %>%
 alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("rectal","vaginal"))
 
 group_cols <- c(
-  "Control" = "steelblue1",
-  "CPP" = "mediumpurple1",
-  "CPP Endo" = "lightpink"
+  "Control" = "#c7e9b4",   # green
+  "CPP" = "#41b6c4",       # turquoise
+  "CPP Endo" = "#225ea8"   # dark blue
 )
 
 ##### Faith's PD boxplot ####
