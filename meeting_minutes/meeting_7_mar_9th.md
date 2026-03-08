@@ -73,6 +73,7 @@
 
 
 #### Discussion on results: 
+###Aim 1
 Alpha diversity (ML):
 - No clear differences in Faith’s PD across disease groups (Control, CPP, CPP Endo), suggesting host disease status does not strongly affect alpha diversity.
 - Rectal samples show higher Faith’s PD values than vaginal samples, indicating greater phylogenetic diversity in rectal microbiota.
@@ -84,6 +85,7 @@ Beta diversity (ML):
 - Substantial overlap between host disease groups (Control, CPP, CPP Endo) within each body site, suggesting disease status does not strongly drive community differences.
 - PCoA Axis 1 explains most variation (24.7%), largely reflecting differences between sample types rather than disease groups.
 
+###Aim 2
 Taxa barplot (combined) (ML):
 - Mean taxonomic composition (Genus level)
 - Clear differences between body sites:** vaginal samples are dominated by **Lactobacillus**, while rectal samples show a more diverse mix of genera.
@@ -121,6 +123,7 @@ TLDR;
 -**Vaginal microbiota appear more stable across disease states, with fewer taxa significantly associated with host disease status.**
 -**These results suggest that disease-associated microbial shifts may be more detectable in rectal communities than in vaginal communities.**
 
+###Aim 3
 
 
 
