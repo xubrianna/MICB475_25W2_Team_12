@@ -73,6 +73,17 @@
 
 
 #### Discussion on results: 
+Alpha diversity (ML):
+- No clear differences in Faith’s PD across disease groups (Control, CPP, CPP Endo), suggesting host disease status does not strongly affect alpha diversity.
+- Rectal samples show higher Faith’s PD values than vaginal samples, indicating greater phylogenetic diversity in rectal microbiota.
+- Patterns are consistent across sites, with variation within groups larger than differences between disease groups.
+
+Beta diversity (ML):
+- (Unweighted UniFrac)
+- Clear separation by body site, with rectal and vaginal samples clustering apart, indicating distinct microbial community composition between sites.
+- Substantial overlap between host disease groups (Control, CPP, CPP Endo) within each body site, suggesting disease status does not strongly drive community differences.
+- PCoA Axis 1 explains most variation (24.7%), largely reflecting differences between sample types rather than disease groups.
+
 
 Coremicrobiome: 
 - Rectal samples at 0.5 prevalence and 0.001 detection (remove rare ASVs) has 3% of the ASVs shared that are unique to CPP-Endo 
@@ -82,5 +93,6 @@ Coremicrobiome:
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo 
+
 
 
