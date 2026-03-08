@@ -100,6 +100,27 @@ Coremicrobiome:
 - vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo 
 
+DESeq Volcano Plots (ML):
+**CPP vs Control**
+- Rectal samples show multiple significantly different ASVs, with both positive and negative log2 fold changes, indicating taxa enriched in either CPP or Control groups.
+- Vaginal samples show very few significant taxa, suggesting minimal differential abundance between CPP and Control in the vaginal microbiome.
+- Significant taxa in rectal samples show larger effect sizes and stronger statistical signals than those in vaginal samples.
+
+**CPP Endo vs Control**
+- Rectal microbiota again show many significant ASVs, with clear enrichment patterns in both directions, indicating disease-associated shifts in rectal taxa.
+- Vaginal microbiota show fewer significant changes, though several taxa display strong positive fold changes in the CPP Endo group.
+- Overall, rectal communities appear more responsive to disease status than vaginal communities.
+
+**CPP Endo vs CPP**
+- Rectal samples display numerous significantly different taxa, indicating microbial differences between CPP patients with and without endometriosis.
+- Vaginal samples show only a small number of significant taxa, again suggesting weaker disease-associated shifts at this site.
+- Some vaginal taxa exhibit large fold changes but relatively few pass significance thresholds, likely reflecting lower statistical power or higher variability.
+
+TLDR;
+-**Rectal microbiota show stronger and more consistent differential abundance across disease comparisons than vaginal microbiota.**
+-**Vaginal microbiota appear more stable across disease states, with fewer taxa significantly associated with host disease status.**
+-**These results suggest that disease-associated microbial shifts may be more detectable in rectal communities than in vaginal communities.**
+
 
 
 
