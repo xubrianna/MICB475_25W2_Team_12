@@ -12,7 +12,7 @@ Here are the notes and the agenda for every team meeting:
 |:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
 | January | NA | NA | NA | NA |[Jan 26th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_1_jan_26th.md) |
 | February | [Feb 2nd](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_2_feb_2nd.md) | [Feb 9th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_3_feb_9th.md) | [Feb 17th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_4_feb_17th.md) | [Feb 21st](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_5_feb_21st.md) | NA |
-
+| March | [Mar 2nd](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_6_mar_2nd.md) | [Mar 9th](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_7_mar_9th.md) |NA| NA |NA|
 
 #insert images 
 - <img src="file-path-within-your-repository/img.png" height="500" width="500">
