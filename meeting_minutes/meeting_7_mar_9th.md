@@ -144,6 +144,7 @@ TLDR;
 
 ![Vaginal KO PCoA](../results/aim3/KO_vaginal_pcoa_ellipse.png)
 
+
 PCA of KO functional profiles:
 - PCA of predicted KEGG KO abundances (PICRUSt2) shows overlapping clusters for Control, CPP, and CPP Endo in both rectal and vaginal samples
 - No clear separation by disease group in either body site, suggesting that predicted functional profiles are broadly similar across conditions???
@@ -164,13 +165,16 @@ PCA of KO functional profiles:
 
 ![Vaginal CPP vs Control Volcano](../results/aim3/vaginal_CPP_vs_Control_volcano.png)
 
+
 #### Differential KO – Vaginal (Endo vs CPP) - Comparison of Interest
+
 
 ![Vaginal Endo vs CPP Volcano](../results/aim3/vaginal_Endo_vs_CPP_volcano.png)
 
 #### Differential KO – Vaginal (Endo vs Control)
 
 ![Vaginal Endo vs Control Volcano](../results/aim3/vaginal_Endo_vs_Control_volcano.png)
+
 
 #### AIM3- Discussion
 
@@ -186,6 +190,7 @@ Overall:
 - Interestingly, vaginal samples show more predicted functional differences across disease comparisons than rectal samples — this contrasts with the taxonomic results from Aim 2, where rectal samples had more differentially abundant taxa
 - The stronger functional signal in vaginal samples despite limited taxonomic shifts highlights the value of functional profiling (PICRUSt2) as a complement to taxonomic analysis
 - Next steps: mapping significant KOs to KEGG pathways to see if they converge on biologically relevant processes (immune, inflammation, etc) 
+
 
 
 
