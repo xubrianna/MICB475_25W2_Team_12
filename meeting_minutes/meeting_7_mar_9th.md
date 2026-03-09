@@ -109,9 +109,8 @@ DESeq2 differential abundance:
 - **CPP Endo vs Control (sanity check):** Similar pattern; no strong differential abundance signal--- reinforces that disease effects are subtle
 - **CPP Endo vs CPP (main contrast of interest):**
 - Rectal: No taxa reached significance after multiple testing correction (lowest padj ~0.47). Several genera showed significant p-values (e.g., *Faecalitalea*, *Lactobacillus*, *Murdochiella*, *Alistipes*) but did not survive FDR adjustment
-- Vaginal: *Fannyhessea* was the only significantly differentially abundant genus (padj = 0.035, log2FC = 4.37), enriched in CPP Endo relative to CPP-only. *Fannyhessea* (formerly *Atopobium vaginae*) is a known BV-associated organism and its enrichment in CPP Endo may suggest a link between endometriosis and vaginal dysbiosis
+- Vaginal: *Fannyhessea* was the only significantly differentially abundant genus (padj = 0.035, log2FC = 4.37), enriched in CPP Endo relative to CPP-only. 
 - All other vaginal genera had padj = 1, indicating no other significant differences
-- The limited number of significant hits may reflect small sample sizes and/or high inter-individual variability, rather than true absence of biological differences
 
 
 DESeq Volcano Plots (ML):
@@ -145,11 +144,15 @@ TLDR;
 
 ![Vaginal KO PCoA](../results/aim3/KO_vaginal_pcoa_ellipse.png)
 
+PCA of KO functional profiles:
+- PCA of predicted KEGG KO abundances (PICRUSt2) shows overlapping clusters for Control, CPP, and CPP Endo in both rectal and vaginal samples
+- No clear separation by disease group in either body site, suggesting that predicted functional profiles are broadly similar across conditions???
+
 #### Differential KO – Rectal (CPP vs Control)
 
 ![Rectal CPP vs Control Volcano](../results/aim3/rectal_CPP_vs_Control_volcano.png)
 
-#### Differential KO – Rectal (Endo vs CPP)
+#### Differential KO – Rectal (Endo vs CPP) - Conparison of Interest
 
 ![Rectal Endo vs CPP Volcano](../results/aim3/rectal_Endo_vs_CPP_volcano.png)
 
@@ -161,7 +164,7 @@ TLDR;
 
 ![Vaginal CPP vs Control Volcano](../results/aim3/vaginal_CPP_vs_Control_volcano.png)
 
-#### Differential KO – Vaginal (Endo vs CPP)
+#### Differential KO – Vaginal (Endo vs CPP) - Comparison of Interest
 
 ![Vaginal Endo vs CPP Volcano](../results/aim3/vaginal_Endo_vs_CPP_volcano.png)
 
@@ -169,7 +172,20 @@ TLDR;
 
 ![Vaginal Endo vs Control Volcano](../results/aim3/vaginal_Endo_vs_Control_volcano.png)
 
+#### AIM3- Discussion
 
+DESeq2 differential KO abundance:
+- **Rectal – CPP vs Control:** Some KOs labelled as significant (red points above the padj < 0.05 threshold), indicating some predicted functional differences between CPP and healthy controls in rectal samples. 
+- **Rectal – CPP Endo vs Control:** Similar pattern to CPP vs Control, with several significant KOs detected. Suggests that endometriosis-associated CPP shares some functional shifts with CPP-only relative to controls
+- **Rectal – CPP Endo vs CPP (Comparison of Interest):** Few significant KOs compared to the case-control comparisons, indicating that the functional profile difference between CPP Endo and CPP-only is more subtle in rectal samples
+- **Vaginal – CPP vs Control:** Many significant KOs detected, indicating substantial predicted functional differences between CPP and healthy controls in vaginal samples — more so than in rectal samples
+- **Vaginal – CPP Endo vs Control:** Also shows numerous significant KOs, suggesting that CPP Endo is functionally distinct from controls at the vaginal site
+- **Vaginal – CPP Endo vs CPP (Comparison of Interest):** Significant KOs present, indicating predicted functional differences between CPP Endo and CPP-only groups in vaginal samples
+
+Overall:
+- Interestingly, vaginal samples show more predicted functional differences across disease comparisons than rectal samples — this contrasts with the taxonomic results from Aim 2, where rectal samples had more differentially abundant taxa
+- The stronger functional signal in vaginal samples despite limited taxonomic shifts highlights the value of functional profiling (PICRUSt2) as a complement to taxonomic analysis
+- Next steps: mapping significant KOs to KEGG pathways to see if they converge on biologically relevant processes (immune, inflammation, etc) 
 
 
 
