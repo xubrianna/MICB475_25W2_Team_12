@@ -2,6 +2,15 @@
 
 # Meeting 7 - March 9th
 
+## Key Takeaways
+
+> **Aim 1 (Diversity):** No significant differences in alpha or beta diversity across disease groups — body site is the primary driver for variation, not disease status.
+
+> **Aim 2 (Taxonomy):** Taxonomic composition is largely similar across disease groups within each body site. Rectal communities show more differentially abundant taxa than vaginal. Core microbiome analysis reveals very few unique taxa in CPP-Endo, especially in vaginal samples.
+
+> **Aim 3 (Functional):** Predicted functional profiles (PICRUSt2 KOs) show more significant differences in vaginal samples than rectal — contrasting with the taxonomic results. 
+---
+
 ## New Plots
 
 ### Aim 1
