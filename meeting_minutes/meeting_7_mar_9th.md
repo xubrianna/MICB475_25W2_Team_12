@@ -45,7 +45,7 @@
 ![Venn all diseases (rectal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png)
 ![Venn all diseases (vaginal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png)
 
-- <img src="results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png" height="500" width="500">
+![Venn diagram](..results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png)
 
 #### Venn Diagram - CPP Only vs Healthy (0.01 detection + 0.5 prevalence)
 ![Venn all diseases (rectal 0.01)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.01.png)
@@ -136,6 +136,7 @@ TLDR;
 -**These results suggest that disease-associated microbial shifts may be more detectable in rectal communities than in vaginal communities.**
 
 ### Aim 3
+
 
 
 
