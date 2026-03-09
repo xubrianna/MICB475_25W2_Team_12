@@ -93,13 +93,14 @@ Taxa barplot (combined) (ML):
 - Body site drives microbial composition more strongly than disease status.
 
 Core microbiome: 
-- Rectal samples at 0.5 prevalence and 0.001 detection (remove rare ASVs) has 3% of the ASVs shared that are unique to CPP-Endo 
-- Rectal samples at 0.5 prevalence and 0 detection (absence/prevalence) has 4% of the ASVs shared that are unique to CPP-Endo 
-- Rectal samples at 0.5 prevalence and 0.01 (keep abundance ASVs) detection has 1% of the ASVs shared that are unique to CPP-Endo 
-- there appears to be a lot more that is shared among the healthy 
-- vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo 
-- vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo 
-- vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo
+- Rectal samples at 0.5 prevalence and 0.001 detection (remove rare ASVs) has 3% of the ASVs shared that are unique to CPP-Endo -> this has potential 
+- Rectal samples at 0.5 prevalence and 0 detection (absence/prevalence) has 4% of the ASVs shared that are unique to CPP-Endo -> this has potential 
+- Rectal samples at 0.5 prevalence and 0.01 (keep abundance ASVs) detection has 1% of the ASVs shared that are unique to CPP-Endo -> this has potential 
+- There appears to be a lot more that is shared among the healthy individuals than either disease state 
+- Vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo -> not much potential for distinguishing CPP-Endo
+- Vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo -> small potential 
+- Vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo -> not much potential
+- Overall the rectal samples appear to be more shared amongst each disease state than vaginal microbiome which might be more similar between all patients regardless of host disease state 
 
 DESeq2 differential abundance:
 - **CPP vs Control (sanity check):** No significantly differentially abundant taxa after FDR correction in either body site — suggests CPP alone does not drive major taxonomic shifts compared to healthy controls
@@ -133,6 +134,7 @@ TLDR;
 -**These results suggest that disease-associated microbial shifts may be more detectable in rectal communities than in vaginal communities.**
 
 ### Aim 3
+
 
 
 
