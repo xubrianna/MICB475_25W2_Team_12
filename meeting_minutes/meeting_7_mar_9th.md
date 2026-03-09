@@ -54,7 +54,6 @@
 ![Venn all diseases (rectal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png)
 ![Venn all diseases (vaginal 0.001)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png)
 
-![Venn diagram](..results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png)
 
 #### Venn Diagram - CPP Only vs Healthy (0.01 detection + 0.5 prevalence)
 ![Venn all diseases (rectal 0.01)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.01.png)
@@ -199,6 +198,7 @@ Overall:
 - Interestingly, vaginal samples show more predicted functional differences across disease comparisons than rectal samples — this contrasts with the taxonomic results from Aim 2, where rectal samples had more differentially abundant taxa
 - The stronger functional signal in vaginal samples despite limited taxonomic shifts highlights the value of functional profiling (PICRUSt2) as a complement to taxonomic analysis
 - Next steps: mapping significant KOs to KEGG pathways to see if they converge on biologically relevant processes (immune, inflammation, etc) 
+
 
 
 
