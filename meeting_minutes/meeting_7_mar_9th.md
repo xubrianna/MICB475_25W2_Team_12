@@ -22,7 +22,6 @@
 ![PCoA Ellipse](../results/aim1/02-pcoa_ellipse.png)
 > Same PCoA with 95% confidence ellipses per group 
 
----
 
 ### Aim 2
 
@@ -88,19 +87,29 @@ Beta diversity (ML):
 ### Aim 2
 Taxa barplot (combined) (ML):
 - Mean taxonomic composition (Genus level)
-- Clear differences between body sites:** vaginal samples are dominated by **Lactobacillus**, while rectal samples show a more diverse mix of genera.
+- Clear differences between body sites: vaginal samples are dominated by **Lactobacillus**, while rectal samples show a more diverse mix of genera.
 - Similar overall composition across disease groups within each body site, suggesting disease status does not strongly shift dominant taxa.
 - Rectal microbiota are more evenly distributed across multiple genera, whereas **vaginal microbiota are largely Lactobacillus-dominated**.
 - Body site drives microbial composition more strongly than disease status.
 
-Coremicrobiome: 
+Core microbiome: 
 - Rectal samples at 0.5 prevalence and 0.001 detection (remove rare ASVs) has 3% of the ASVs shared that are unique to CPP-Endo 
 - Rectal samples at 0.5 prevalence and 0 detection (absence/prevalence) has 4% of the ASVs shared that are unique to CPP-Endo 
 - Rectal samples at 0.5 prevalence and 0.01 (keep abundance ASVs) detection has 1% of the ASVs shared that are unique to CPP-Endo 
 - there appears to be a lot more that is shared among the healthy 
 - vaginal samples at 0.5 prevalence and 0.001 detection has 0% of the ASVs shared that are unique to CPP-Endo 
 - vaginal samples at 0.5 prevalence and 0 detection has 1% of the ASVs shared that are unique to CPP-Endo 
-- vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo 
+- vaginal samples at 0.5 prevalence and 0.001 detection has 0.01% of the ASVs shared that are unique to CPP-Endo
+
+DESeq2 differential abundance:
+- **CPP vs Control (sanity check):** No significantly differentially abundant taxa after FDR correction in either body site — suggests CPP alone does not drive major taxonomic shifts compared to healthy controls
+- **CPP Endo vs Control (sanity check):** Similar pattern; no strong differential abundance signal--- reinforces that disease effects are subtle
+- **CPP Endo vs CPP (main contrast of interest):**
+- Rectal: No taxa reached significance after multiple testing correction (lowest padj ~0.47). Several genera showed significant p-values (e.g., *Faecalitalea*, *Lactobacillus*, *Murdochiella*, *Alistipes*) but did not survive FDR adjustment
+- Vaginal: *Fannyhessea* was the only significantly differentially abundant genus (padj = 0.035, log2FC = 4.37), enriched in CPP Endo relative to CPP-only. *Fannyhessea* (formerly *Atopobium vaginae*) is a known BV-associated organism and its enrichment in CPP Endo may suggest a link between endometriosis and vaginal dysbiosis
+- All other vaginal genera had padj = 1, indicating no other significant differences
+- The limited number of significant hits may reflect small sample sizes and/or high inter-individual variability, rather than true absence of biological differences
+
 
 DESeq Volcano Plots (ML):
 **CPP vs Control**
