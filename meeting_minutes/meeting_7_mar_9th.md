@@ -137,6 +137,38 @@ TLDR;
 
 ### Aim 3
 
+#### KO Functional Composition – Rectal
+
+![Rectal KO PCoA](../results/aim3/KO_rectal_pcoa_ellipse.png)
+
+#### KO Functional Composition – Vaginal
+
+![Vaginal KO PCoA](../results/aim3/KO_vaginal_pcoa_ellipse.png)
+
+#### Differential KO – Rectal (CPP vs Control)
+
+![Rectal CPP vs Control Volcano](../results/aim3/rectal_CPP_vs_Control_volcano.png)
+
+#### Differential KO – Rectal (Endo vs CPP)
+
+![Rectal Endo vs CPP Volcano](../results/aim3/rectal_Endo_vs_CPP_volcano.png)
+
+#### Differential KO – Rectal (Endo vs Control)
+
+![Rectal Endo vs Control Volcano](../results/aim3/rectal_Endo_vs_Control_volcano.png)
+
+#### Differential KO – Vaginal (CPP vs Control)
+
+![Vaginal CPP vs Control Volcano](../results/aim3/vaginal_CPP_vs_Control_volcano.png)
+
+#### Differential KO – Vaginal (Endo vs CPP)
+
+![Vaginal Endo vs CPP Volcano](../results/aim3/vaginal_Endo_vs_CPP_volcano.png)
+
+#### Differential KO – Vaginal (Endo vs Control)
+
+![Vaginal Endo vs Control Volcano](../results/aim3/vaginal_Endo_vs_Control_volcano.png)
+
 
 
 
