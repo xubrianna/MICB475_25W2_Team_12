@@ -1,54 +1,70 @@
 <div align="center">
 
-# 🧬 MICB475 – CURE Project Repository  
-### Team 12
+# 🦠 MICB475 – CURE Microbiome Project  
+## Team 12
 
 **Marcus Liang • Brianna Xu • Naomi Isak • Tom Cui**
 
+![UBC](https://img.shields.io/badge/University-UBC-blue)
+![Course](https://img.shields.io/badge/Course-MICB475-brightgreen)
+![Analysis](https://img.shields.io/badge/Analysis-R-blue)
+![Focus](https://img.shields.io/badge/Focus-Microbiome-purple)
 ![GitHub repo size](https://img.shields.io/github/repo-size/xubrianna/MICB475_25W2_Team_12)
 ![Last commit](https://img.shields.io/github/last-commit/xubrianna/MICB475_25W2_Team_12)
-![Course](https://img.shields.io/badge/UBC-MICB475-blue)
 
 </div>
 
 ---
 
-## 🧬 Project Overview
+# 📑 Table of Contents
 
-This repository contains documentation, analysis scripts, meeting notes, and results for **MICB 475 CURE – Team 12**.
-
-Our project investigates differences in **microbial community composition and predicted functional pathways** between patients with **chronic pelvic pain (CPP) and endometriosis** and patients with **CPP alone**.
-
-Through microbiome and functional profiling using **R-based bioinformatics workflows**, we aim to identify microbial signatures that may contribute to the development of a **non-invasive diagnostic tool for endometriosis**.
-
----
-
-## 👥 Team Members
-
-| Name | Role |
-|-----|-----|
-| **Marcus Liang** | Contributor |
-| **Brianna Xu** | Repository Manager
-| **Naomi Isak** | Contributor |
-| **Tom Cui** |  Contributor |
+- [🧬 Project Overview](#-project-overview)  
+- [👥 Team Members](#-team-members)  
+- [📂 Repository Structure](#-repository-structure)  
+- [📝 Team Meetings](#-team-meetings)  
+- [🧪 Analysis Workflow](#-analysis-workflow)  
+- [📊 Results](#-results)  
+- [📚 Resources](#-resources)  
 
 ---
 
-## 📂 Repository Structure
+# 🧬 Project Overview
 
-```
-MICB475_25W2_Team_12
-│
-├── R/                   # R scripts for data analysis and visualization
-├── data/                # Raw and processed datasets
-├── meeting_minutes/     # Weekly team meeting documentation
-├── results/             # Figures, tables, and analysis outputs
-└── README.md
-```
+Endometriosis is a complex condition that is often **difficult to diagnose non-invasively**, particularly in patients presenting with **chronic pelvic pain (CPP)**.
+
+Our project investigates differences in **microbial community composition** and **predicted functional pathways** between:
+
+- Patients with **CPP and endometriosis**  
+- Patients with **CPP alone**  
+
+Using **microbiome analysis and functional prediction workflows in R**, we aim to identify **microbial and metabolic signatures** that could contribute to the development of a **future non-invasive diagnostic tool for endometriosis**.
 
 ---
 
-## 📝 Team Meetings
+# 👥 Team Members
+
+| Member | Role |
+|------|------|
+| 🧬 **Marcus Liang** | Contributor |
+| 📁 **Brianna Xu** | Repository Manager |
+| 📊 **Naomi Isak** | Contributor |
+| 📚 **Tom Cui** | Contributor |
+
+---
+
+# 📂 Repository Structure
+
+| Folder | Status |
+|--------|-------|
+| 🗂 **R/** | 🟦 Scripts ready |
+| 📊 **data/** | 🟩 Raw & processed |
+| 📝 **meeting_minutes/** | 🟨 Completed |
+| 📈 **results/** | 🟪 Figures & outputs |
+| 📄 README.md | ✅ Completed |
+
+---
+
+# 📝 Team Meetings
 
 | Month | Week 1 | Week 2 | Week 3 | Week 4 | Week 5 |
 |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -58,7 +74,42 @@ MICB475_25W2_Team_12
 
 ---
 
-## 🔗 Resources
+# 🧪 Analysis Workflow
+
+```
+Raw Microbiome Data
+        ↓
+Quality Control
+        ↓
+Taxonomic Profiling
+        ↓
+Functional Prediction
+        ↓
+Statistical Analysis in R
+        ↓
+Visualization & Interpretation
+```
+
+**Pipeline Highlights:**
+
+- Microbial community comparison 🦠  
+- Functional pathway prediction 🧬  
+- Clinical group statistical testing 📊  
+- Visualization of microbial/metabolic signatures 🌈  
+
+---
+
+# 📊 Results
+
+<div align="center">
+
+</div>
+
+*Navigate to results/*
+
+---
+
+# 📚 Resources
 
 - 📄 [Original Research Article](https://link.springer.com/article/10.1186/s12916-024-03500-1)
 
@@ -66,6 +117,6 @@ MICB475_25W2_Team_12
 
 <div align="center">
 
-Made for **UBC MICB 475 – Winter Term**
+🧫 **UBC MICB 475 – Winter Term Research Project**  
 
 </div>
