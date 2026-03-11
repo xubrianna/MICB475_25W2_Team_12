@@ -65,7 +65,7 @@ gg_agg
 
 #save plot
 ggsave(
-  filename = "results/aim2/03_taxa_barplot.png",
+  filename = "results/aim2/03-tax_composition/03_taxa_barplot.png",
   plot = gg_agg,
   width = 12,
   height = 8,
