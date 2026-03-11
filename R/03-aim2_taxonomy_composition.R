@@ -17,21 +17,32 @@ phyloseq_filtered <- prune_taxa(
 #transform counts to relative abundance
 phyloseq_RA <- transform_sample_counts(phyloseq_filtered, function(x) x / sum(x))
 
-#agglomerate at Genus level
-phyloseq_genus <- tax_glom(phyloseq_RA, taxrank = "Genus")
+#agglomerate at Phyla level
+phyloseq_phylum <- tax_glom(phyloseq_RA, taxrank = "Phylum")
 
-#keep top 15 genera, group the rest as "Other"
-top_genera <- names(sort(taxa_sums(phyloseq_genus), decreasing = TRUE))[1:15]
-phyloseq_top <- prune_taxa(top_genera, phyloseq_genus)
+#melt to long format
+phy_melt <- psmelt(phyloseq_genus)
 
-#melt to long format for aggregation 
-phy_melt <- psmelt(phyloseq_top)
+#clean genus names
 phy_melt$Genus <- gsub("^g_+", "", phy_melt$Genus)
+
+#identify top 15 genera
+top_genera <- phy_melt %>%
+  group_by(Genus) %>%
+  summarise(total = sum(Abundance)) %>%
+  arrange(desc(total)) %>%
+  slice(1:15) %>%
+  pull(Genus)
+
+#group remaining genera as "Other"
+phy_melt$Genus <- ifelse(phy_melt$Genus %in% top_genera, phy_melt$Genus, "Other")
 
 #aggregate by Host_disease and collection_method
 phy_agg <- phy_melt %>%
   group_by(Host_disease, collection_method, Genus) %>%
-  summarise(RelAbundance = mean(Abundance), .groups = "drop")
+  summarise(RelAbundance = mean(Abundance), .groups = "drop") %>%
+  group_by(Host_disease, collection_method) %>%
+  mutate(RelAbundance = RelAbundance / sum(RelAbundance))
 
 #plot taxa barplot
 gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Genus)) +
