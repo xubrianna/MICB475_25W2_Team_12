@@ -41,7 +41,7 @@ venn_all_diseases_rectal_0.001 <- ggVennDiagram(x = CPP_list_rectal_0.001)+ scal
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_rectal_0.001
 
-ggsave("results/aim2/venn_all_diseases_rectal_0.001.png", venn_all_diseases_rectal_0.001)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png", venn_all_diseases_rectal_0.001)
 
 #prune 
 prune_taxa(CPP_only_ASVs_rectal_0.001,CPP_RA) %>%
@@ -82,7 +82,7 @@ venn_all_diseases_rectal_0<- ggVennDiagram(x = CPP_list_rectal_0)+ scale_fill_gr
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_rectal_0
 
-ggsave("results/aim2/venn_all_diseases_rectal_0.png", venn_all_diseases_rectal_0)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.png", venn_all_diseases_rectal_0)
 
 #try abundance of 0.01 to keep only abundant 
 CPP_only_ASVs_rectal_0.01 <- core_members(CPP_only_rectal, detection=0.01, prevalence = 0.5)
@@ -98,7 +98,7 @@ venn_all_diseases_rectal_0.01<- ggVennDiagram(x = CPP_list_rectal_0.01)+ scale_f
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_rectal_0.01
 
-ggsave("results/aim2/venn_all_diseases_rectal_0.01.png", venn_all_diseases_rectal_0.01)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.01.png", venn_all_diseases_rectal_0.01)
 
 
 #VAGINAL
@@ -122,7 +122,7 @@ venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001)+ sc
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_vaginal_0.001
 
-ggsave("results/aim2/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001)
  
 #prune 
 prune_taxa(CPP_only_ASVs_vaginal_0.001,CPP_RA) %>%
@@ -164,7 +164,7 @@ venn_all_diseases_vaginal_0 <- ggVennDiagram(x = CPP_list_vaginal_0)+ scale_fill
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_vaginal_0
 
-ggsave("results/aim2/venn_all_diseases_vaginal_0.png", venn_all_diseases_vaginal_0)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.png", venn_all_diseases_vaginal_0)
 
 #try abundance of 0.01 
 CPP_only_ASVs_vaginal_0.01 <- core_members(CPP_only_vaginal, detection=0.01, prevalence = 0.5)
@@ -181,4 +181,4 @@ venn_all_diseases_vaginal_0.01 <- ggVennDiagram(x = CPP_list_vaginal_0.01)+ scal
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_vaginal_0.01
 
-ggsave("results/aim2/venn_all_diseases_vaginal_0.01.png", venn_all_diseases_vaginal_0.01)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.01.png", venn_all_diseases_vaginal_0.01)
