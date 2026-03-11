@@ -54,7 +54,7 @@ group_cols <- c(
 ##### Faith's PD boxplot ####
 p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_boxplot(lwd = 0.8) +
-  geom_jitter(width = 0.2, size = 3, alpha = 0.9, color = "black") +
+  geom_point(size = 3, alpha = 0.9, color = "black") +
   facet_wrap(~env_medium) +
   theme_bw() +
   ylab("Faith's Phylogenetic Diversity") +
@@ -65,10 +65,7 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
     axis.text = element_text(size = 12),
     axis.title = element_text(size = 14)
   ) +
-  scale_y_continuous(
-    limits = c(0, 25),
-    breaks = seq(0, 25, by = 2)
-  )
+  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 
 print(p)
 ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5, units = "in", dpi = 300)
@@ -76,7 +73,7 @@ ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5,
 ##### Faith's PD violin plot ####
 p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_violin(trim = FALSE, alpha = 0.8) +
-  geom_jitter(width = 0.15, size = 3, alpha = 0.9, color = "black") +
+  geom_point(size = 3, alpha = 0.9, color = "black") +
   facet_wrap(~env_medium) +
   theme_bw() +
   ylab("Faith's Phylogenetic Diversity") +
