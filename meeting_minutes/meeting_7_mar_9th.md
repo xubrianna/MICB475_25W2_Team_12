@@ -42,9 +42,9 @@
 ![Taxa Barplot Vaginal](../results/aim2/03-tax_composition/01_taxa_barplot_vaginal.png)
 > Taxonomic composition of vaginal samples at the genus level, grouped by disease status.
 
-#### Taxa Barplot (Combined)
-![Taxa Barplot](../results/aim2/03-tax_composition/03_taxa_barplot.png)
-> Combined taxonomy barplot across both body sites for an overview of community structure.
+#### Taxa Barplot (Combined; Phylum level)
+![Taxa Barplot](../results/aim2/03-tax_composition/03_phylum_barplot.png)
+> Combined taxonomy barplot across both body sites for an overview of community structure looking at the phylum level. Following this, we decided to look into specific phyla: _____
 
 #### Venn Diagram - CPP Only vs Healthy (0 detection + 0.5 prevalence)
 ![Venn all diseases (rectal 0)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.png)
@@ -198,6 +198,7 @@ Overall:
 - Interestingly, vaginal samples show more predicted functional differences across disease comparisons than rectal samples — this contrasts with the taxonomic results from Aim 2, where rectal samples had more differentially abundant taxa
 - The stronger functional signal in vaginal samples despite limited taxonomic shifts highlights the value of functional profiling (PICRUSt2) as a complement to taxonomic analysis
 - Next steps: mapping significant KOs to KEGG pathways to see if they converge on biologically relevant processes (immune, inflammation, etc) 
+
 
 
 
