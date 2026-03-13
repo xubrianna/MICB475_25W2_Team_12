@@ -69,7 +69,7 @@
 > Volcano plots (rectal & vaginal) of differentially abundant taxa between CPP Endo and Control.
 
 #### DESeq Volcano - CPP Endo vs CPP
-![CPP Endo vs CPP](../results/aim2/05-deseq2/05-cpp_endo_cpp_contrast.png)
+![CPP Endo vs CPP](../results/aim2/05-deseq2/05-cpp_cpp_endo_contrast.png)
 > Volcano plots (rectal & vaginal) of differentially abundant taxa between CPP Endo and CPP-only groups.
 
 #### Significant ASVs - Rectal
@@ -198,6 +198,7 @@ Overall:
 - Interestingly, vaginal samples show more predicted functional differences across disease comparisons than rectal samples — this contrasts with the taxonomic results from Aim 2, where rectal samples had more differentially abundant taxa
 - The stronger functional signal in vaginal samples despite limited taxonomic shifts highlights the value of functional profiling (PICRUSt2) as a complement to taxonomic analysis
 - Next steps: mapping significant KOs to KEGG pathways to see if they converge on biologically relevant processes (immune, inflammation, etc) 
+
 
 
 
