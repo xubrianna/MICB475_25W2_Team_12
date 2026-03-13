@@ -231,7 +231,7 @@ cpp_endo_cpp_vag  <- cpp_endo_cpp_vag + ggtitle("Vaginal")
 bar_panel_endo_cpp <- cpp_endo_cpp_rect + cpp_endo_cpp_vag
 bar_panel_endo_cpp
 
-ggsave(plot= bar_panel_endo_cpp,"results/aim2/05-deseq2/05-cpp_endo_cpp_contrast.png",
+ggsave(plot= bar_panel_endo_cpp,"results/aim2/05-deseq2/05-cpp_cpp_endo_contrast.png",
        width = 10, height = 7, units = "in", dpi = 300)
 
 
