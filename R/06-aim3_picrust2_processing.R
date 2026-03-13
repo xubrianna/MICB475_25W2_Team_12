@@ -11,13 +11,16 @@ library(ggpicrust2)
 library(DESeq2)
 library(ggplot2)
 library(ggrepel)
+library(pheatmap)
+set.seed(2026)
 
 ps <- readRDS("data/phyloseq_filtered.rds")
 
 meta <- sample_data(ps) %>%
   data.frame() %>%
   rownames_to_column("sample_name")
-ko <- read.delim("data/pred_metagenome_unstrat.tsv", row.names = 1)
+ko <- read.delim("data/picrust_out/KO_metagenome_out/pred_metagenome_unstrat.tsv", row.names = 1)
+
 rownames(ko) <- gsub("ko:", "", rownames(ko))
 
 rectal_meta <- meta %>%
