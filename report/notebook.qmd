@@ -1,0 +1,190 @@
+---
+title: "Investigating the microbial diversity and functional profiles of the vaginal and rectal microbiome in chronic pelvic pain caused by endometriosis"
+author: "Brianna Xu, Naomi Isak, Marcus Liang, Tom Cui"
+number-sections: true
+format: 
+    html:
+        toc: true
+        toc-depth: 3
+        auto-stretch: false
+        embed-resources: true
+    pdf:
+        toc: true
+        toc-depth: 3 
+        fig-pos: "H"
+        auto-stretch: false
+editor: source
+## bibliography: references.bib
+execute:
+    echo: false
+    warning: false
+---
+
+## Introduction
+
+This report contains the methods and results generated throughout the making of this project. Our research question is:
+
+*How does microbial taxonomic and functional diversity change among CPP patients with and without endometriosis?*
+
+Our aims are:
+
+1. To determine whether microbiome taxonomic diversity differs between CPP patients with and without endometriosis, using healthy controls as a reference baseline, across vaginal and rectal body sites 
+2. To identify differentially abundant and core microbial taxa associated with endometriosis among CPP patients, compared to CPP patients without endometriosis and healthy controls 
+3. To characterize the predicted functional pathway differences between CPP patients with and without endometriosis using PICRUSt2 
+
+## Methods
+
+### Data processing
+
+The 16S rRNA sequencing dataset was obtained from Jimenez et al.’s manuscript “Vaginal and rectal microbiome contribute to genital inflammation in chronic pelvic pain,” published in 2024 in BMC Medicine. It contains 16S rRNA sequencing data from 146 CPP patients with or without endometriosis as well as healthy controls from both vaginal and rectal samples for each patient. The 16S rRNA was amplified at the V4 region with 515F-806R primers using the Illumina MiSeq benchtop sequencing platform. The metadata also includes information on the other co-symptoms of CPP and endometriosis like cysts, heavy bleeding, and fibroids but will not be relevant in our exploration.  
+
+After importing and demultiplexing the data into QIIME2, we used the DADA2 tool to denoise the dataset based on the data quality of the forward and reverse reads of the paired-end sequences.
+
+
+| | Before Denoising  | After Denoising   |
+|--------|--------|--------|
+| Sample size | 146  | 146 |
+| Sequencing depth  | 139-151440  |20-137,549|
+: Table 1: Total sample size and sequencing depth before and after denoising {.striped .hover}
+
+The phyloseq object was then constructed in R by combining the OTU table, taxonomy table, sample metadata, and phylogenetic tree. Non-bacterial taxa, chloroplast, and mitochondrial sequences were removed, and low-abundance ASVs with fewer than 5 total counts were filtered out. The resulting phyloseq object was saved for downstream analyses.
+
+### Aim 1: Alpha and beta diversity
+
+#### Alpha diversity
+
+Rarefaction curves were generated to determine an appropriate rarefaction depth. Samples were rarefied to a depth of 43,000 reads using `rarefy_even_depth()`. Faith's phylogenetic diversity (PD) was calculated for each sample using the `picante` package. Boxplots and violin plots were generated to visualize Faith's PD across disease groups (Control, CPP, CPP Endo), faceted by body site (rectal vs. vaginal). Kruskal-Wallis tests were used to assess overall group differences within each body site, followed by post-hoc Dunn's tests with Benjamini-Hochberg correction for pairwise comparisons.
+
+#### Beta diversity
+
+Beta diversity was assessed using unweighted UniFrac distances calculated from the rarefied phyloseq object. Principal coordinates analysis (PCoA) was performed and visualized with 95% confidence ellipses, stratified by disease group and body site. PERMANOVA (`adonis2`) was used to test for significant differences in community composition, both overall (testing `env_medium` and `Host_disease` jointly) and stratified by body site.
+
+### Aim 2: Taxonomic composition, core microbiome, and differential abundance
+
+#### Taxonomic composition
+
+Taxonomic composition was explored by transforming filtered counts to relative abundances, agglomerating at the phyla level, and retaining the top 15 genera. Stacked bar plots were generated showing mean relative abundance by disease group, faceted by body site.
+
+#### Core microbiome analysis
+
+Core microbiome analysis was conducted using the `microbiome` package. Samples were stratified by disease group and body site. Core ASVs were identified at a prevalence threshold of 50% across several detection thresholds (0, 0.001, 0.01). Venn diagrams (`ggVennDiagram`) were used to visualize shared and unique core ASVs among Healthy, CPP, and CPP Endo groups for both rectal and vaginal samples.
+
+#### Differential abundance analysis (DESeq2)
+
+Differential abundance analysis was performed using DESeq2. The filtered (non-rarefied) phyloseq object was subset by body site (rectal and vaginal). A pseudocount of 1 was added to all counts to handle zeros. DESeq2 models were fit with `Host_disease` as the design variable. Three pairwise contrasts were tested for each body site:
+
+1. CPP vs. Control
+2. CPP Endo vs. Control
+3. CPP Endo vs. CPP
+
+Volcano plots were generated for each contrast with significance thresholds of adjusted p-value < 0.05 and |log2 fold change| > 2. Significantly differentially abundant ASVs from the CPP Endo vs. CPP contrast were extracted, annotated with taxonomy, and visualized as bar plots showing log2 fold change by phylum.
+
+### Aim 3: PICRUSt2 functional profiling
+
+PICRUSt2 was run to predict metagenome functional content (KEGG Orthologs) from the 16S rRNA data. The predicted KO abundance table was split by body site. DESeq2 was used to identify differentially abundant KOs across disease groups. PCA plots were generated to visualize functional profile separation, and volcano plots were created for each pairwise contrast (CPP vs. Control, CPP Endo vs. Control, CPP Endo vs. CPP) for both rectal and vaginal samples, with the top 10 KOs by adjusted p-value labeled.
+
+## Results
+
+### Aim 1: Microbiome diversity
+
+#### Alpha diversity
+
+![Rarefaction curves for all samples. The dashed red line indicates the chosen rarefaction depth of 43,000 reads.](../results/aim1/00-rarefaction_curve.png){#fig-rarefaction}
+
+![Faith's phylogenetic diversity (PD) across disease groups, faceted by body site.](../results/aim1/01_faith_PD_boxplot.png){#fig-faith-boxplot}
+
+<!-- TODO: Add Kruskal-Wallis and Dunn's test results summary here -->
+
+#### Beta diversity
+
+![PCoA of unweighted UniFrac distances with 95% confidence ellipses, colored by disease group and shaped by body site.](../results/aim1/02-pcoa_ellipse.png){#fig-pcoa}
+
+<!-- TODO: Add PERMANOVA results summary here -->
+
+### Aim 2: Taxonomic composition and differential abundance
+
+#### Taxonomic composition
+
+![Mean taxonomic composition (top 15 genera) by disease group, faceted by body site.](../results/aim2/03-tax_composition/03_taxa_barplot.png){#fig-taxa-barplot}
+
+#### Core microbiome
+
+::: {layout-ncol=2}
+![Rectal core microbiome Venn diagram (detection = 0.001, prevalence = 50%)](../results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png){#fig-venn-rectal}
+
+![Vaginal core microbiome Venn diagram (detection = 0.001, prevalence = 50%)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png){#fig-venn-vaginal}
+:::
+
+<!-- TODO: Add core microbiome  -->
+
+#### DESeq2 differential abundance
+
+DESeq2 was used to identify differentially abundant ASVs between disease groups for each body site. Three contrasts were tested: CPP vs. Control, CPP Endo vs. Control, and CPP Endo vs. CPP. Significance was defined as adjusted p-value < 0.05 and |log2 fold change| > 1.
+
+##### CPP vs. Control
+
+![Volcano plots for CPP vs. Control contrast for rectal (left) and vaginal (right) samples. Red points indicate significantly differentially abundant ASVs.](../results/aim2/05-deseq2/05-cpp_control_contrast.png){#fig-deseq-cpp-control}
+
+##### CPP Endo vs. Control
+
+![Volcano plots for CPP Endo vs. Control contrast for rectal (left) and vaginal (right) samples.](../results/aim2/05-deseq2/05-cpp_endo_control_contrast.png){#fig-deseq-endo-control}
+
+##### CPP Endo vs. CPP
+
+![Volcano plots for CPP Endo vs. CPP contrast for rectal (left) and vaginal (right) samples.](../results/aim2/05-deseq2/05-cpp_cpp_endo_contrast.png){#fig-deseq-endo-cpp}
+
+The significantly differentially abundant ASVs from the CPP Endo vs. CPP contrast were extracted and annotated with phylum-level taxonomy:
+
+::: {layout-ncol=2}
+![Significant DESeq2 ASVs (CPP Endo vs. CPP) in rectal samples, shown by phylum with log2 fold change and standard error.](../results/aim2/05-deseq2/05-sigASVs_rect.png){#fig-sigASVs-rect}
+
+![Significant DESeq2 ASVs (CPP Endo vs. CPP) in vaginal samples, shown by phylum with log2 fold change and standard error.](../results/aim2/05-deseq2/05-sigASVs_vag.png){#fig-sigASVs-vag}
+:::
+
+DESeq2 analysis of the CPP Endo vs. CPP contrast revealed substantially more differentially abundant ASVs in rectal samples compared to vaginal samples, suggesting that the rectal microbiome may be more broadly impacted by endometriosis-associated dysbiosis????
+
+In vaginal samples, there was a strong enrichment of multiple *Fannyhessea* ASVs 
+
+### Aim 3: Predicted functional profiling (PICRUSt2)
+
+#### KO abundance PCA
+
+::: {layout-ncol=2}
+![PCA of KEGG KO abundance for rectal samples, colored by disease group with 95% confidence ellipses.](../results/aim3/KO_rectal_pcoa_ellipse.png){#fig-ko-pca-rectal}
+
+![PCA of KEGG KO abundance for vaginal samples, colored by disease group with 95% confidence ellipses.](../results/aim3/KO_vaginal_pcoa_ellipse.png){#fig-ko-pca-vaginal}
+:::
+
+<!-- TODO: Add PCA interpretation here -->
+
+#### Differential KO abundance (volcano plots)
+
+##### Rectal samples
+
+::: {layout-ncol=3}
+![CPP vs. Control](../results/aim3/rectal_CPP_vs_Control_volcano.png){#fig-vol-rect-cpp-ctrl}
+
+![CPP Endo vs. Control](../results/aim3/rectal_Endo_vs_Control_volcano.png){#fig-vol-rect-endo-ctrl}
+
+![CPP Endo vs. CPP](../results/aim3/rectal_Endo_vs_CPP_volcano.png){#fig-vol-rect-endo-cpp}
+:::
+
+##### Vaginal samples
+
+::: {layout-ncol=3}
+![CPP vs. Control](../results/aim3/vaginal_CPP_vs_Control_volcano.png){#fig-vol-vag-cpp-ctrl}
+
+![CPP Endo vs. Control](../results/aim3/vaginal_Endo_vs_Control_volcano.png){#fig-vol-vag-endo-ctrl}
+
+![CPP Endo vs. CPP](../results/aim3/vaginal_Endo_vs_CPP_volcano.png){#fig-vol-vag-endo-cpp}
+:::
+
+<!-- TODO: Add volcano plot interpretation here -->
+
+## Discussion
+
+
+
+
+
+## References
