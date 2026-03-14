@@ -124,6 +124,8 @@ vaginal_KO_PCA <- ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_dise
     x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
     y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
   )
+rectal_KO_PCA
+vaginal_KO_PCA
 ggsave("results/aim3/KO_rectal_pcoa_ellipse.png",
        plot = rectal_KO_PCA,
        width = 10, height = 7, units = "in", dpi = 300)
@@ -172,6 +174,15 @@ rectal_Endo_vs_CPP_df$significance <- "Not Significant"
 rectal_Endo_vs_CPP_df$significance[
   rectal_Endo_vs_CPP_df$padj < 0.05
 ] <- "Significant"
+ 
+# write df results as tsv
+# write_tsv(rectal_Endo_vs_CPP_df |> filter(significance == 'Significant'), 
+#           'results/aim3/06-cpp_cpp_endo_significant_KOs.tsv')
+# write_tsv(rectal_Endo_vs_Control_df |> filter(significance == 'Significant'), 
+#           'results/aim3/06-cpp_endo_control_significant_KOs.tsv')
+# write_tsv(rectal_CPP_vs_Control_df |> filter(significance == 'Significant', 
+#           'results/aim3/06-cpp_control_significant_KOs.tsv')
+ 
 
 top_labels <- rectal_CPP_vs_Control_df %>%
   dplyr::filter(!is.na(padj)) %>%
