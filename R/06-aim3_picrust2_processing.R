@@ -14,11 +14,17 @@ library(ggrepel)
 library(pheatmap)
 set.seed(2026)
 
+
+### ADJUST THRESHOLDS
+logFC_threshold = 4
+p_threshold = 0.01
+
 ps <- readRDS("data/phyloseq_filtered.rds")
 
 meta <- sample_data(ps) %>%
   data.frame() %>%
   rownames_to_column("sample_name")
+
 ko <- read.delim("data/picrust_out/KO_metagenome_out/pred_metagenome_unstrat.tsv", row.names = 1)
 
 rownames(ko) <- gsub("ko:", "", rownames(ko))
@@ -32,8 +38,13 @@ rectal_ko <- ko %>%
 vaginal_ko <- ko %>%
   dplyr::select(all_of(vaginal_meta$sample_name))
 
+
+
 rectal_meta$Host_disease  <- factor(rectal_meta$Host_disease)
 vaginal_meta$Host_disease <- factor(vaginal_meta$Host_disease)
+
+rectal_meta$Host_disease <- relevel(factor(rectal_meta$Host_disease), ref = "Control")
+vaginal_meta$Host_disease <- relevel(factor(vaginal_meta$Host_disease), ref = "Control")
 
 rectal_mat  <- as.matrix(rectal_ko)
 storage.mode(rectal_mat) <- "numeric"
@@ -56,7 +67,7 @@ res_rectal_df <- as.data.frame(res_rectal)
 res_rectal_df$KO <- rownames(res_rectal_df)
 res_rectal_df <- res_rectal_df[order(res_rectal_df$padj), ]
 
-sig_rectal <- subset(res_rectal_df, !is.na(padj) & padj < 0.05)
+sig_rectal <- subset(res_rectal_df, !is.na(padj) & padj < p_threshold)
 nrow(sig_rectal)
 head(sig_rectal, 10)
 
@@ -76,7 +87,7 @@ res_vaginal_df$KO <- rownames(res_vaginal_df)
 res_vaginal_df <- res_vaginal_df[order(res_vaginal_df$padj), ]
 
 
-sig_vaginal <- subset(res_vaginal_df, !is.na(padj) & padj < 0.05)
+sig_vaginal <- subset(res_vaginal_df, !is.na(padj) & padj < p_threshold)
 nrow(sig_vaginal)
 head(sig_vaginal, 10)
 
@@ -135,6 +146,7 @@ ggsave("results/aim3/KO_vaginal_pcoa_ellipse.png",
 
 
 ######################################volcano plot#######
+
 #rectal
 res_rectal_CPP_vs_Control <- results(
   dds_rectal,
@@ -162,27 +174,28 @@ rectal_Endo_vs_CPP_df$KO <- rownames(rectal_Endo_vs_CPP_df)
 
 rectal_CPP_vs_Control_df$significance <- "Not Significant"
 rectal_CPP_vs_Control_df$significance[
-  rectal_CPP_vs_Control_df$padj < 0.05
+  rectal_CPP_vs_Control_df$padj < p_threshold & abs(rectal_CPP_vs_Control_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
 
 rectal_Endo_vs_Control_df$significance <- "Not Significant"
 rectal_Endo_vs_Control_df$significance[
-  rectal_Endo_vs_Control_df$padj < 0.05
+  rectal_Endo_vs_Control_df$padj < p_threshold & abs(rectal_Endo_vs_Control_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
 
 rectal_Endo_vs_CPP_df$significance <- "Not Significant"
 rectal_Endo_vs_CPP_df$significance[
-  rectal_Endo_vs_CPP_df$padj < 0.05
+  rectal_Endo_vs_CPP_df$padj < p_threshold & abs(rectal_Endo_vs_CPP_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
  
 # write df results as tsv
-# write_tsv(rectal_Endo_vs_CPP_df |> filter(significance == 'Significant'), 
-#           'results/aim3/06-cpp_cpp_endo_significant_KOs.tsv')
-# write_tsv(rectal_Endo_vs_Control_df |> filter(significance == 'Significant'), 
-#           'results/aim3/06-cpp_endo_control_significant_KOs.tsv')
-# write_tsv(rectal_CPP_vs_Control_df |> filter(significance == 'Significant', 
-#           'results/aim3/06-cpp_control_significant_KOs.tsv')
- 
+write_tsv(rectal_Endo_vs_CPP_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_cpp_endo_significant_KOs_rectal.tsv')
+write_tsv(rectal_Endo_vs_Control_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_endo_control_significant_KOs_rectal.tsv')
+write_tsv(rectal_CPP_vs_Control_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_control_significant_KOs_rectal.tsv')
+
+
 
 top_labels <- rectal_CPP_vs_Control_df %>%
   dplyr::filter(!is.na(padj)) %>%
@@ -199,8 +212,8 @@ volcano_rectal_CPP_vs_Control <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
@@ -226,8 +239,8 @@ volcano_rectal_Endo_vs_Control <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
@@ -253,8 +266,8 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
@@ -335,18 +348,30 @@ vaginal_Endo_vs_CPP_df$KO <- rownames(vaginal_Endo_vs_CPP_df)
 
 vaginal_CPP_vs_Control_df$significance <- "Not Significant"
 vaginal_CPP_vs_Control_df$significance[
-  !is.na(vaginal_CPP_vs_Control_df$padj) & vaginal_CPP_vs_Control_df$padj < 0.05
+  !is.na(vaginal_CPP_vs_Control_df$padj) & vaginal_CPP_vs_Control_df$padj < p_threshold & abs(vaginal_CPP_vs_Control_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
 
 vaginal_Endo_vs_Control_df$significance <- "Not Significant"
 vaginal_Endo_vs_Control_df$significance[
-  !is.na(vaginal_Endo_vs_Control_df$padj) & vaginal_Endo_vs_Control_df$padj < 0.05
+  !is.na(vaginal_Endo_vs_Control_df$padj) & vaginal_Endo_vs_Control_df$padj < p_threshold & abs(vaginal_Endo_vs_Control_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
 
 vaginal_Endo_vs_CPP_df$significance <- "Not Significant"
 vaginal_Endo_vs_CPP_df$significance[
-  !is.na(vaginal_Endo_vs_CPP_df$padj) & vaginal_Endo_vs_CPP_df$padj < 0.05
+  !is.na(vaginal_Endo_vs_CPP_df$padj) & vaginal_Endo_vs_CPP_df$padj < p_threshold& abs(vaginal_Endo_vs_CPP_df$log2FoldChange)> logFC_threshold
 ] <- "Significant"
+
+
+# write df results as tsv
+write_tsv(vaginal_Endo_vs_CPP_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_cpp_endo_significant_KOs_vaginal.tsv')
+
+write_tsv(vaginal_Endo_vs_Control_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_endo_control_significant_KOs_vaginal.tsv')
+
+write_tsv(vaginal_CPP_vs_Control_df |> filter(significance == 'Significant'),
+          'results/aim3/06-cpp_control_significant_KOs_vaginal.tsv')
+
 
 top_labels_vaginal_CPP_vs_Control <- vaginal_CPP_vs_Control_df %>%
   dplyr::filter(!is.na(padj)) %>%
@@ -363,8 +388,8 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
@@ -388,8 +413,8 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
@@ -413,8 +438,8 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
     aes(label = KO),
     size = 3
   ) +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
-  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
+  geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
   theme_minimal() +
   labs(
