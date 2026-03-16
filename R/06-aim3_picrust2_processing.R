@@ -108,7 +108,16 @@ var_explained <- summary(rectal_pca)$importance[2,]
 rectal_KO_PCA <- ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "PCA of KEGG KO Abundance (Rectal)",
     x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
@@ -129,7 +138,16 @@ var_explained <- summary(vaginal_pca)$importance[2,]
 vaginal_KO_PCA <- ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
   geom_point(size = 3) +
   stat_ellipse(level = 0.95) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "PCA of KEGG KO Abundance (Vaginal)",
     x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
@@ -215,7 +233,16 @@ volcano_rectal_CPP_vs_Control <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Rectal KEGG Differential Abundance (CPP vs Control)",
     x = "Log2 Fold Change",
@@ -242,7 +269,16 @@ volcano_rectal_Endo_vs_Control <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Rectal KEGG Differential Abundance (CPP Endo vs Control)",
     x = "Log2 Fold Change",
@@ -269,7 +305,16 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Rectal KEGG Differential Abundance (CPP Endo vs CPP)",
     x = "Log2 Fold Change",
@@ -391,7 +436,16 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Vaginal KEGG Differential Abundance (CPP vs Control)",
     x = "Log2 Fold Change",
@@ -416,7 +470,16 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Vaginal KEGG Differential Abundance (CPP Endo vs Control)",
     x = "Log2 Fold Change",
@@ -441,7 +504,16 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
-  theme_minimal() +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   labs(
     title = "Vaginal KEGG Differential Abundance (CPP Endo vs CPP)",
     x = "Log2 Fold Change",
