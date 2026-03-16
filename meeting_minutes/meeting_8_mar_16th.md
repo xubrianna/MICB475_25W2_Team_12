@@ -10,6 +10,7 @@
 ## Aim 2 - Phylum Composition
 ### Added new phylum-level taxonomy composition barplots (used to be genera)
 ![Phylum Barplot](../results/aim2/03-tax_composition/03_taxa_phylum_barplot.png)
+- Would like to clarify the next steps. Recall something along the lines of going into family after phylum (choosing some)?
 
 ## Aim 2 - DESeq2 Phylum
 
