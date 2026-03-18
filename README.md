@@ -70,7 +70,7 @@ Using **microbiome analysis and functional prediction workflows in R**, we aim t
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | January | NA | NA | NA | NA | [Jan 26](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_1_jan_26th.md) |
 | February | [Feb 2](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_2_feb_2nd.md) | [Feb 9](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_3_feb_9th.md) | [Feb 17](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_4_feb_17th.md) | [Feb 21](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_5_feb_21st.md) | NA |
-| March | [Mar 2](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_6_mar_2nd.md) | [Mar 9](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_7_mar_9th.md) | NA | NA | NA |
+| March | [Mar 2](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_6_mar_2nd.md) | [Mar 9](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_7_mar_9th.md) | [Mar 16](https://github.com/xubrianna/MICB475_25W2_Team_12/blob/main/meeting_minutes/meeting_8_mar_16th.md) | NA | NA |
 
 ---
 
