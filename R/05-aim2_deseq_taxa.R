@@ -253,6 +253,10 @@ sigASVs_vec_vag <- sigASVs_vag %>%
   pull(ASV)
 
 
+write_tsv(sigASVs_rect, "results/aim2/05-deseq2/05-sig_rect_results.tsv")
+write_tsv(sigASVs_vag, "results/aim2/05-deseq2/05-sig_vag_results.tsv")
+
+
 ### PRUNE PHYLOSEQ FILE
 # RECTAL
 DESeq_pruned_rect <- prune_taxa(sigASVs_vec_rect, phylo_rectal)
