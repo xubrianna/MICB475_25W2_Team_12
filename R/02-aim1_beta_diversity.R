@@ -40,7 +40,7 @@ group_cols <- c(
 gg_uni <- plot_ordination(ps_rarefied, pcoa_uni, type="samples",
                           color="Host_disease") +
   geom_point(size=3.5, alpha=0.9) +
-  theme_bw() +
+  theme_classic() +
   facet_wrap(~ env_medium) +
   scale_color_manual(values = group_cols) +
   labs(color="Host Disease", shape="Site")
@@ -92,7 +92,7 @@ gg_uni_ellipse <- (
   + geom_point(aes(shape = env_medium), size = 3.5, alpha = 0.9)
   + stat_ellipse(aes(group = interaction(Host_disease, env_medium), color = Host_disease),
                  level = 0.95, linewidth = 1)
-  + theme_bw()
+  + theme_classic()
   + scale_color_manual(values = group_cols)
   + scale_shape_manual(values = c(16, 17)) 
   + labs(

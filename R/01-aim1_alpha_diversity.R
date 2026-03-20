@@ -56,14 +56,17 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_boxplot(lwd = 0.8) +
   geom_point(size = 3, alpha = 0.9, color = "black") +
   facet_wrap(~env_medium) +
-  theme_bw() +
+  theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
   xlab("Host Disease") +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
+    plot.title = element_text(size = 25),
     axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14)
+    axis.title = element_text(size = 14),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
   ) +
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 
@@ -75,14 +78,17 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_violin(trim = FALSE, alpha = 0.8) +
   geom_point(size = 3, alpha = 0.9, color = "black") +
   facet_wrap(~env_medium) +
-  theme_bw() +
+  theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
   xlab("Host Disease") +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
+    plot.title = element_text(size = 25),
     axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14)
+    axis.title = element_text(size = 14),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
   ) +
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 

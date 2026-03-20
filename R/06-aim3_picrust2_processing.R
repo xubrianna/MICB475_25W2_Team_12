@@ -12,6 +12,7 @@ library(DESeq2)
 library(ggplot2)
 library(ggrepel)
 library(pheatmap)
+library(patchwork)
 set.seed(2026)
 
 
@@ -244,7 +245,7 @@ volcano_rectal_CPP_vs_Control <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Rectal KEGG Differential Abundance (CPP vs Control)",
+    title = "Rectal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
@@ -280,7 +281,7 @@ volcano_rectal_Endo_vs_Control <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Rectal KEGG Differential Abundance (CPP Endo vs Control)",
+    title = "Rectal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
@@ -316,30 +317,12 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Rectal KEGG Differential Abundance (CPP Endo vs CPP)",
+    title = "Rectal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
 
 volcano_rectal_Endo_vs_CPP
-
-ggsave(
-  "results/aim3/rectal_CPP_vs_Control_volcano.png",
-  plot = volcano_rectal_CPP_vs_Control,
-  width = 10, height = 7, units = "in", dpi = 300
-)
-
-ggsave(
-  "results/aim3/rectal_Endo_vs_Control_volcano.png",
-  plot = volcano_rectal_Endo_vs_Control,
-  width = 10, height = 7, units = "in", dpi = 300
-)
-
-ggsave(
-  "results/aim3/rectal_Endo_vs_CPP_volcano.png",
-  plot = volcano_rectal_Endo_vs_CPP,
-  width = 10, height = 7, units = "in", dpi = 300
-)
 
 #vaginal
 
@@ -447,7 +430,7 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Vaginal KEGG Differential Abundance (CPP vs Control)",
+    title = "Vaginal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
@@ -481,7 +464,7 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Vaginal KEGG Differential Abundance (CPP Endo vs Control)",
+    title = "Vaginal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
@@ -515,29 +498,42 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "Vaginal KEGG Differential Abundance (CPP Endo vs CPP)",
+    title = "Vaginal",
     x = "Log2 Fold Change",
     y = "-log10 Adjusted p-value"
   )
 
-volcano_vaginal_CPP_vs_Control
-volcano_vaginal_Endo_vs_Control
-volcano_vaginal_Endo_vs_CPP
+# Combine rectal + vaginal panels per contrast
+panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control +
+  plot_annotation(title = "KO Differential Abundance (CPP vs Control)") &
+  theme(plot.title = element_text(size = 25))
+
+panel_Endo_vs_Control <- volcano_rectal_Endo_vs_Control + volcano_vaginal_Endo_vs_Control +
+  plot_annotation(title = "KO Differential Abundance (CPP Endo vs Control)") &
+  theme(plot.title = element_text(size = 25))
+
+panel_Endo_vs_CPP <- volcano_rectal_Endo_vs_CPP + volcano_vaginal_Endo_vs_CPP +
+  plot_annotation(title = "KO Differential Abundance (CPP Endo vs CPP)") &
+  theme(plot.title = element_text(size = 25))
+
+panel_CPP_vs_Control
+panel_Endo_vs_Control
+panel_Endo_vs_CPP
 
 ggsave(
-  "results/aim3/vaginal_CPP_vs_Control_volcano.png",
-  plot = volcano_vaginal_CPP_vs_Control,
-  width = 10, height = 7, units = "in", dpi = 300
+  "results/aim3/CPP_vs_Control_volcano.png",
+  plot = panel_CPP_vs_Control,
+  width = 16, height = 7, units = "in", dpi = 300
 )
 
 ggsave(
-  "results/aim3/vaginal_Endo_vs_Control_volcano.png",
-  plot = volcano_vaginal_Endo_vs_Control,
-  width = 10, height = 7, units = "in", dpi = 300
+  "results/aim3/Endo_vs_Control_volcano.png",
+  plot = panel_Endo_vs_Control,
+  width = 16, height = 7, units = "in", dpi = 300
 )
 
 ggsave(
-  "results/aim3/vaginal_Endo_vs_CPP_volcano.png",
-  plot = volcano_vaginal_Endo_vs_CPP,
-  width = 10, height = 7, units = "in", dpi = 300
+  "results/aim3/Endo_vs_CPP_volcano.png",
+  plot = panel_Endo_vs_CPP,
+  width = 16, height = 7, units = "in", dpi = 300
 )
