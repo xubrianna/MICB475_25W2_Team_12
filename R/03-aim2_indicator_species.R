@@ -44,9 +44,17 @@ indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat)
   geom_col() +
   coord_flip() +
   labs(x = "Genus", y = "Indicator Value", title = "Significant Indicator Species") +
-  theme_classic()
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.position = "none",
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  )
 
-ggsave("results/aim2/06-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 7, height = 7)
+ggsave("results/aim2/06-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
 
 #### Indicator Species/Taxa Analysis for Rectal ####
 
@@ -58,7 +66,7 @@ CPP_genus_rectal_RA <- transform_sample_counts(CPP_genus_rectal, fun=function(x)
 
 #ISA using host disease as the predictor 
 isa_CPP_rectal <- multipatt(t(otu_table(CPP_genus_rectal_RA)), cluster = sample_data(CPP_genus_rectal_RA)$`Host_disease`)
-summary(isa_CPP)
+summary(isa_CPP_rectal)
 
 #Extract taxa table from phloseq as a data frame, have the ASV as the row name 
 taxtable_rectal <- tax_table(phyloseq) %>% as.data.frame() %>% rownames_to_column(var="ASV")
@@ -79,11 +87,16 @@ indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), 
   geom_col() +
   coord_flip() +
   labs(x = "Genus", y = "Indicator Value", title = "Significant Indicator Species") +
-  theme_classic()
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.position = "none",
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  )
 
 indicator_plot_rectal
 
-ggsave("results/aim2/06-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 7, height = 7)
-
-
-
+ggsave("results/aim2/06-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
