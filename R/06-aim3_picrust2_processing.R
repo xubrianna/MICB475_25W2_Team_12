@@ -504,17 +504,13 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   )
 
 # Combine rectal + vaginal panels per contrast
-panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control +
-  plot_annotation(title = "KO Differential Abundance (CPP vs Control)") &
-  theme(plot.title = element_text(size = 25))
+panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control 
 
-panel_Endo_vs_Control <- volcano_rectal_Endo_vs_Control + volcano_vaginal_Endo_vs_Control +
-  plot_annotation(title = "KO Differential Abundance (CPP Endo vs Control)") &
-  theme(plot.title = element_text(size = 25))
+panel_Endo_vs_Control <- volcano_rectal_Endo_vs_Control + volcano_vaginal_Endo_vs_Control 
+#  plot_annotation(title = "KO Differential Abundance (CPP Endo vs Control)") &
+#  theme(plot.title = element_text(size = 25))
 
-panel_Endo_vs_CPP <- volcano_rectal_Endo_vs_CPP + volcano_vaginal_Endo_vs_CPP +
-  plot_annotation(title = "KO Differential Abundance (CPP Endo vs CPP)") &
-  theme(plot.title = element_text(size = 25))
+panel_Endo_vs_CPP <- volcano_rectal_Endo_vs_CPP + volcano_vaginal_Endo_vs_CPP 
 
 panel_CPP_vs_Control
 panel_Endo_vs_Control
