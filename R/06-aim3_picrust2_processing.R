@@ -427,7 +427,8 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
     legend.title = element_text(size = 13),
     legend.text = element_text(size = 11),
     strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   labs(
     title = "Vaginal",
@@ -461,7 +462,8 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
     legend.title = element_text(size = 13),
     legend.text = element_text(size = 11),
     strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   labs(
     title = "Vaginal",
@@ -495,7 +497,8 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
     legend.title = element_text(size = 13),
     legend.text = element_text(size = 11),
     strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   labs(
     title = "Vaginal",
