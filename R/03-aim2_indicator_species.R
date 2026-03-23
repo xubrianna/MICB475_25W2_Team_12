@@ -26,33 +26,48 @@ isa_CPP_vaginal <- multipatt(t(otu_table(CPP_genus_vaginal_RA)), cluster = sampl
 summary(isa_CPP_vaginal)
 
 #Extract taxa table from phloseq as a data frame, have the ASV as the row name 
-taxtable_vaginal <- tax_table(phyloseq) %>% as.data.frame() %>% rownames_to_column(var="ASV")
+taxtable_vaginal <- tax_table(phyloseq) %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var="ASV")%>% 
+  mutate(
+    Genus = Genus %>%
+      str_replace_all("g__", "")   # remove g prefix
+  )
 
 #Join with taxatable based on ASV ID 
 #Filter for anything with p value less than 0.05 and view
-
 CPP_table_vaginal <- isa_CPP_vaginal$sign %>%
   rownames_to_column(var="ASV") %>%
+  mutate(
+    Host_disease = case_when(
+      s.Control == 1 ~ "Control",
+      s.CPP == 1 ~ "CPP",
+      `s.CPP Endo` == 1 ~ "CPP Endo",
+      TRUE ~ "Mixed"
+    )
+  ) %>%
   left_join(taxtable_vaginal) %>%
   filter(p.value<0.05) 
 
-view(CPP_table_vaginal)
+View(CPP_table_vaginal)
 
 #Make a plot
 
-indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat), y = stat, fill = Genus)) +
+indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat), y = stat, fill = Host_disease)) +
   geom_col() +
   coord_flip() +
-  labs(x = "Genus", y = "Indicator Value", title = "Significant Indicator Species") +
+  labs(x = "Genus", y = "Indicator Value", title = "Vaginal", fill = "Associated Condition") +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
+    plot.title = element_text(size = 18),
+    axis.text = element_text(size = 14),
     axis.title = element_text(size = 14),
-    legend.position = "none",
-    strip.text = element_text(size = 14),
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 14),
     plot.margin = margin(15, 15, 15, 15)
   )
+
+indicator_plot_vaginal
 
 ggsave("results/aim2/06-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
 
@@ -69,34 +84,55 @@ isa_CPP_rectal <- multipatt(t(otu_table(CPP_genus_rectal_RA)), cluster = sample_
 summary(isa_CPP_rectal)
 
 #Extract taxa table from phloseq as a data frame, have the ASV as the row name 
-taxtable_rectal <- tax_table(phyloseq) %>% as.data.frame() %>% rownames_to_column(var="ASV")
+taxtable_rectal <- tax_table(phyloseq) %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var="ASV")  %>% 
+  mutate(
+    Genus = Genus %>%
+      str_replace_all("g__", "")   # remove g prefix
+  )
 
 #Join with taxatable based on ASV ID 
 #Filter for anything with p value less than 0.05 and view
 
 CPP_table_rectal <- isa_CPP_rectal$sign %>%
-  rownames_to_column(var="ASV") %>%
-  left_join(taxtable_rectal) %>%
-  filter(p.value<0.05) 
+  as.data.frame() %>%
+  rownames_to_column(var = "ASV") %>%
+  mutate(
+    Host_disease = apply(
+      select(., s.Control, s.CPP, `s.CPP Endo`),
+      1,
+      function(x) paste(names(x)[x == 1], collapse = " + ")
+    )
+  ) %>%
+  mutate(
+    `Associated Conditions` = Host_disease %>%
+      str_replace_all("s.", "")   # remove s. prefix
+  ) %>% 
+  left_join(taxtable_rectal, by = "ASV") %>%
+  filter(p.value < 0.05)
+
 
 view(CPP_table_rectal)
 
 #Make a plot
 
-indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), y = stat, fill = Genus)) +
+indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), y = stat, fill = `Associated Conditions`)) +
   geom_col() +
   coord_flip() +
-  labs(x = "Genus", y = "Indicator Value", title = "Significant Indicator Species") +
+  labs(x = "Genus", y = "Indicator Value", title = "Rectal") +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
+    plot.title = element_text(size = 18),
+    axis.text = element_text(size = 14),
     axis.title = element_text(size = 14),
-    legend.position = "none",
     strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    plot.margin = margin(15, 15, 15, 15),
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 14)
   )
 
 indicator_plot_rectal
 
 ggsave("results/aim2/06-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
+
