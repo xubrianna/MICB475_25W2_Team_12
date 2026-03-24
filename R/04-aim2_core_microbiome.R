@@ -46,10 +46,10 @@ ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png", ven
 #get the taxonomic information for CPP_endo disease group and find the ASVs that are unique to the core of CPP-endo 
 tax_mat_rectal <- tax_table(CPP_endo_rectal)
 
-core_taxonomy_rectal <- as.data.frame(tax_mat[CPP_endo_ASVs_rectal_0.001, ])
-print(head(core_taxonomy))
+core_taxonomy_rectal <- as.data.frame(tax_mat_rectal[CPP_endo_ASVs_rectal_0.001, ])
+print(head(core_taxonomy_rectal)
 
-unique_to_CPP_endo_rectal <- setdiff(CPP_endo_ASVs_rectal_0.001, union(CPP_only_ASVs_rectal_0.001, CPP_healthy_ASVs_rectal_0.001))
+unique_to_CPP_endo_rectal<- setdiff(CPP_endo_ASVs_rectal_0.001, union(CPP_only_ASVs_rectal_0.001, CPP_healthy_ASVs_rectal_0.001))
 print(unique_to_CPP_endo_rectal)
 
 #prune 
@@ -256,3 +256,61 @@ venn_all_diseases_vaginal_prevalence_0.2 <- ggVennDiagram(x = CPP_list_vaginal_p
 venn_all_diseases_vaginal_prevalence_0.2
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_prevalence_0.2.png", venn_all_diseases_vaginal_prevalence_0.2, width = 7, height = 7)
 
+
+#### March 24 finding percentage of samples with campylobacter total 
+otu_table(phyloseq)
+ASV_table <- as.data.frame(as.matrix(otu_table(phyloseq)))
+ASV_table_flipped <- as.data.frame(t(ASV_table))
+campylobacter <- "8365c56e7d1f57079c8821b426206d94"
+samples_with_campylobacter <- sum(ASV_table_flipped[, campylobacter] > 0)
+total_samples <- nrow(ASV_table_flipped)
+percentage <- (samples_with_campylobacter / total_samples) * 100
+print(percentage)
+
+#now trying to stratify using subsetted phyloseqs 
+
+CPP_only_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP")
+CPP_endo_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP Endo")
+CPP_healthy_campylobacter <-subset_samples(phyloseq, `Host_disease`=="Control")
+
+#### RECTAL COREMICROBIOME #### 
+#filter by rectal samples 
+CPP_only_rectal_campylobacter <- subset_samples(CPP_only_campylobacter,`collection_method` == "rectal_swab")
+CPP_endo_rectal_campylobacter <- subset_samples(CPP_endo_campylobacter,`collection_method` == "rectal_swab")
+CPP_healthy_rectal_campylobacter <-subset_samples(CPP_healthy_campylobacter, `collection_method` == "rectal_swab")
+
+otu_table(CPP_only_rectal_campylobacter)
+ASV_table_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_only_rectal_campylobacter)))
+ASV_table_flipped_campylobacter <- as.data.frame(t(ASV_table_campylobacter))
+campylobacter <- "8365c56e7d1f57079c8821b426206d94"
+samples_with_campylobacter_2 <- sum(ASV_table_flipped_campylobacter[, campylobacter] > 0)
+total_samples_2 <- nrow(ASV_table_flipped_campylobacter)
+percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
+print(percentage)
+
+otu_table(CPP_endo_rectal_campylobacter)
+ASV_table_CPP_endo_rectal_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_endo_rectal_campylobacter)))
+ASV_table_flipped_CPP_endo_rectal_campylobacter <- as.data.frame(t(ASV_table_CPP_endo_rectal_campylobacter))
+campylobacter <- "8365c56e7d1f57079c8821b426206d94"
+samples_with_campylobacter_2 <- sum(ASV_table_flipped_CPP_endo_rectal_campylobacter[, campylobacter] > 0)
+total_samples_2 <- nrow(ASV_table_flipped_CPP_endo_rectal_campylobacter)
+percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
+print(percentage)
+
+
+otu_table(CPP_healthy_rectal_campylobacter)
+ASV_table_CPP_healthy_rectal_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_healthy_rectal_campylobacter)))
+ASV_table_flipped_CPP_healthy_rectal_campylobacter  <- as.data.frame(t(ASV_table_CPP_healthy_rectal_campylobacter))
+campylobacter <- "8365c56e7d1f57079c8821b426206d94"
+samples_with_campylobacter_2 <- sum(ASV_table_flipped_CPP_healthy_rectal_campylobacter [, campylobacter] > 0)
+total_samples_2 <- nrow(ASV_table_CPP_healthy_rectal_campylobacter )
+percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
+print(percentage)
+
+#make vector 
+percentages_camp <- c(50, 76.31, 0.429)
+host_disease <- c("CPP Only", "CPP Endo", "Healthy")
+dataframe <- data.frame(Percent_Campylobacter = percentages_camp, Disease_group = host_disease)
+
+library(ggplot2)
+plot <- ggplot(data = dataframe, aes(x = Disease_group, y = Percent_Campylobacter))+ geom_bar(stat = "identity")
