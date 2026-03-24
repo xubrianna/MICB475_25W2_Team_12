@@ -24,7 +24,7 @@ execute:
 
 This report contains the methods and results generated throughout the making of this project. Our research question is:
 
-*How does microbial taxonomic and functional diversity change among CPP patients with and without endometriosis?*
+*How does microbial taxonomic and functional diversity differ between CPP patients with and without endometriosis?*
 
 Our aims are:
 
@@ -67,7 +67,7 @@ Taxonomic composition was explored by transforming filtered counts to relative a
 
 #### Core microbiome analysis
 
-Core microbiome analysis was conducted using the `microbiome` package. Samples were stratified by disease group and body site. Core ASVs were identified at a prevalence threshold of 50% across several detection thresholds (0, 0.001, 0.01). Venn diagrams (`ggVennDiagram`) were used to visualize shared and unique core ASVs among Healthy, CPP, and CPP Endo groups for both rectal and vaginal samples.
+Core microbiome analysis was conducted using the `microbiome` package. Samples were stratified by body site (vaginal and rectal) and by disease state (CPP, CPP Endo, Healthy). Core ASVs were identified at a prevalence threshold of 50% across several detection thresholds (0, 0.001, 0.01). Venn diagrams (`ggVennDiagram`) were used to visualize shared and unique core ASVs among Healthy, CPP, and CPP Endo groups for both rectal and vaginal samples.
 
 #### Differential abundance analysis (DESeq2)
 
@@ -78,6 +78,10 @@ Differential abundance analysis was performed using DESeq2. The filtered (non-ra
 3. CPP Endo vs. CPP
 
 Volcano plots were generated for each contrast with significance thresholds of adjusted p-value < 0.05 and |log2 fold change| > 2. Significantly differentially abundant ASVs from the CPP Endo vs. CPP contrast were extracted, annotated with taxonomy, and visualized as bar plots showing log2 fold change by phylum.
+
+#### Indicator Species Analysis (ISA)
+
+Indicator species analysis was performed using ISA and the (indicspecies) package. The fitered (non-rarified) phyloseq object was filtered to the genus level and then filtered by body site (rectal and vaginal swabs). The ASVs were then converted to relative abundance and host disease (CPP, CPP Endo, Healthy) was used as the predictor. The indicator species were filtered for p less than 0.05 and plotted as a bar graph. 
 
 ### Aim 3: PICRUSt2 functional profiling
 
@@ -117,6 +121,8 @@ PICRUSt2 was run to predict metagenome functional content (KEGG Orthologs) from 
 
 <!-- TODO: Add core microbiome  -->
 
+
+
 #### DESeq2 differential abundance
 
 DESeq2 was used to identify differentially abundant ASVs between disease groups for each body site. Three contrasts were tested: CPP vs. Control, CPP Endo vs. Control, and CPP Endo vs. CPP. Significance was defined as adjusted p-value < 0.05 and |log2 fold change| > 1.
@@ -144,6 +150,14 @@ The significantly differentially abundant ASVs from the CPP Endo vs. CPP contras
 DESeq2 analysis of the CPP Endo vs. CPP contrast revealed substantially more differentially abundant ASVs in rectal samples compared to vaginal samples, suggesting that the rectal microbiome may be more broadly impacted by endometriosis-associated dysbiosis????
 
 In vaginal samples, there was a strong enrichment of multiple *Fannyhessea* ASVs 
+
+##### Indicator Species 
+
+![Indicator Species Plot.](../results/aim2/06-indicator_species/indicator_plot_rectal.png)
+
+
+![Indicator Species Plot.](../results/aim2/06-indicator_species/indicator_plot_vaginal.png)
+
 
 ### Aim 3: Predicted functional profiling (PICRUSt2)
 
@@ -183,8 +197,9 @@ In vaginal samples, there was a strong enrichment of multiple *Fannyhessea* ASVs
 
 ## Discussion
 
+## Core microbiome analysis
 
-
+The results showed that 
 
 
 ## References
