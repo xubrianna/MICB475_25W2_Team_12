@@ -257,7 +257,8 @@ venn_all_diseases_vaginal_prevalence_0.2
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_prevalence_0.2.png", venn_all_diseases_vaginal_prevalence_0.2, width = 7, height = 7)
 
 
-#### March 24 finding percentage of samples with campylobacter total 
+
+#### March 24 finding percentage of samples with campylobacter total #### 
 otu_table(phyloseq)
 ASV_table <- as.data.frame(as.matrix(otu_table(phyloseq)))
 ASV_table_flipped <- as.data.frame(t(ASV_table))
@@ -273,7 +274,6 @@ CPP_only_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP")
 CPP_endo_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP Endo")
 CPP_healthy_campylobacter <-subset_samples(phyloseq, `Host_disease`=="Control")
 
-#### RECTAL COREMICROBIOME #### 
 #filter by rectal samples 
 CPP_only_rectal_campylobacter <- subset_samples(CPP_only_campylobacter,`collection_method` == "rectal_swab")
 CPP_endo_rectal_campylobacter <- subset_samples(CPP_endo_campylobacter,`collection_method` == "rectal_swab")
@@ -313,4 +313,8 @@ host_disease <- c("CPP Only", "CPP Endo", "Healthy")
 dataframe <- data.frame(Percent_Campylobacter = percentages_camp, Disease_group = host_disease)
 
 library(ggplot2)
-plot <- ggplot(data = dataframe, aes(x = Disease_group, y = Percent_Campylobacter))+ geom_bar(stat = "identity")
+plot_campylobacter <- ggplot(data = dataframe, aes(x = Disease_group, y = Percent_Campylobacter, fill = Disease_group))+ geom_bar(stat = "identity") + geom_col() + scale_fill_manual(values = c("CPP Endo" = "#225ea8", "CPP Only" = "#41b6c4", "Healthy" = "#c7e9b4")) +theme_classic() +
+  xlab("Host Disease") +
+  ylab ("Campylobacter Prevalence")+ 
+  theme(legend.position = "none")
+ggsave("results/aim2/04-core_microbiome/plot_campylobacter.png", plot_campylobacter , width = 7, height = 7)
