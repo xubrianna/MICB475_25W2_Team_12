@@ -193,19 +193,25 @@ rectal_Endo_vs_CPP_df$KO <- rownames(rectal_Endo_vs_CPP_df)
 
 rectal_CPP_vs_Control_df$significance <- "Not Significant"
 rectal_CPP_vs_Control_df$significance[
-  rectal_CPP_vs_Control_df$padj < p_threshold & abs(rectal_CPP_vs_Control_df$log2FoldChange)> logFC_threshold
+  !is.na(rectal_CPP_vs_Control_df$padj) &
+    rectal_CPP_vs_Control_df$padj < p_threshold &
+    abs(rectal_CPP_vs_Control_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
 
 rectal_Endo_vs_Control_df$significance <- "Not Significant"
 rectal_Endo_vs_Control_df$significance[
-  rectal_Endo_vs_Control_df$padj < p_threshold & abs(rectal_Endo_vs_Control_df$log2FoldChange)> logFC_threshold
+  !is.na(rectal_Endo_vs_Control_df$padj) &
+    rectal_Endo_vs_Control_df$padj < p_threshold &
+    abs(rectal_Endo_vs_Control_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
 
 rectal_Endo_vs_CPP_df$significance <- "Not Significant"
 rectal_Endo_vs_CPP_df$significance[
-  rectal_Endo_vs_CPP_df$padj < p_threshold & abs(rectal_Endo_vs_CPP_df$log2FoldChange)> logFC_threshold
+  !is.na(rectal_Endo_vs_CPP_df$padj) &
+    rectal_Endo_vs_CPP_df$padj < p_threshold &
+    abs(rectal_Endo_vs_CPP_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
- 
+
 # write df results as tsv
 write_tsv(rectal_Endo_vs_CPP_df |> filter(significance == 'Significant'),
           'results/aim3/06-cpp_cpp_endo_significant_KOs_rectal.tsv')
@@ -288,24 +294,74 @@ volcano_rectal_Endo_vs_Control <- ggplot(
 
 volcano_rectal_Endo_vs_Control
 
-top_labels_Endo_vs_CPP <- rectal_Endo_vs_CPP_df %>%
-  dplyr::filter(!is.na(padj)) %>%
+rectal_sig_CPP_vs_Control <- rectal_CPP_vs_Control_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+rectal_sig_Endo_vs_Control <- rectal_Endo_vs_Control_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+rectal_sig_Endo_vs_CPP <- rectal_Endo_vs_CPP_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+rectal_unique_Endo_vs_CPP <- setdiff(
+  rectal_sig_Endo_vs_CPP,
+  union(rectal_sig_CPP_vs_Control, rectal_sig_Endo_vs_Control)
+)
+
+rectal_Endo_vs_CPP_df$plot_group <- "Not Significant"
+
+rectal_Endo_vs_CPP_df$plot_group[
+  rectal_Endo_vs_CPP_df$significance == "Significant"
+] <- "Significant (Overlapping)"
+
+rectal_Endo_vs_CPP_df$plot_group[
+  rectal_Endo_vs_CPP_df$KO %in% rectal_unique_Endo_vs_CPP
+] <- "Unique to Endo vs CPP"
+
+
+# label top 10 UNIQUE ones in dark blue
+top_unique_labels_Endo_vs_CPP <- rectal_Endo_vs_CPP_df %>%
+  dplyr::filter(KO %in% rectal_unique_Endo_vs_CPP, !is.na(padj)) %>%
+  dplyr::arrange(padj) %>%
+  head(10)
+
+# label top 10 overlapping significant ones in red
+top_overlap_labels_Endo_vs_CPP <- rectal_Endo_vs_CPP_df %>%
+  dplyr::filter(
+    significance == "Significant",
+    !(KO %in% rectal_unique_Endo_vs_CPP),
+    !is.na(padj)
+  ) %>%
   dplyr::arrange(padj) %>%
   head(10)
 
 volcano_rectal_Endo_vs_CPP <- ggplot(
   rectal_Endo_vs_CPP_df,
-  aes(x = log2FoldChange, y = -log10(padj), color = significance)
+  aes(x = log2FoldChange, y = -log10(padj), color = plot_group)
 ) +
   geom_point(alpha = 0.7) +
   geom_text_repel(
-    data = top_labels_Endo_vs_CPP,
+    data = top_unique_labels_Endo_vs_CPP,
     aes(label = KO),
+    color = "darkblue",
+    size = 3
+  ) +
+  geom_text_repel(
+    data = top_overlap_labels_Endo_vs_CPP,
+    aes(label = KO),
+    color = "red",
     size = 3
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
-  scale_color_manual(values = c("grey70", "red")) +
+  scale_color_manual(values = c(
+    "Not Significant" = "grey70",
+    "Significant (Overlapping)" = "red",
+    "Unique to Endo vs CPP" = "blue"
+  )) +
   theme_classic() +
   theme(
     plot.title = element_text(size = 25),
@@ -319,7 +375,8 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
   labs(
     title = "Rectal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-log10 Adjusted p-value",
+    color = NULL
   )
 
 volcano_rectal_Endo_vs_CPP
@@ -376,19 +433,24 @@ vaginal_Endo_vs_CPP_df$KO <- rownames(vaginal_Endo_vs_CPP_df)
 
 vaginal_CPP_vs_Control_df$significance <- "Not Significant"
 vaginal_CPP_vs_Control_df$significance[
-  !is.na(vaginal_CPP_vs_Control_df$padj) & vaginal_CPP_vs_Control_df$padj < p_threshold & abs(vaginal_CPP_vs_Control_df$log2FoldChange)> logFC_threshold
+  !is.na(vaginal_CPP_vs_Control_df$padj) &
+    vaginal_CPP_vs_Control_df$padj < p_threshold &
+    abs(vaginal_CPP_vs_Control_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
 
 vaginal_Endo_vs_Control_df$significance <- "Not Significant"
 vaginal_Endo_vs_Control_df$significance[
-  !is.na(vaginal_Endo_vs_Control_df$padj) & vaginal_Endo_vs_Control_df$padj < p_threshold & abs(vaginal_Endo_vs_Control_df$log2FoldChange)> logFC_threshold
+  !is.na(vaginal_Endo_vs_Control_df$padj) &
+    vaginal_Endo_vs_Control_df$padj < p_threshold &
+    abs(vaginal_Endo_vs_Control_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
 
 vaginal_Endo_vs_CPP_df$significance <- "Not Significant"
 vaginal_Endo_vs_CPP_df$significance[
-  !is.na(vaginal_Endo_vs_CPP_df$padj) & vaginal_Endo_vs_CPP_df$padj < p_threshold& abs(vaginal_Endo_vs_CPP_df$log2FoldChange)> logFC_threshold
+  !is.na(vaginal_Endo_vs_CPP_df$padj) &
+    vaginal_Endo_vs_CPP_df$padj < p_threshold &
+    abs(vaginal_Endo_vs_CPP_df$log2FoldChange) > logFC_threshold
 ] <- "Significant"
-
 
 # write df results as tsv
 write_tsv(vaginal_Endo_vs_CPP_df |> filter(significance == 'Significant'),
@@ -471,24 +533,75 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
     y = "-log10 Adjusted p-value"
   )
 
-top_labels_vaginal_Endo_vs_CPP <- vaginal_Endo_vs_CPP_df %>%
-  dplyr::filter(!is.na(padj)) %>%
+vaginal_sig_CPP_vs_Control <- vaginal_CPP_vs_Control_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+vaginal_sig_Endo_vs_Control <- vaginal_Endo_vs_Control_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+vaginal_sig_Endo_vs_CPP <- vaginal_Endo_vs_CPP_df %>%
+  dplyr::filter(significance == "Significant") %>%
+  dplyr::pull(KO)
+
+vaginal_unique_Endo_vs_CPP <- setdiff(
+  vaginal_sig_Endo_vs_CPP,
+  union(vaginal_sig_CPP_vs_Control, vaginal_sig_Endo_vs_Control)
+)
+
+vaginal_Endo_vs_CPP_df$plot_group <- "Not Significant"
+
+vaginal_Endo_vs_CPP_df$plot_group[
+  vaginal_Endo_vs_CPP_df$significance == "Significant"
+] <- "Significant (Overlapping)"
+
+vaginal_Endo_vs_CPP_df$plot_group[
+  vaginal_Endo_vs_CPP_df$KO %in% vaginal_unique_Endo_vs_CPP
+] <- "Unique to Endo vs CPP"
+
+
+# label all UNIQUE ones in dark blue
+top_unique_labels_vaginal_Endo_vs_CPP <- vaginal_Endo_vs_CPP_df %>%
+  dplyr::filter(
+    KO %in% vaginal_unique_Endo_vs_CPP,
+    !is.na(padj)
+  )
+
+# label top 10 overlapping significant ones in red
+top_overlap_labels_vaginal_Endo_vs_CPP <- vaginal_Endo_vs_CPP_df %>%
+  dplyr::filter(
+    significance == "Significant",
+    !(KO %in% vaginal_unique_Endo_vs_CPP),
+    !is.na(padj)
+  ) %>%
   dplyr::arrange(padj) %>%
   head(10)
 
 volcano_vaginal_Endo_vs_CPP <- ggplot(
   vaginal_Endo_vs_CPP_df,
-  aes(x = log2FoldChange, y = -log10(padj), color = significance)
+  aes(x = log2FoldChange, y = -log10(padj), color = plot_group)
 ) +
   geom_point(alpha = 0.7) +
   geom_text_repel(
-    data = top_labels_vaginal_Endo_vs_CPP,
+    data = top_unique_labels_vaginal_Endo_vs_CPP,
     aes(label = KO),
+    color = "darkblue",
+    size = 3
+  ) +
+  geom_text_repel(
+    data = top_overlap_labels_vaginal_Endo_vs_CPP,
+    aes(label = KO),
+    color = "red",
     size = 3
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
-  scale_color_manual(values = c("grey70", "red")) +
+  scale_color_manual(values = c(
+    "Not Significant" = "grey70",
+    "Significant (Overlapping)" = "red",
+    "Unique to Endo vs CPP" = "blue"
+  )) +
   theme_classic() +
   theme(
     plot.title = element_text(size = 25),
@@ -503,9 +616,11 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   labs(
     title = "Vaginal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-log10 Adjusted p-value",
+    color = NULL
   )
 
+volcano_vaginal_Endo_vs_CPP
 # Combine rectal + vaginal panels per contrast
 panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control 
 
@@ -536,3 +651,4 @@ ggsave(
   plot = panel_Endo_vs_CPP,
   width = 16, height = 7, units = "in", dpi = 300
 )
+
