@@ -349,12 +349,6 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
     color = "darkblue",
     size = 3
   ) +
-  geom_text_repel(
-    data = top_overlap_labels_Endo_vs_CPP,
-    aes(label = KO),
-    color = "red",
-    size = 3
-  ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c(
@@ -588,12 +582,6 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
     data = top_unique_labels_vaginal_Endo_vs_CPP,
     aes(label = KO),
     color = "darkblue",
-    size = 3
-  ) +
-  geom_text_repel(
-    data = top_overlap_labels_vaginal_Endo_vs_CPP,
-    aes(label = KO),
-    color = "red",
     size = 3
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
