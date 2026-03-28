@@ -94,6 +94,11 @@ head(sig_vaginal, 10)
 
 
 ###################################PCA plots################################################
+group_cols <- c(
+  "Control" = "#c7e9b4",
+  "CPP" = "#41b6c4",
+  "CPP Endo" = "#225ea8"
+)
 
 rectal_mat_filtered <- rectal_mat[
   apply(rectal_mat, 1, var) != 0,
@@ -104,11 +109,22 @@ rectal_pca <- prcomp(t(log1p(rectal_mat_filtered)), scale. = TRUE)
 rectal_pca_df <- data.frame(rectal_pca$x)
 rectal_pca_df$Host_disease <- rectal_meta$Host_disease
 
-var_explained <- summary(rectal_pca)$importance[2,]
+rectal_var_explained <- summary(rectal_pca)$importance[2,]
 
-rectal_KO_PCA <- ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+rectal_KO_PCA <- ggplot(
+  rectal_pca_df,
+  aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
+) +
+  stat_ellipse(
+    geom = "polygon",
+    alpha = 0.15,
+    color = NA,
+    level = 0.95
+  ) +
   geom_point(size = 3) +
-  stat_ellipse(level = 0.95) +
+  stat_ellipse(level = 0.95, linewidth = 1) +
+  scale_color_manual(values = group_cols) +
+  scale_fill_manual(values = group_cols) +
   theme_classic() +
   theme(
     plot.title = element_text(size = 25),
@@ -121,8 +137,10 @@ rectal_KO_PCA <- ggplot(rectal_pca_df, aes(x = PC1, y = PC2, color = Host_diseas
   ) +
   labs(
     title = "PCA of KEGG KO Abundance (Rectal)",
-    x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
-    y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
+    x = paste0("PC1 (", round(rectal_var_explained[1] * 100, 1), "%)"),
+    y = paste0("PC2 (", round(rectal_var_explained[2] * 100, 1), "%)"),
+    color = "Host disease",
+    fill = "Host disease"
   )
 
 vaginal_mat_filtered <- vaginal_mat[
@@ -134,11 +152,22 @@ vaginal_pca <- prcomp(t(log1p(vaginal_mat_filtered)), scale. = TRUE)
 vaginal_pca_df <- data.frame(vaginal_pca$x)
 vaginal_pca_df$Host_disease <- vaginal_meta$Host_disease
 
-var_explained <- summary(vaginal_pca)$importance[2,]
+vaginal_var_explained <- summary(vaginal_pca)$importance[2,]
 
-vaginal_KO_PCA <- ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_disease)) +
+vaginal_KO_PCA <- ggplot(
+  vaginal_pca_df,
+  aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
+) +
+  stat_ellipse(
+    geom = "polygon",
+    alpha = 0.15,
+    color = NA,
+    level = 0.95
+  ) +
   geom_point(size = 3) +
-  stat_ellipse(level = 0.95) +
+  stat_ellipse(level = 0.95, linewidth = 1) +
+  scale_color_manual(values = group_cols) +
+  scale_fill_manual(values = group_cols) +
   theme_classic() +
   theme(
     plot.title = element_text(size = 25),
@@ -151,8 +180,10 @@ vaginal_KO_PCA <- ggplot(vaginal_pca_df, aes(x = PC1, y = PC2, color = Host_dise
   ) +
   labs(
     title = "PCA of KEGG KO Abundance (Vaginal)",
-    x = paste0("PC1 (", round(var_explained[1]*100,1), "%)"),
-    y = paste0("PC2 (", round(var_explained[2]*100,1), "%)")
+    x = paste0("PC1 (", round(vaginal_var_explained[1] * 100, 1), "%)"),
+    y = paste0("PC2 (", round(vaginal_var_explained[2] * 100, 1), "%)"),
+    color = "Host disease",
+    fill = "Host disease"
   )
 rectal_KO_PCA
 vaginal_KO_PCA
