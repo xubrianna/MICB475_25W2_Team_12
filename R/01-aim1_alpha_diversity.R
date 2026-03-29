@@ -6,6 +6,7 @@ library(ape)
 library(tidyverse)
 library(FSA)
 library(picante)
+library(ggpubr)
 set.seed(2026)
 
 ##### read data ####
@@ -123,4 +124,55 @@ kruskal_vaginal   # Kruskal-Wallis test for vaginal samples
 kruskal_rectal    # Kruskal-Wallis test for rectal samples
 dunn_results[["vaginal"]]  # Dunn's test table for vaginal samples
 dunn_results[["rectal"]]   # Dunn's test table for rectal samples
+
+##### NEW: FACET BY DISEASE, COMPARE RECTAL vs VAGINAL #####
+
+# Stats per disease
+site_stats <- alpha_faith %>%
+  group_by(Host_disease) %>%
+  summarise(
+    p = wilcox.test(PD ~ env_medium)$p.value
+  ) %>%
+  mutate(
+    label = case_when(
+      p < 0.001 ~ "***",
+      p < 0.01  ~ "**",
+      p < 0.05  ~ "*",
+      TRUE ~ "ns"
+    ),
+    y_pos = 25
+  )
+
+# New plot
+p3 <- ggplot(alpha_faith, aes(x = env_medium, y = PD, fill = env_medium)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +
+  geom_point(position = position_jitter(width = 0.15),
+             size = 2.5, alpha = 0.9, color = "black") +
+  facet_wrap(~Host_disease) +
+  theme_classic() +
+  ylab("Faith's Phylogenetic Diversity") +
+  xlab("Sample Site") +
+  scale_fill_manual(values = c("rectal" = "#f4a582", "vaginal" = "#92c5de")) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  ) +
+  scale_y_continuous(limits = c(0, 27), breaks = seq(0, 25, by = 2)) +
+  
+  ##### ADD BRACKETS + STARS #####
+stat_compare_means(
+  comparisons = list(c("rectal", "vaginal")),
+  method = "wilcox.test",
+  label = "p.signif",
+  label.y = 25
+)
+
+print(p3)
+ggsave("results/aim1/02_faith_PD_by_site_within_disease.png",
+       plot = p3, width = 10, height = 5, units = "in", dpi = 300)
+
+
 
