@@ -657,18 +657,18 @@ panel_Endo_vs_CPP
 ggsave(
   "results/aim3/CPP_vs_Control_volcano.png",
   plot = panel_CPP_vs_Control,
-  width = 16, height = 7, units = "in", dpi = 300
+  width = 10, height = 7, units = "in", dpi = 300
 )
 
 ggsave(
   "results/aim3/Endo_vs_Control_volcano.png",
   plot = panel_Endo_vs_Control,
-  width = 16, height = 7, units = "in", dpi = 300
+  width = 10, height = 7, units = "in", dpi = 300
 )
 
 ggsave(
   "results/aim3/Endo_vs_CPP_volcano.png",
   plot = panel_Endo_vs_CPP,
-  width = 16, height = 7, units = "in", dpi = 300
+  width = 10, height = 7, units = "in", dpi = 300
 )
 
