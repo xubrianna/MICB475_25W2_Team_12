@@ -23,7 +23,7 @@ bar <- ggplot(df, aes(x = count, y = reorder(pathway, count), fill = count)) +
   geom_text(aes(label = count), hjust = -0.15, size = 4) +
   scale_fill_gradient(low = "#c7e9b4", high = "#225ea8") +
   labs(
-    x = "Number of associated KOs",
+    x = "Number of associated enriched KOs",
     y = NULL,
     fill = "Count"
   ) +
@@ -33,6 +33,6 @@ bar <- ggplot(df, aes(x = count, y = reorder(pathway, count), fill = count)) +
 ggsave(
   "results/aim3/bar.png",
   plot = bar,
-  width = 5, height = 5, units = "in", dpi = 300
+  width = 6, height = 5, units = "in", dpi = 300
 )
 bar
