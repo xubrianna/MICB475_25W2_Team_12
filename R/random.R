@@ -33,6 +33,6 @@ bar <- ggplot(df, aes(x = count, y = reorder(pathway, count), fill = count)) +
 ggsave(
   "results/aim3/bar.png",
   plot = bar,
-  width = 6, height = 5, units = "in", dpi = 300
+  width = 7, height = 5, units = "in", dpi = 300
 )
 bar
