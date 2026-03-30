@@ -59,4 +59,40 @@ filtered_phylo <- filter_taxa(filtered_phylo, function(x) sum(x) > 5, prune = TR
 ## Save processed phyloseq object
 saveRDS(filtered_phylo, "data/phyloseq_filtered.rds")
 
+meta_df <- as(sample_data(filtered_phylo), "data.frame")
+meta_df$Host_disease <- factor(meta_df$Host_disease,
+                               levels = c("Control", "CPP", "CPP Endo"))
+meta_df$env_medium <- factor(meta_df$env_medium,
+                             levels = c("rectal", "vaginal"))
 
+group_cols <- c(
+  "Control" = "#c7e9b4",   # green
+  "CPP" = "#41b6c4",       # turquoise
+  "CPP Endo" = "#225ea8"   # dark blue
+)
+
+# Bar plot for number of samples per disease grou split by body site
+plot <- ggplot(meta_df, aes(x = Host_disease, fill = Host_disease)) +
+  geom_bar() +
+  facet_wrap(~ env_medium) +
+  scale_fill_manual(values = group_cols) +
+  labs(
+    x = "Host disease group",
+    y = "Number of samples",
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 25),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 11),
+    strip.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
+  )
+
+
+ggsave("results/aim1/00-sample_bar_plot.png",
+       plot = plot,
+       width = 10, height = 7, units = "in", dpi = 300)

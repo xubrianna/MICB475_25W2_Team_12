@@ -2,7 +2,7 @@
 library(DESeq2)
 library(phyloseq)
 library(EnhancedVolcano)
-
+library(ggrepel)
 library(patchwork)
 
 phylo <- readRDS('data/phyloseq_filtered.rds')
@@ -67,8 +67,7 @@ cpp_control_rect <- res_cpp_control_rect %>%
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP vs Control Contrast") 
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
 
 cpp_control_vag <- res_cpp_control_vag %>%
   mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>2, "Significant", "Non-significant")) %>%
@@ -83,11 +82,10 @@ cpp_control_vag <- res_cpp_control_vag %>%
     ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP vs Control Contrast") 
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
 
-cpp_control_rect <- cpp_control_rect + ggtitle("Rectal")
-cpp_control_vag  <- cpp_control_vag + ggtitle("Vaginal")
+cpp_control_rect <- cpp_control_rect
+cpp_control_vag  <- cpp_control_vag
 
 bar_panel <- cpp_control_rect + cpp_control_vag
 bar_panel
@@ -135,8 +133,7 @@ cpp_endo_control_rect <- res_cpp_endo_control_rect %>%
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP Endo vs Control Contrast")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") 
 
 
 cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
@@ -152,11 +149,10 @@ cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP Endo vs Control Contrast")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") 
 
-cpp_endo_control_rect <- cpp_endo_control_rect + ggtitle("Rectal")
-cpp_endo_control_vag  <- cpp_endo_control_vag + ggtitle("Vaginal")
+cpp_endo_control_rect <- cpp_endo_control_rect
+cpp_endo_control_vag  <- cpp_endo_control_vag
 
 bar_panel_endo_control <- cpp_endo_control_rect + cpp_endo_control_vag
 bar_panel_endo_control
@@ -192,11 +188,50 @@ ggplot(res_vag) +
   theme_classic()
 
 
-cpp_endo_cpp_rect <- res_rect %>%
-  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>2, "Significant", "Non-significant")) %>%
-  ggplot() +
-  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
-  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+# Highlight unique significant genera in CPP-endo/CPP (Rectal) 
+# Get significant genera for each contrast
+sig_genera_cpp_control_rect <- df_cpp_control_rectal_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+sig_genera_cpp_endo_control_rect <- df_cpp_endo_control_rectal_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+sig_genera_rect <- df_res_rect_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+
+# Add highlight column
+df_res_rect_taxa <- df_res_rect_taxa %>%
+  mutate(
+    significant = ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "Significant", "Non-significant"),
+    unique_genus = ifelse(
+      significant == "Significant" &
+      !(Genus %in% c(sig_genera_cpp_control_rect, sig_genera_cpp_endo_control_rect)),
+      "Unique", "NotUnique"
+    )
+  )
+
+cpp_endo_cpp_rect <- ggplot(df_res_rect_taxa) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj),
+                 col=case_when(
+                   unique_genus == "Unique" ~ "Unique",
+                   significant == "Significant" ~ "Significant",
+                   TRUE ~ "Non-significant"
+                 ))) +
+  geom_text_repel(
+    data = df_res_rect_taxa %>% 
+      filter(unique_genus == "Unique") %>% 
+      mutate(Genus = gsub("g__", "", Genus)),
+    aes(
+      x = log2FoldChange,
+      y = -log10(padj),
+      label = Genus
+    ),
+    colour = "blue",
+    size = 3,
+    max.overlaps = Inf
+  ) +
+  scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
     plot.margin = margin(15, 15, 15, 15),
@@ -205,15 +240,52 @@ cpp_endo_cpp_rect <- res_rect %>%
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP Endo vs CPP Contrast")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
 
 
-cpp_endo_cpp_vag <- res_vag %>%
-  mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>2, "Significant", "Non-significant")) %>%
-  ggplot() +
-  geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) +
-  scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
+# Highlight unique significant genera in CPP-endo/CPP (Vaginal) 
+sig_genera_cpp_control_vag <- df_cpp_control_vaginal_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+
+sig_genera_cpp_endo_control_vag <- df_cpp_endo_control_vaginal_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+sig_genera_vag <- df_res_vag_taxa %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  pull(Genus) %>% unique()
+
+df_res_vag_taxa <- df_res_vag_taxa %>%
+  mutate(
+    significant = ifelse(padj < 0.05 & abs(log2FoldChange) > 2, "Significant", "Non-significant"),
+    unique_genus = ifelse(
+      significant == "Significant" &
+      !(Genus %in% c(sig_genera_cpp_control_vag, sig_genera_cpp_endo_control_vag)),
+      "Unique", "NotUnique"
+    )
+  )
+
+cpp_endo_cpp_vag <- ggplot(df_res_vag_taxa) +
+  geom_point(aes(x=log2FoldChange, y=-log10(padj),
+                 col=case_when(
+                   unique_genus == "Unique" ~ "Unique",
+                   significant == "Significant" ~ "Significant",
+                   TRUE ~ "Non-significant"
+                 ))) +
+  geom_text_repel(
+    data = df_res_vag_taxa %>% 
+      filter(unique_genus == "Unique") %>% 
+      mutate(Genus = gsub("g__", "", Genus)),
+    aes(
+      x = log2FoldChange,
+      y = -log10(padj),
+      label = Genus
+    ),
+    colour = "blue",
+    size = 3,
+    max.overlaps = Inf
+  ) +
+  scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
     plot.margin = margin(10, 10, 10, 10),
@@ -222,11 +294,10 @@ cpp_endo_cpp_vag <- res_vag %>%
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
-  ggtitle("CPP Endo vs CPP Contrast")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
 
-cpp_endo_cpp_rect <- cpp_endo_cpp_rect + ggtitle("Rectal")
-cpp_endo_cpp_vag  <- cpp_endo_cpp_vag + ggtitle("Vaginal")
+cpp_endo_cpp_rect <- cpp_endo_cpp_rect
+cpp_endo_cpp_vag  <- cpp_endo_cpp_vag
 
 bar_panel_endo_cpp <- cpp_endo_cpp_rect + cpp_endo_cpp_vag
 bar_panel_endo_cpp
