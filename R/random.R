@@ -21,7 +21,7 @@ df <- df %>% arrange(count)
 bar <- ggplot(df, aes(x = count, y = reorder(pathway, count), fill = count)) +
   geom_col() +
   geom_text(aes(label = count), hjust = -0.15, size = 4) +
-  scale_fill_gradient(low = "#c7e9b4", high = "#225ea8") +
+  scale_fill_gradient(low = "#1B98E026", high="#225ea8") +
   labs(
     x = "Number of associated enriched KOs",
     y = NULL,
