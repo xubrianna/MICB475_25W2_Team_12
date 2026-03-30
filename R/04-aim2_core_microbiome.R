@@ -35,8 +35,7 @@ CPP_healthy_ASVs_rectal_0.001 <- core_members(CPP_healthy_rectal, detection=0.00
 
 CPP_list_rectal_0.001 <- list(Healthy = CPP_healthy_ASVs_rectal_0.001, CPP_Only = CPP_only_ASVs_rectal_0.001, CPP_Endo = CPP_endo_ASVs_rectal_0.001)
 
-venn_all_diseases_rectal_0.001 <- ggVennDiagram(x = CPP_list_rectal_0.001)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Rectal Samples") + 
+venn_all_diseases_rectal_0.001 <- ggVennDiagram(x = CPP_list_rectal_0.001, category.names = c("Healthy", "CPP Only", "CPP Endo"))+ scale_fill_gradient(low = "#1B98E026", high="#225ea8") +
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_rectal_0.001
@@ -141,8 +140,7 @@ CPP_healthy_ASVs_vaginal_0.001 <- core_members(CPP_healthy_vaginal, detection=0.
 
 CPP_list_vaginal_0.001 <- list(Healthy = CPP_healthy_ASVs_vaginal_0.001, CPP_Only = CPP_only_ASVs_vaginal_0.001, CPP_Endo = CPP_endo_ASVs_vaginal_0.001)
 
-venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Vaginal Samples") + 
+venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001, category.names = c("Healthy", "CPP Only", "CPP Endo"))+ scale_fill_gradient(low = "#1B98E026", high="#225ea8")+
   theme(plot.title = element_text(hjust = 0.5)) + 
   theme(plot.title = element_text(size=20, face="bold"))
 venn_all_diseases_vaginal_0.001
@@ -318,3 +316,13 @@ plot_campylobacter <- ggplot(data = dataframe, aes(x = Disease_group, y = Percen
   ylab ("Campylobacter Prevalence")+ 
   theme(legend.position = "none")
 ggsave("results/aim2/04-core_microbiome/plot_campylobacter.png", plot_campylobacter , width = 7, height = 7)
+
+### March 28 trying to find what is unqiue to healthy in rectal coremicrobiome
+#get the taxonomic information for CPP_endo disease group and find the ASVs that are unique to the core of CPP-endo 
+tax_mat_rectal_2 <- tax_table(CPP_endo_rectal)
+
+core_taxonomy_rectal_2 <- as.data.frame(tax_mat_rectal_2[CPP_healthy_ASVs_rectal_0.001, ])
+print(head(core_taxonomy_rectal_2)
+      
+unique_to_CPP_endo_rectal_2<- setdiff(CPP_healthy_ASVs_rectal_0.001, union(CPP_only_ASVs_rectal_0.001, CPP_endo_ASVs_rectal_0.001))
+print(unique_to_CPP_endo_rectal_2)
