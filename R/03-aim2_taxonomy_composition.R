@@ -26,6 +26,10 @@ phyloseq_RA <- transform_sample_counts(phyloseq_filtered, function(x) x / sum(x)
 # melt to long format
 phy_melt <- psmelt(phyloseq_RA)
 
+# capitalize env_medium labels
+phy_melt$env_medium <- gsub("rectal", "Rectal", phy_melt$env_medium)
+phy_melt$env_medium <- gsub("vaginal", "Vaginal", phy_melt$env_medium)
+
 # clean phylum names
 phy_melt$Phylum <- gsub("^p_+", "", phy_melt$Phylum)
 
@@ -65,7 +69,7 @@ gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Phylum)
     legend.title = element_text(size = 16),
     legend.text = element_text(size = 14),
     strip.text = element_text(size = 18),
-    strip.background = element_blank(),
+    strip.background = element_rect(fill = "grey80", color = "black"),
     panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15)
   )
@@ -108,6 +112,10 @@ phyloseq_RA <- transform_sample_counts(phyloseq_filtered, function(x) x / sum(x)
 # melt to long format
 phy_melt <- psmelt(phyloseq_RA)
 
+# capitalize env_medium labels
+phy_melt$env_medium <- gsub("rectal", "Rectal", phy_melt$env_medium)
+phy_melt$env_medium <- gsub("vaginal", "Vaginal", phy_melt$env_medium)
+
 # clean phylum names
 phy_melt$Genus <- gsub("^g_+", "", phy_melt$Genus)
 
@@ -148,7 +156,7 @@ gg_agg <- ggplot(phy_agg, aes(x = Host_disease, y = RelAbundance, fill = Genus))
     legend.title = element_text(size = 16),
     legend.text = element_text(size = 14),
     strip.text = element_text(size = 18),
-    strip.background = element_blank(),
+    strip.background = element_rect(fill = "grey80", color = "black"),
     panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15)
   )
