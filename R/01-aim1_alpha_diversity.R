@@ -66,7 +66,8 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   theme(
     legend.position = "none",
     axis.text = element_text(size = 14),
-    axis.title = element_text(size = 18),
+    axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+    axis.title.y = element_text(size = 18, margin = margin(r = 20)),
     strip.text = element_text(size = 18),
     strip.background = element_blank(),
     plot.margin = margin(15, 15, 15, 15),
@@ -92,7 +93,8 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   theme(
     legend.position = "none",
     axis.text = element_text(size = 14),
-    axis.title = element_text(size = 18),
+    axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+    axis.title.y = element_text(size = 18, margin = margin(r = 20)),
     strip.text = element_text(size = 18),
     strip.background = element_blank(),
     plot.margin = margin(15, 15, 15, 15),
