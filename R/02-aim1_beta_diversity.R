@@ -48,8 +48,8 @@ gg_uni <- plot_ordination(ps_rarefied, pcoa_uni, type="samples",
     legend.text = element_text(size = 14),
     strip.text = element_text(size = 18),
     strip.background = element_blank(),
+    plot.margin = margin(15, 15, 15, 15),
     panel.border = element_rect(color = "black", fill = NA),
-    plot.margin = margin(15, 15, 15, 15)
   ) +
   facet_wrap(~ env_medium) +
   scale_color_manual(values = group_cols) +
