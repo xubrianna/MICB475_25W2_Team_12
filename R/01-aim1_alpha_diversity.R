@@ -54,8 +54,10 @@ group_cols <- c(
 
 ##### Faith's PD boxplot ####
 p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
-  geom_boxplot(lwd = 0.8) +
-  geom_point(size = 3, alpha = 0.9, color = "black") +
+  geom_boxplot(width = 0.6, linewidth = 0.8,outlier.shape = NA) +
+  geom_jitter(width = 0.15,
+              size = 2.5,
+              color = 'black') +
   facet_wrap(~env_medium) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
@@ -63,13 +65,15 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA),
   ) +
-  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
+  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2)) 
+  
 
 print(p)
 ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5, units = "in", dpi = 300)
@@ -77,7 +81,9 @@ ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5,
 ##### Faith's PD violin plot ####
 p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_violin(trim = FALSE, alpha = 0.8) +
-  geom_point(size = 3, alpha = 0.9, color = "black") +
+  geom_jitter(width = 0.07,
+              size = 2.5,
+              color = 'black') +
   facet_wrap(~env_medium) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
@@ -85,11 +91,12 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA),
   ) +
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 
@@ -155,13 +162,12 @@ p3 <- ggplot(alpha_faith, aes(x = env_medium, y = PD, fill = env_medium)) +
   scale_fill_manual(values = c("rectal" = "#f4a582", "vaginal" = "#92c5de")) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank()
   ) +
   scale_y_continuous(limits = c(0, 27), breaks = seq(0, 25, by = 2)) +
-  
   ##### ADD BRACKETS + STARS #####
 stat_compare_means(
   comparisons = list(c("rectal", "vaginal")),

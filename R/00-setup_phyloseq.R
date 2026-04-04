@@ -87,6 +87,7 @@ plot <- ggplot(meta_df, aes(x = Host_disease, fill = Host_disease)) +
     legend.text = element_text(size = 14),
     strip.text = element_text(size = 18),
     strip.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   )
