@@ -41,6 +41,16 @@ gg_uni <- plot_ordination(ps_rarefied, pcoa_uni, type="samples",
                           color="Host_disease") +
   geom_point(size=3.5, alpha=0.9) +
   theme_classic() +
+  theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA),
+    plot.margin = margin(15, 15, 15, 15)
+  ) +
   facet_wrap(~ env_medium) +
   scale_color_manual(values = group_cols) +
   labs(color="Host Disease", shape="Site")
@@ -93,14 +103,20 @@ gg_uni_ellipse <- (
   + stat_ellipse(aes(group = interaction(Host_disease, env_medium), color = Host_disease),
                  level = 0.95, linewidth = 1)
   + theme_classic()
+  + theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  )
   + scale_color_manual(values = group_cols)
   + scale_shape_manual(values = c(16, 17)) 
   + labs(
     color = "Host Disease",
     shape = "Body Site",
     x = sprintf("PCoA Axis 1 (%.1f%% of community dissimilarity)", var_explained[1]),
-    y = sprintf("PCoA Axis 2 (%.1f%% of community dissimilarity)", var_explained[2]),
-    title = "Host disease/Sample type: Unweighted UniFrac"
+    y = sprintf("PCoA Axis 2 (%.1f%% of community dissimilarity)", var_explained[2])
   )
   + scale_x_continuous(
     expand = expansion(mult = 0.25),
