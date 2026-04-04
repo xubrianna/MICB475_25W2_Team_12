@@ -24,8 +24,10 @@ meta_df <- as(sample_data(ps_rarefied), "data.frame")
 
 sample_data(ps_rarefied)$Host_disease <- factor(meta_df$Host_disease,
                                                 levels = c("Control","CPP","CPP Endo"))
+meta_df$env_medium <- gsub("rectal", "Rectal", meta_df$env_medium)
+meta_df$env_medium <- gsub("vaginal", "Vaginal", meta_df$env_medium)
 sample_data(ps_rarefied)$env_medium <- factor(meta_df$env_medium,
-                                              levels = c("rectal","vaginal"))  
+                                              levels = c("Rectal","Vaginal"))  
 
 
 
@@ -47,7 +49,7 @@ gg_uni <- plot_ordination(ps_rarefied, pcoa_uni, type="samples",
     legend.title = element_text(size = 16),
     legend.text = element_text(size = 14),
     strip.text = element_text(size = 18),
-    strip.background = element_blank(),
+    strip.background = element_rect(fill = "grey80", color = "black"),
     plot.margin = margin(15, 15, 15, 15),
     panel.border = element_rect(color = "black", fill = NA),
   ) +
@@ -70,8 +72,8 @@ permanova_all
 
 # PERMANOVA stratified by site
 
-meta_feces <- subset(meta_df, env_medium == "rectal")
-meta_vagina <- subset(meta_df, env_medium == "vaginal")
+meta_feces <- subset(meta_df, env_medium == "Rectal")
+meta_vagina <- subset(meta_df, env_medium == "Vaginal")
 
 dm_feces  <- as.dist(as.matrix(unifrac_dm)[rownames(meta_feces), rownames(meta_feces)])
 dm_vagina <- as.dist(as.matrix(unifrac_dm)[rownames(meta_vagina), rownames(meta_vagina)])

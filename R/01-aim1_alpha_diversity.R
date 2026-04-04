@@ -109,11 +109,11 @@ print(p2)
 ggsave("results/aim1/01_faith_PD_violin.png", plot = p2, width = 10, height = 5, units = "in", dpi = 300)
 
 ##### Kruskal-Wallis per site (assigned to objects) ####
-kruskal_vaginal <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="vaginal"))
-kruskal_rectal  <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="rectal"))
+kruskal_vaginal <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="Vaginal"))
+kruskal_rectal  <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="Rectal"))
 
 ##### Clean Dunn's test with BH FDR correction ####
-sites <- c("vaginal", "rectal")
+sites <- c("Vaginal", "Rectal")
 dunn_results <- list()
 
 for(site in sites) {
@@ -164,18 +164,18 @@ p3 <- ggplot(alpha_faith, aes(x = env_medium, y = PD, fill = env_medium)) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
   xlab("Sample Site") +
-  scale_fill_manual(values = c("rectal" = "#f4a582", "vaginal" = "#92c5de")) +
+  scale_fill_manual(values = c("Rectal" = "#f4a582", "Vaginal" = "#92c5de")) +
   theme(
     legend.position = "none",
     axis.text = element_text(size = 14),
     axis.title = element_text(size = 18),
     strip.text = element_text(size = 18),
-    strip.background = element_blank()
+    strip.background = element_rect(fill = "grey80", color = "black")
   ) +
   scale_y_continuous(limits = c(0, 27), breaks = seq(0, 25, by = 2)) +
   ##### ADD BRACKETS + STARS #####
 stat_compare_means(
-  comparisons = list(c("rectal", "vaginal")),
+  comparisons = list(c("Rectal", "Vaginal")),
   method = "wilcox.test",
   label = "p.signif",
   label.y = 25
