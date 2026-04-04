@@ -44,7 +44,10 @@ meta_df <- as(sample_data(ps_rarefied), "data.frame") %>%
 alpha_faith <- alpha_faith %>%
   left_join(meta_df, by = "sample")
 
-alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("rectal","vaginal"))
+alpha_faith$env_medium <- gsub('rectal', 'Rectal',alpha_faith$env_medium)
+alpha_faith$env_medium <- gsub('vaginal', 'Vaginal',alpha_faith$env_medium)
+alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("Rectal","Vaginal"))
+
 
 group_cols <- c(
   "Control" = "#c7e9b4",   # green
@@ -69,7 +72,7 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
     axis.title.x = element_text(size = 18, margin = margin(t = 20)),
     axis.title.y = element_text(size = 18, margin = margin(r = 20)),
     strip.text = element_text(size = 18),
-    strip.background = element_blank(),
+    strip.background = element_rect(fill = "grey80", color = "black"),
     plot.margin = margin(15, 15, 15, 15),
     panel.border = element_rect(color = "black", fill = NA),
   ) +
@@ -96,8 +99,8 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
     axis.title.x = element_text(size = 18, margin = margin(t = 20)),
     axis.title.y = element_text(size = 18, margin = margin(r = 20)),
     strip.text = element_text(size = 18),
-    strip.background = element_blank(),
     plot.margin = margin(15, 15, 15, 15),
+    strip.background = element_rect(fill = "grey80", color = "black"),
     panel.border = element_rect(color = "black", fill = NA),
   ) +
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
