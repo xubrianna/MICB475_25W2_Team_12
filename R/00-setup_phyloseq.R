@@ -2,7 +2,6 @@
 # 00-setup_phyloseq.R
 # Import data and construct phyloseq object
 
-
 library(phyloseq)
 library(tidyverse)
 library(ape)
@@ -82,16 +81,16 @@ plot <- ggplot(meta_df, aes(x = Host_disease, fill = Host_disease)) +
   ) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   )
-
+plot
 
 ggsave("results/aim1/00-sample_bar_plot.png",
        plot = plot,
