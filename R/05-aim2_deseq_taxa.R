@@ -61,9 +61,10 @@ cpp_control_rect <- res_cpp_control_rect %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
@@ -76,9 +77,10 @@ cpp_control_vag <- res_cpp_control_vag %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
     ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
@@ -127,9 +129,10 @@ cpp_endo_control_rect <- res_cpp_endo_control_rect %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
@@ -143,9 +146,10 @@ cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
@@ -234,9 +238,10 @@ cpp_endo_cpp_rect <- ggplot(df_res_rect_taxa) +
   scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
@@ -288,9 +293,10 @@ cpp_endo_cpp_vag <- ggplot(df_res_vag_taxa) +
   scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
