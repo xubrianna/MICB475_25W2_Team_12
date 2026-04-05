@@ -1,4 +1,3 @@
-
 library(tidyverse)
 library(phyloseq)
 library(microbiome)
@@ -8,39 +7,39 @@ library(ggVennDiagram)
 #load filtered phyloseq without rarification (expects uneven sequencing depths)
 phyloseq <- readRDS('data/phyloseq_filtered.rds')
 
-#transform OTU table into relative abundance from absolute counts
-CPP_RA <- transform_sample_counts(phyloseq, fun=function(x) x/sum(x))
+# Transform OTU table into relative abundance from absolute counts
+CPP_RA <- transform_sample_counts(phyloseq, fun = function(x) x / sum(x))
 
-#view 
-otu_table(phyloseq)
-sample_data(phyloseq)
+#### STRATIFY BY HOST DISEASE ####
+CPP_only <- subset_samples(CPP_RA, `Host_disease` == "CPP")
+CPP_endo <- subset_samples(CPP_RA, `Host_disease` == "CPP Endo")
+CPP_healthy <- subset_samples(CPP_RA, `Host_disease` == "Control")
 
-#### STRATIFY BY HOST DISEASE #### 
+#### RECTAL CORE MICROBIOME ####
+# Filter by rectal samples
+CPP_only_rectal <- subset_samples(CPP_only, `collection_method` == "rectal_swab")
+CPP_endo_rectal <- subset_samples(CPP_endo, `collection_method` == "rectal_swab")
+CPP_healthy_rectal <- subset_samples(CPP_healthy, `collection_method` == "rectal_swab")
 
-#try stratifying by the rectal sample after stratify by disease 
-CPP_only <- subset_samples(CPP_RA, `Host_disease`=="CPP")
-CPP_endo <- subset_samples(CPP_RA, `Host_disease`=="CPP Endo")
-CPP_healthy <-subset_samples(CPP_RA, `Host_disease`=="Control")
+# Detection 0.001 (filters out rare taxa) , prevalence 0.5
+CPP_only_ASVs_rectal_0.001 <- core_members(CPP_only_rectal, detection = 0.001, prevalence = 0.5)
+CPP_endo_ASVs_rectal_0.001 <- core_members(CPP_endo_rectal, detection = 0.001, prevalence = 0.5)
+CPP_healthy_ASVs_rectal_0.001 <- core_members(CPP_healthy_rectal, detection = 0.001, prevalence = 0.5)
 
-#### RECTAL COREMICROBIOME #### 
-#filter by rectal samples 
-CPP_only_rectal <- subset_samples(CPP_only,`collection_method` == "rectal_swab")
-CPP_endo_rectal <- subset_samples(CPP_endo,`collection_method` == "rectal_swab")
-CPP_healthy_rectal <-subset_samples(CPP_healthy, `collection_method` == "rectal_swab")
+CPP_list_rectal_0.001 <- list(
+  Healthy = CPP_healthy_ASVs_rectal_0.001,
+  "CPP Only" = CPP_only_ASVs_rectal_0.001,
+  "CPP Endo" = CPP_endo_ASVs_rectal_0.001
+)
 
-#assign ASVs using 0.001 detection (filters out rare taxa) and 0.5 prevalence
-CPP_only_ASVs_rectal_0.001 <- core_members(CPP_only_rectal, detection=0.001, prevalence = 0.5)
-CPP_endo_ASVs_rectal_0.001 <- core_members(CPP_endo_rectal, detection=0.001, prevalence = 0.5)
-CPP_healthy_ASVs_rectal_0.001 <- core_members(CPP_healthy_rectal, detection=0.001, prevalence = 0.5)
-
-CPP_list_rectal_0.001 <- list(Healthy = CPP_healthy_ASVs_rectal_0.001, CPP_Only = CPP_only_ASVs_rectal_0.001, CPP_Endo = CPP_endo_ASVs_rectal_0.001)
-
-venn_all_diseases_rectal_0.001 <- ggVennDiagram(x = CPP_list_rectal_0.001, category.names = c("Healthy", "CPP Only", "CPP Endo"))+ scale_fill_gradient(low = "#1B98E026", high="#225ea8") +
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_rectal_0.001 <- ggVennDiagram(
+  x = CPP_list_rectal_0.001,
+  category.names = c("Healthy", "CPP Only", "CPP Endo")
+) + scale_fill_gradient(low = "#1B98E026", high = "#225ea8")
 venn_all_diseases_rectal_0.001
 
-ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png", venn_all_diseases_rectal_0.001, width = 7, height = 7)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png",
+       venn_all_diseases_rectal_0.001, width = 7, height = 7)
 
 #get the taxonomic information for CPP_endo disease group and find the ASVs that are unique to the core of CPP-endo 
 tax_mat_rectal <- tax_table(CPP_endo_rectal)
@@ -89,10 +88,7 @@ CPP_healthy_ASVs_rectal_0 <- core_members(CPP_healthy_rectal, detection=0, preva
 
 CPP_list_rectal_0 <- list(Healthy = CPP_healthy_ASVs_rectal_0, CPP_Only = CPP_only_ASVs_rectal_0, CPP_Endo = CPP_endo_ASVs_rectal_0)
 
-venn_all_diseases_rectal_0<- ggVennDiagram(x = CPP_list_rectal_0)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8") +
-  labs(title = "Rectal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_rectal_0<- ggVennDiagram(x = CPP_list_rectal_0)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_rectal_0
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.png", venn_all_diseases_rectal_0, width = 7, height = 7)
@@ -104,10 +100,7 @@ CPP_healthy_ASVs_rectal_0.01 <- core_members(CPP_healthy_rectal, detection=0.01,
 
 CPP_list_rectal_0.01 <- list(Healthy = CPP_healthy_ASVs_rectal_0.01, CPP_Only = CPP_only_ASVs_rectal_0.01, CPP_Endo = CPP_endo_ASVs_rectal_0.01)
 
-venn_all_diseases_rectal_0.01<- ggVennDiagram(x = CPP_list_rectal_0.01)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8") +
-  labs(title = "Rectal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_rectal_0.01<- ggVennDiagram(x = CPP_list_rectal_0.01)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_rectal_0.01
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.01.png", venn_all_diseases_rectal_0.01, width = 7, height = 7)
@@ -119,10 +112,7 @@ CPP_healthy_ASVs_rectal_0.3 <- core_members(CPP_healthy_rectal, detection=0.001,
 
 CPP_list_rectal_0.3 <- list(Healthy = CPP_healthy_ASVs_rectal_0.3, CPP_Only = CPP_only_ASVs_rectal_0.3, CPP_Endo = CPP_endo_ASVs_rectal_0.3)
 
-venn_all_diseases_rectal_0.3 <- ggVennDiagram(x = CPP_list_rectal_0.3)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Rectal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_rectal_0.3 <- ggVennDiagram(x = CPP_list_rectal_0.3)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_rectal_0.3
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.3.png", venn_all_diseases_rectal_0.3, width = 7, height = 7)
@@ -140,9 +130,7 @@ CPP_healthy_ASVs_vaginal_0.001 <- core_members(CPP_healthy_vaginal, detection=0.
 
 CPP_list_vaginal_0.001 <- list(Healthy = CPP_healthy_ASVs_vaginal_0.001, CPP_Only = CPP_only_ASVs_vaginal_0.001, CPP_Endo = CPP_endo_ASVs_vaginal_0.001)
 
-venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001, category.names = c("Healthy", "CPP Only", "CPP Endo"))+ scale_fill_gradient(low = "#1B98E026", high="#225ea8")+
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001, category.names = c("Healthy", "CPP Only", "CPP Endo"))+ scale_fill_gradient(low = "#1B98E026", high="#225ea8")
 venn_all_diseases_vaginal_0.001
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001, width = 7, height = 7)
@@ -185,10 +173,7 @@ CPP_healthy_ASVs_vaginal_0 <- core_members(CPP_healthy_vaginal, detection=0, pre
 
 CPP_list_vaginal_0 <- list(Healthy = CPP_healthy_ASVs_vaginal_0, CPP_Only = CPP_only_ASVs_vaginal_0, CPP_Endo = CPP_endo_ASVs_vaginal_0)
 
-venn_all_diseases_vaginal_0 <- ggVennDiagram(x = CPP_list_vaginal_0)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Vaginal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_vaginal_0 <- ggVennDiagram(x = CPP_list_vaginal_0)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_vaginal_0
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.png", venn_all_diseases_vaginal_0, width = 7, height = 7)
@@ -209,10 +194,7 @@ CPP_healthy_ASVs_vaginal_0.01 <- core_members(CPP_healthy_vaginal, detection=0.0
 
 CPP_list_vaginal_0.01 <- list(Healthy = CPP_healthy_ASVs_vaginal_0.01, CPP_Only = CPP_only_ASVs_vaginal_0.01, CPP_Endo = CPP_endo_ASVs_vaginal_0.01)
 
-venn_all_diseases_vaginal_0.01 <- ggVennDiagram(x = CPP_list_vaginal_0.01)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Vaginal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_vaginal_0.01 <- ggVennDiagram(x = CPP_list_vaginal_0.01)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_vaginal_0.01
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.01.png", venn_all_diseases_vaginal_0.01, width = 7, height = 7)
@@ -228,10 +210,7 @@ print (CPP_healthy_ASVs_vaginal_0.3)
 
 CPP_list_vaginal_0.3 <- list(Healthy = CPP_healthy_ASVs_vaginal_0.3, CPP_Only = CPP_only_ASVs_vaginal_0.3, CPP_Endo = CPP_endo_ASVs_vaginal_0.3)
 
-venn_all_diseases_vaginal_0.3 <- ggVennDiagram(x = CPP_list_vaginal_0.3)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Vaginal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_vaginal_0.3 <- ggVennDiagram(x = CPP_list_vaginal_0.3)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_vaginal_0.3
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.3.png", venn_all_diseases_vaginal_0.3, width = 7, height = 7)
@@ -247,75 +226,59 @@ CPP_healthy_ASVs_vaginal_prevalence_0.2 <- core_members(CPP_healthy_vaginal, det
 
 CPP_list_vaginal_prevalence_0.2 <- list(Healthy = CPP_healthy_ASVs_vaginal_prevalence_0.2, CPP_Only = CPP_only_ASVs_vaginal_prevalence_0.2, CPP_Endo = CPP_endo_ASVs_vaginal_prevalence_0.2)
 
-venn_all_diseases_vaginal_prevalence_0.2 <- ggVennDiagram(x = CPP_list_vaginal_prevalence_0.2)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")+
-  labs(title = "Vaginal Samples") + 
-  theme(plot.title = element_text(hjust = 0.5)) + 
-  theme(plot.title = element_text(size=20, face="bold"))
+venn_all_diseases_vaginal_prevalence_0.2 <- ggVennDiagram(x = CPP_list_vaginal_prevalence_0.2)+ scale_fill_gradient(low ="#c7e9b4", high = "#225ea8")
 venn_all_diseases_vaginal_prevalence_0.2
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_prevalence_0.2.png", venn_all_diseases_vaginal_prevalence_0.2, width = 7, height = 7)
 
 
 
-#### March 24 finding percentage of samples with campylobacter total #### 
-otu_table(phyloseq)
-ASV_table <- as.data.frame(as.matrix(otu_table(phyloseq)))
-ASV_table_flipped <- as.data.frame(t(ASV_table))
-campylobacter <- "8365c56e7d1f57079c8821b426206d94"
-samples_with_campylobacter <- sum(ASV_table_flipped[, campylobacter] > 0)
-total_samples <- nrow(ASV_table_flipped)
-percentage <- (samples_with_campylobacter / total_samples) * 100
-print(percentage)
+#### CAMPYLOBACTER RELATIVE ABUNDANCE ####
+# Subset to rectal samples and transform to relative abundance
+phylo_rectal <- subset_samples(phyloseq, collection_method == "rectal_swab")
+phylo_rectal_RA <- transform_sample_counts(phylo_rectal, function(x) x / sum(x))
 
-#now trying to stratify using subsetted phyloseqs 
+# Identify all ASVs classified as Campylobacter at genus level
+tax <- as.data.frame(tax_table(phylo_rectal_RA))
+campy_asvs <- rownames(tax[grepl("Campylobacter", tax$Genus, ignore.case = TRUE), ])
 
-CPP_only_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP")
-CPP_endo_campylobacter <- subset_samples(phyloseq, `Host_disease`=="CPP Endo")
-CPP_healthy_campylobacter <-subset_samples(phyloseq, `Host_disease`=="Control")
+# Sum relative abundance of all Campylobacter ASVs per sample
+otu_mat <- as.data.frame(as.matrix(otu_table(phylo_rectal_RA)))
+campy_abund <- colSums(otu_mat[campy_asvs, , drop = FALSE])
 
-#filter by rectal samples 
-CPP_only_rectal_campylobacter <- subset_samples(CPP_only_campylobacter,`collection_method` == "rectal_swab")
-CPP_endo_rectal_campylobacter <- subset_samples(CPP_endo_campylobacter,`collection_method` == "rectal_swab")
-CPP_healthy_rectal_campylobacter <-subset_samples(CPP_healthy_campylobacter, `collection_method` == "rectal_swab")
+# Build data frame with disease group info
+campy_df <- data.frame(
+  Sample = names(campy_abund),
+  Campy_RA = campy_abund
+) %>%
+  left_join(
+    as.data.frame(sample_data(phylo_rectal_RA)) %>%
+      rownames_to_column("Sample"),
+    by = "Sample"
+  )
 
-otu_table(CPP_only_rectal_campylobacter)
-ASV_table_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_only_rectal_campylobacter)))
-ASV_table_flipped_campylobacter <- as.data.frame(t(ASV_table_campylobacter))
-campylobacter <- "8365c56e7d1f57079c8821b426206d94"
-samples_with_campylobacter_2 <- sum(ASV_table_flipped_campylobacter[, campylobacter] > 0)
-total_samples_2 <- nrow(ASV_table_flipped_campylobacter)
-percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
-print(percentage)
+# Mean relative abundance per disease group
+campy_summary <- campy_df %>%
+  group_by(Host_disease) %>%
+  summarise(Mean_RA = mean(Campy_RA), .groups = "drop")
+print(campy_summary)
 
-otu_table(CPP_endo_rectal_campylobacter)
-ASV_table_CPP_endo_rectal_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_endo_rectal_campylobacter)))
-ASV_table_flipped_CPP_endo_rectal_campylobacter <- as.data.frame(t(ASV_table_CPP_endo_rectal_campylobacter))
-campylobacter <- "8365c56e7d1f57079c8821b426206d94"
-samples_with_campylobacter_2 <- sum(ASV_table_flipped_CPP_endo_rectal_campylobacter[, campylobacter] > 0)
-total_samples_2 <- nrow(ASV_table_flipped_CPP_endo_rectal_campylobacter)
-percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
-print(percentage)
-
-
-otu_table(CPP_healthy_rectal_campylobacter)
-ASV_table_CPP_healthy_rectal_campylobacter <- as.data.frame(as.matrix(otu_table(CPP_healthy_rectal_campylobacter)))
-ASV_table_flipped_CPP_healthy_rectal_campylobacter  <- as.data.frame(t(ASV_table_CPP_healthy_rectal_campylobacter))
-campylobacter <- "8365c56e7d1f57079c8821b426206d94"
-samples_with_campylobacter_2 <- sum(ASV_table_flipped_CPP_healthy_rectal_campylobacter [, campylobacter] > 0)
-total_samples_2 <- nrow(ASV_table_CPP_healthy_rectal_campylobacter )
-percentage <- (samples_with_campylobacter_2 / total_samples_2) * 100
-print(percentage)
-
-#make vector 
-percentages_camp <- c(50, 76.31, 0.429)
-host_disease <- c("CPP Only", "CPP Endo", "Healthy")
-dataframe <- data.frame(Percent_Campylobacter = percentages_camp, Disease_group = host_disease)
-
-library(ggplot2)
-plot_campylobacter <- ggplot(data = dataframe, aes(x = Disease_group, y = Percent_Campylobacter, fill = Disease_group))+ geom_bar(stat = "identity") + geom_col() + scale_fill_manual(values = c("CPP Endo" = "#225ea8", "CPP Only" = "#41b6c4", "Healthy" = "#c7e9b4")) +theme_classic() +
+# Plot
+plot_campylobacter <- ggplot(campy_df, aes(x = Host_disease, y = Campy_RA, fill = Host_disease)) +
+  geom_boxplot(width = 0.6, outlier.shape = NA) +
+  geom_jitter(width = 0.15, size = 2.5, color = "black") +
+  scale_fill_manual(values = c("Control" = "#c7e9b4", "CPP" = "#41b6c4", "CPP Endo" = "#225ea8")) +
+  theme_classic() +
   xlab("Host Disease") +
-  ylab ("Campylobacter Prevalence")+ 
-  theme(legend.position = "none")
-ggsave("results/aim2/04-core_microbiome/plot_campylobacter.png", plot_campylobacter , width = 7, height = 7)
+  ylab("Campylobacter Relative Abundance") +
+  theme(
+    legend.position = "none",
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15)
+  )
+
+ggsave("results/aim2/04-core_microbiome/plot_campylobacter.png",
+       plot_campylobacter, width = 7, height = 7)
 
 ### March 28 trying to find what is unqiue to healthy in rectal coremicrobiome
 #get the taxonomic information for CPP_endo disease group and find the ASVs that are unique to the core of CPP-endo 
