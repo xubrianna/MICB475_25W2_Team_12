@@ -44,7 +44,10 @@ meta_df <- as(sample_data(ps_rarefied), "data.frame") %>%
 alpha_faith <- alpha_faith %>%
   left_join(meta_df, by = "sample")
 
-alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("rectal","vaginal"))
+alpha_faith$env_medium <- gsub('rectal', 'Rectal',alpha_faith$env_medium)
+alpha_faith$env_medium <- gsub('vaginal', 'Vaginal',alpha_faith$env_medium)
+alpha_faith$env_medium <- factor(alpha_faith$env_medium, levels = c("Rectal","Vaginal"))
+
 
 group_cols <- c(
   "Control" = "#c7e9b4",   # green
@@ -54,8 +57,10 @@ group_cols <- c(
 
 ##### Faith's PD boxplot ####
 p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
-  geom_boxplot(lwd = 0.8) +
-  geom_point(size = 3, alpha = 0.9, color = "black") +
+  geom_boxplot(width = 0.6, linewidth = 0.8,outlier.shape = NA) +
+  geom_jitter(width = 0.15,
+              size = 2.5,
+              color = 'black') +
   facet_wrap(~env_medium) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
@@ -63,13 +68,16 @@ p <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+    axis.title.y = element_text(size = 18, margin = margin(r = 20)),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA),
   ) +
-  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
+  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2)) 
+  
 
 print(p)
 ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5, units = "in", dpi = 300)
@@ -77,7 +85,9 @@ ggsave("results/aim1/01_faith_PD_boxplot.png", plot = p, width = 10, height = 5,
 ##### Faith's PD violin plot ####
 p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   geom_violin(trim = FALSE, alpha = 0.8) +
-  geom_point(size = 3, alpha = 0.9, color = "black") +
+  geom_jitter(width = 0.07,
+              size = 2.5,
+              color = 'black') +
   facet_wrap(~env_medium) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
@@ -85,11 +95,13 @@ p2 <- ggplot(alpha_faith, aes(x = Host_disease, y = PD, fill = Host_disease)) +
   scale_fill_manual(values = group_cols) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+    axis.title.y = element_text(size = 18, margin = margin(r = 20)),
+    strip.text = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
   ) +
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 2))
 
@@ -97,11 +109,11 @@ print(p2)
 ggsave("results/aim1/01_faith_PD_violin.png", plot = p2, width = 10, height = 5, units = "in", dpi = 300)
 
 ##### Kruskal-Wallis per site (assigned to objects) ####
-kruskal_vaginal <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="vaginal"))
-kruskal_rectal  <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="rectal"))
+kruskal_vaginal <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="Vaginal"))
+kruskal_rectal  <- kruskal.test(PD ~ Host_disease, data = subset(alpha_faith, env_medium=="Rectal"))
 
 ##### Clean Dunn's test with BH FDR correction ####
-sites <- c("vaginal", "rectal")
+sites <- c("Vaginal", "Rectal")
 dunn_results <- list()
 
 for(site in sites) {
@@ -152,19 +164,18 @@ p3 <- ggplot(alpha_faith, aes(x = env_medium, y = PD, fill = env_medium)) +
   theme_classic() +
   ylab("Faith's Phylogenetic Diversity") +
   xlab("Sample Site") +
-  scale_fill_manual(values = c("rectal" = "#f4a582", "vaginal" = "#92c5de")) +
+  scale_fill_manual(values = c("Rectal" = "#f4a582", "Vaginal" = "#92c5de")) +
   theme(
     legend.position = "none",
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black")
   ) +
   scale_y_continuous(limits = c(0, 27), breaks = seq(0, 25, by = 2)) +
-  
   ##### ADD BRACKETS + STARS #####
 stat_compare_means(
-  comparisons = list(c("rectal", "vaginal")),
+  comparisons = list(c("Rectal", "Vaginal")),
   method = "wilcox.test",
   label = "p.signif",
   label.y = 25

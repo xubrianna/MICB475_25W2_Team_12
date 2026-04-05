@@ -1,7 +1,7 @@
 library(tidyverse)
 library(phyloseq)
 library(indicspecies)
-
+set.seed(2026)
 #### Load data ####
 phyloseq <- readRDS('data/phyloseq_filtered.rds')
 
@@ -56,20 +56,22 @@ View(CPP_table_vaginal)
 indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat), y = stat, fill = Host_disease)) +
   geom_col() +
   coord_flip() +
-  labs(x = "Genus", y = "Indicator Value", title = "Vaginal", fill = "Associated Condition") +
+  labs(x = "Genus", y = "Indicator Value", fill = "Associated Condition") +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 18),
     axis.text = element_text(size = 14),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
     legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15)
   )
 
 indicator_plot_vaginal
 
-ggsave("results/aim2/06-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
+ggsave("results/aim2/04b-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
 
 #### Indicator Species/Taxa Analysis for Rectal ####
 
@@ -120,19 +122,20 @@ view(CPP_table_rectal)
 indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), y = stat, fill = `Associated Conditions`)) +
   geom_col() +
   coord_flip() +
-  labs(x = "Genus", y = "Indicator Value", title = "Rectal") +
+  labs(x = "Genus", y = "Indicator Value") +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 18),
     axis.text = element_text(size = 14),
-    axis.title = element_text(size = 14),
-    strip.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    strip.text = element_text(size = 18),
+    strip.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
-    legend.title = element_text(size = 14),
+    legend.title = element_text(size = 16),
     legend.text = element_text(size = 14)
   )
 
 indicator_plot_rectal
 
-ggsave("results/aim2/06-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
+ggsave("results/aim2/04b-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
 

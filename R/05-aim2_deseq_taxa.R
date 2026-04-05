@@ -1,9 +1,10 @@
-
 library(DESeq2)
 library(phyloseq)
 library(EnhancedVolcano)
 library(ggrepel)
 library(patchwork)
+library(dplyr)
+library(tibble)
 
 phylo <- readRDS('data/phyloseq_filtered.rds')
 
@@ -61,13 +62,18 @@ cpp_control_rect <- res_cpp_control_rect %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
 cpp_control_vag <- res_cpp_control_vag %>%
   mutate(significant = ifelse(padj<0.05 & abs(log2FoldChange)>2, "Significant", "Non-significant")) %>%
@@ -76,16 +82,18 @@ cpp_control_vag <- res_cpp_control_vag %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
     ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
-
-cpp_control_rect <- cpp_control_rect
-cpp_control_vag  <- cpp_control_vag
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
 bar_panel <- cpp_control_rect + cpp_control_vag
 bar_panel
@@ -107,8 +115,8 @@ df_cpp_endo_control_rectal_taxa <- cbind(df_res_cpp_endo_control_rect, taxdf_rec
 df_cpp_endo_control_vaginal_taxa <- cbind(df_res_cpp_endo_control_vag, taxdf_vaginal)
 
 
-write_tsv(df_cpp_endo_control_rectal_taxa, "results/aim2/05-deseq2/05-cpp_endo_control_rect_results.tsv")
-write_tsv(df_cpp_endo_control_vaginal_taxa, "results/aim2/05-deseq2/05-cpp_endo_control_vag_results.tsv")
+# write_tsv(df_cpp_endo_control_rectal_taxa, "results/aim2/05-deseq2/05-cpp_endo_control_rect_results.tsv")
+# write_tsv(df_cpp_endo_control_vaginal_taxa, "results/aim2/05-deseq2/05-cpp_endo_control_vag_results.tsv")
 
 
 ggplot(res_cpp_endo_control_rect) +
@@ -127,13 +135,18 @@ cpp_endo_control_rect <- res_cpp_endo_control_rect %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") 
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")+
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
 
 cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
@@ -143,16 +156,19 @@ cpp_endo_control_vag <- res_cpp_endo_control_vag %>%
   scale_color_manual(values = c("Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") 
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
-cpp_endo_control_rect <- cpp_endo_control_rect
-cpp_endo_control_vag  <- cpp_endo_control_vag
 
 bar_panel_endo_control <- cpp_endo_control_rect + cpp_endo_control_vag
 bar_panel_endo_control
@@ -174,8 +190,8 @@ df_res_rect_taxa <- cbind(df_res_rect, taxdf_rectal)
 df_res_vag_taxa <- cbind(df_res_vag, taxdf_vaginal)
 
 
-write_tsv(df_res_rect_taxa, "results/aim2/05-deseq2/05-cpp_cpp_endo_rect_results.tsv")
-write_tsv(df_res_vag_taxa, "results/aim2/05-deseq2/05-cpp_cpp_endo_vag_results.tsv")
+# write_tsv(df_res_rect_taxa, "results/aim2/05-deseq2/05-cpp_cpp_endo_rect_results.tsv")
+# write_tsv(df_res_vag_taxa, "results/aim2/05-deseq2/05-cpp_cpp_endo_vag_results.tsv")
 
 
 ggplot(res_rect) +
@@ -234,13 +250,18 @@ cpp_endo_cpp_rect <- ggplot(df_res_rect_taxa) +
   scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
     plot.margin = margin(15, 15, 15, 15),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
 
 # Highlight unique significant genera in CPP-endo/CPP (Vaginal) 
@@ -288,16 +309,19 @@ cpp_endo_cpp_vag <- ggplot(df_res_vag_taxa) +
   scale_color_manual(values = c("Unique" = "blue", "Significant" = "red", "Non-significant" = "black")) +
   theme_classic() +
   theme(
-    plot.margin = margin(10, 10, 10, 10),
-    legend.position = "none",
-    plot.title = element_text(size = 18)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   geom_vline(xintercept = 2, linetype = "dashed")+
   geom_vline(xintercept = -2, linetype = "dashed") +
-  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed")
+  geom_abline(slope = 0, intercept = -log10(0.05),linetype = "dashed") +
+  labs(
+    x = "Log2 Fold Change",
+    y = "-Log10 (Adjusted P-value)",
+  ) 
 
-cpp_endo_cpp_rect <- cpp_endo_cpp_rect
-cpp_endo_cpp_vag  <- cpp_endo_cpp_vag
 
 bar_panel_endo_cpp <- cpp_endo_cpp_rect + cpp_endo_cpp_vag
 bar_panel_endo_cpp

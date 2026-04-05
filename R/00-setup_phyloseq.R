@@ -2,7 +2,6 @@
 # 00-setup_phyloseq.R
 # Import data and construct phyloseq object
 
-
 library(phyloseq)
 library(tidyverse)
 library(ape)
@@ -62,8 +61,10 @@ saveRDS(filtered_phylo, "data/phyloseq_filtered.rds")
 meta_df <- as(sample_data(filtered_phylo), "data.frame")
 meta_df$Host_disease <- factor(meta_df$Host_disease,
                                levels = c("Control", "CPP", "CPP Endo"))
+meta_df$env_medium <- gsub("rectal", "Rectal", meta_df$env_medium)
+meta_df$env_medium <- gsub("vaginal", "Vaginal", meta_df$env_medium)
 meta_df$env_medium <- factor(meta_df$env_medium,
-                             levels = c("rectal", "vaginal"))
+                             levels = c("Rectal", "Vaginal"))
 
 group_cols <- c(
   "Control" = "#c7e9b4",   # green
@@ -82,16 +83,19 @@ plot <- ggplot(meta_df, aes(x = Host_disease, fill = Host_disease)) +
   ) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+    axis.title.y = element_text(size = 18, margin = margin(r = 20)),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   )
-
+plot
 
 ggsave("results/aim1/00-sample_bar_plot.png",
        plot = plot,

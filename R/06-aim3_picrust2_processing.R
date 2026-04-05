@@ -1,10 +1,3 @@
-install.packages("devtools")
-devtools::install_github("cafferychen777/ggpicrust2")
-install.packages("MicrobiomeStat")
-install.packages("GGally")
-install.packages("phyloseq")
-install.packages("ggrepel")
-
 library(tidyverse)
 library(phyloseq)
 library(ggpicrust2)
@@ -127,16 +120,16 @@ rectal_KO_PCA <- ggplot(
   scale_fill_manual(values = group_cols) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "PCA of KEGG KO Abundance (Rectal)",
     x = paste0("PC1 (", round(rectal_var_explained[1] * 100, 1), "%)"),
     y = paste0("PC2 (", round(rectal_var_explained[2] * 100, 1), "%)"),
     color = "Host disease",
@@ -170,16 +163,16 @@ vaginal_KO_PCA <- ggplot(
   scale_fill_manual(values = group_cols) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15)
   ) +
   labs(
-    title = "PCA of KEGG KO Abundance (Vaginal)",
     x = paste0("PC1 (", round(vaginal_var_explained[1] * 100, 1), "%)"),
     y = paste0("PC2 (", round(vaginal_var_explained[2] * 100, 1), "%)"),
     color = "Host disease",
@@ -273,18 +266,19 @@ volcano_rectal_CPP_vs_Control <- ggplot(
   scale_color_manual(values = c("grey70", "red")) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   labs(
-    title = "Rectal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-Log10 (Adjusted P-value)"
   )
 
 volcano_rectal_CPP_vs_Control
@@ -309,18 +303,19 @@ volcano_rectal_Endo_vs_Control <- ggplot(
   scale_color_manual(values = c("grey70", "red")) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15)
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
+    plot.margin = margin(15, 15, 15, 15),
+    legend.position = "none"
   ) +
   labs(
-    title = "Rectal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-Log10 (Adjusted P-value)"
   )
 
 volcano_rectal_Endo_vs_Control
@@ -377,7 +372,7 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
   geom_text_repel(
     data = top_unique_labels_Endo_vs_CPP,
     aes(label = KO),
-    color = "darkblue",
+    color = "blue",
     size = 3
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
@@ -389,19 +384,19 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
   )) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   ) +
   labs(
-    title = "Rectal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value",
+    y = "-Log10 (Adjusted P-value)",
     color = NULL
   )
 
@@ -509,19 +504,19 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
   scale_color_manual(values = c("grey70", "red")) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   ) +
   labs(
-    title = "Vaginal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-Log10 (Adjusted P-value)"
   )
 
 top_labels_vaginal_Endo_vs_Control <- vaginal_Endo_vs_Control_df %>%
@@ -544,19 +539,19 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
   scale_color_manual(values = c("grey70", "red")) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   ) +
   labs(
-    title = "Vaginal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value"
+    y = "-Log10 (Adjusted P-value)"
   )
 
 vaginal_sig_CPP_vs_Control <- vaginal_CPP_vs_Control_df %>%
@@ -612,7 +607,7 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   geom_text_repel(
     data = top_unique_labels_vaginal_Endo_vs_CPP,
     aes(label = KO),
-    color = "darkblue",
+    color = "blue",
     size = 3
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
@@ -624,19 +619,19 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   )) +
   theme_classic() +
   theme(
-    plot.title = element_text(size = 25),
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
-    legend.title = element_text(size = 13),
-    legend.text = element_text(size = 11),
-    strip.text = element_text(size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA),
     plot.margin = margin(15, 15, 15, 15),
     legend.position = "none"
   ) +
   labs(
-    title = "Vaginal",
     x = "Log2 Fold Change",
-    y = "-log10 Adjusted p-value",
+    y = "-Log10 (Adjusted P-value)",
     color = NULL
   )
 

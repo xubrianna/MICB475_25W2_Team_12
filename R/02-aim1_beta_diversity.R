@@ -24,8 +24,10 @@ meta_df <- as(sample_data(ps_rarefied), "data.frame")
 
 sample_data(ps_rarefied)$Host_disease <- factor(meta_df$Host_disease,
                                                 levels = c("Control","CPP","CPP Endo"))
+meta_df$env_medium <- gsub("rectal", "Rectal", meta_df$env_medium)
+meta_df$env_medium <- gsub("vaginal", "Vaginal", meta_df$env_medium)
 sample_data(ps_rarefied)$env_medium <- factor(meta_df$env_medium,
-                                              levels = c("rectal","vaginal"))  
+                                              levels = c("Rectal","Vaginal"))  
 
 
 
@@ -41,6 +43,16 @@ gg_uni <- plot_ordination(ps_rarefied, pcoa_uni, type="samples",
                           color="Host_disease") +
   geom_point(size=3.5, alpha=0.9) +
   theme_classic() +
+  theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = "grey80", color = "black"),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA),
+  ) +
   facet_wrap(~ env_medium) +
   scale_color_manual(values = group_cols) +
   labs(color="Host Disease", shape="Site")
@@ -60,8 +72,8 @@ permanova_all
 
 # PERMANOVA stratified by site
 
-meta_feces <- subset(meta_df, env_medium == "rectal")
-meta_vagina <- subset(meta_df, env_medium == "vaginal")
+meta_feces <- subset(meta_df, env_medium == "Rectal")
+meta_vagina <- subset(meta_df, env_medium == "Vaginal")
 
 dm_feces  <- as.dist(as.matrix(unifrac_dm)[rownames(meta_feces), rownames(meta_feces)])
 dm_vagina <- as.dist(as.matrix(unifrac_dm)[rownames(meta_vagina), rownames(meta_vagina)])
@@ -93,14 +105,20 @@ gg_uni_ellipse <- (
   + stat_ellipse(aes(group = interaction(Host_disease, env_medium), color = Host_disease),
                  level = 0.95, linewidth = 1)
   + theme_classic()
+  + theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15)
+  )
   + scale_color_manual(values = group_cols)
   + scale_shape_manual(values = c(16, 17)) 
   + labs(
     color = "Host Disease",
     shape = "Body Site",
     x = sprintf("PCoA Axis 1 (%.1f%% of community dissimilarity)", var_explained[1]),
-    y = sprintf("PCoA Axis 2 (%.1f%% of community dissimilarity)", var_explained[2]),
-    title = "Host disease/Sample type: Unweighted UniFrac"
+    y = sprintf("PCoA Axis 2 (%.1f%% of community dissimilarity)", var_explained[2])
   )
   + scale_x_continuous(
     expand = expansion(mult = 0.25),
