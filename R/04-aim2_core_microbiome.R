@@ -3,6 +3,9 @@ library(phyloseq)
 library(microbiome)
 library(ggVennDiagram)
 
+install.packages("ggpubr")   # only once
+library(ggpubr)
+
 ####LOAD AND MODIFY PHYLOSEQ####
 #load filtered phyloseq without rarification (expects uneven sequencing depths)
 phyloseq <- readRDS('data/phyloseq_filtered.rds')
@@ -289,3 +292,89 @@ print(head(core_taxonomy_rectal_2)
       
 unique_to_CPP_endo_rectal_2<- setdiff(CPP_healthy_ASVs_rectal_0.001, union(CPP_only_ASVs_rectal_0.001, CPP_endo_ASVs_rectal_0.001))
 print(unique_to_CPP_endo_rectal_2)
+
+
+
+
+
+##April 3 - trying to find the relative abundance of ASVs in all of the samples that are campylobacter 
+#try filtering the full taxatable from the phyloseq object to be campylobacter genus only just to see how many there are
+filtered_phyloseq_campylobacter <- subset_taxa(phyloseq, Genus == "g__Campylobacter")
+ntaxa(filtered_phyloseq_campylobacter)
+
+
+#try pruning 
+ps_A <- prune_taxa(taxa_sums(ps_A) > 0, ps_A)
+
+#try filtering the phyloseq to only have campylobacter that are in that genus = just for cpp_only rectal 
+CPP_only_rectal_campylobacter_genus <- subset_taxa(CPP_only_rectal_campylobacter, Genus == "g__Campylobacter")
+#count the number of total ASVs in the group 
+ntaxa(CPP_only_rectal_campylobacter)
+#count the number of ASvs that are campylobacter
+ntaxa(CPP_only_rectal_campylobacter_genus)
+#divide 
+(12/2330)*100
+
+
+
+#try pruning for cpp-only when its campylobacter filtered 
+CPP_only_rectal_campylobacter_genus <- subset_taxa(CPP_only_rectal_campylobacter, Genus == "g__Campylobacter")
+CPP_only_rectal_campylobacter_genus <- prune_taxa(taxa_sums(CPP_only_rectal_campylobacter_genus) > 0, CPP_only_rectal_campylobacter_genus)
+ntaxa(CPP_only_rectal_campylobacter_genus)
+
+#try pruning for cpp-endo when its campylobacter filtered 
+CPP_endo_rectal_campylobacter_genus <- subset_taxa(CPP_endo_rectal_campylobacter, Genus == "g__Campylobacter")
+CPP_endo_rectal_campylobacter_genus <- prune_taxa(taxa_sums(CPP_endo_rectal_campylobacter_genus) > 0, CPP_endo_rectal_campylobacter_genus)
+ntaxa(CPP_endo_rectal_campylobacter_genus)
+
+#try pruning for cpp-healthy when its campylobacter filtered 
+CPP_healthy_rectal_campylobacter_genus <- subset_taxa(CPP_healthy_rectal_campylobacter, Genus == "g__Campylobacter")
+CPP_healthy_rectal_campylobacter_genus <- prune_taxa(taxa_sums(CPP_healthy_rectal_campylobacter_genus) > 0, CPP_healthy_rectal_campylobacter_genus)
+ntaxa(CPP_healthy_rectal_campylobacter_genus)
+
+#try pruning entire taxa table for cpp_only
+CPP_only_rectal_campylobacter_prune <- prune_taxa(taxa_sums(CPP_only_rectal_campylobacter) > 0, CPP_only_rectal_campylobacter)
+ntaxa(CPP_only_rectal_campylobacter_prune)
+
+#try pruning entire taxa table for cpp_endo 
+CPP_endo_rectal_campylobacter_prune <- prune_taxa(taxa_sums(CPP_endo_rectal_campylobacter) > 0, CPP_endo_rectal_campylobacter)
+ntaxa(CPP_endo_rectal_campylobacter_prune)
+
+#try pruning entire taxa table for cpp_healthy
+CPP_healthy_rectal_campylobacter_prune <- prune_taxa(taxa_sums(CPP_healthy_rectal_campylobacter) > 0, CPP_healthy_rectal_campylobacter)
+ntaxa(CPP_healthy_rectal_campylobacter_prune)
+
+
+#try just getting abundance 
+taxasum <- taxa_sums(CPP_only_rectal_campylobacter)["g__Campylobacter"]
+
+
+#trying again using another approach 
+
+relative_abundance <- transform_sample_counts(phyloseq, function(x) x / sum(x))
+ps_genus <- subset_taxa(relative_abundance, Genus == "g__Campylobacter")
+ps_genus <- prune_taxa(taxa_sums(ps_genus) > 0, ps_genus)
+df <- psmelt(ps_genus)
+
+ggplot(df, aes(x = Host_disease, y = Abundance)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_minimal()
+
+
+#try again with only ASv
+relative_abundance <- transform_sample_counts(phyloseq, function(x) x / sum(x))
+ps_asv <- prune_taxa(taxa_names(relative_abundance) == "8365c56e7d1f57079c8821b426206d94", relative_abundance)
+ps_genus <- prune_taxa(taxa_sums(ps_asv) > 0, ps_asv)
+df <- psmelt(ps_genus)
+
+ggplot(df, aes(x = Host_disease, y = Abundance)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  stat_compare_means(comparisons = comparisons,
+                     method = "wilcox.test")
+  theme_minimal()
+
+#do stats
+kruskal.test(Abundance ~ Host_disease, data = df)
+comparisons <- pairwise.wilcox.test(df$Abundance, df$Host_disease, p.adjust.method = "BH")
