@@ -23,6 +23,93 @@ ko <- read.delim("data/picrust_out/KO_metagenome_out/pred_metagenome_unstrat.tsv
 
 rownames(ko) <- gsub("ko:", "", rownames(ko))
 
+#####test pca 
+
+group_cols <- c(
+  "Control" = "#c7e9b4",
+  "CPP" = "#41b6c4",
+  "CPP Endo" = "#225ea8"
+)
+
+# make body site variable
+meta$Body_site <- dplyr::case_when(
+  meta$collection_method == "rectal_swab" ~ "Rectal",
+  meta$collection_method == "vaginal_swab" ~ "Vaginal",
+  TRUE ~ NA_character_
+)
+
+# keep only samples that are in the KO table and are rectal/vaginal
+meta_pca <- meta %>%
+  dplyr::filter(sample_name %in% colnames(ko),
+                Body_site %in% c("Rectal", "Vaginal"))
+
+# subset KO table to those samples, in the same order as metadata
+ko_pca <- ko[, meta_pca$sample_name]
+
+# remove zero-variance KOs
+ko_pca_filtered <- ko_pca[
+  apply(ko_pca, 1, var) != 0,
+]
+
+# PCA
+ko_pca_res <- prcomp(t(log1p(ko_pca_filtered)), scale. = TRUE)
+
+# dataframe for plotting
+ko_pca_df <- data.frame(ko_pca_res$x)
+ko_pca_df$Host_disease <- factor(
+  meta_pca$Host_disease,
+  levels = c("Control", "CPP", "CPP Endo")
+)
+ko_pca_df$Body_site <- factor(
+  meta_pca$Body_site,
+  levels = c("Rectal", "Vaginal")
+)
+
+# % variance explained
+ko_var_explained <- round(summary(ko_pca_res)$importance[2, ] * 100, 1)
+
+# plot
+gg_KO_PCA_overlay <- ggplot(
+  ko_pca_df,
+  aes(x = PC1, y = PC2, color = Host_disease, shape = Body_site)
+) +
+  geom_point(size = 3.5, alpha = 0.9) +
+  stat_ellipse(
+    aes(group = interaction(Host_disease, Body_site), color = Host_disease),
+    level = 0.95,
+    linewidth = 1
+  ) +
+  theme_classic() +
+  theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA)
+  ) +
+  scale_color_manual(values = group_cols) +
+  scale_shape_manual(values = c(16, 17)) +
+  labs(
+    color = "Host Disease",
+    shape = "Body Site",
+    x = sprintf("PC1 (%.1f%% of variance explained)", ko_var_explained[1]),
+    y = sprintf("PC2 (%.1f%% of variance explained)", ko_var_explained[2])
+  )
+
+gg_KO_PCA_overlay
+
+ggsave(
+  "results/aim3/KO_PCA_overlay.png",
+  plot = gg_KO_PCA_overlay,
+  width = 10,
+  height = 7,
+  units = "in",
+  dpi = 300
+)
+
+######seperating to rectal and vafinal 
+
 rectal_meta <- meta %>%
   dplyr::filter(collection_method == "rectal_swab")
 vaginal_meta <- meta %>%
