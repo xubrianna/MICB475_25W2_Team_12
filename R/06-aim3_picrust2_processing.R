@@ -105,7 +105,7 @@ base_theme <- theme_classic() +
     panel.border = element_rect(color = "black", fill = NA)
   )
 
-rectal_KO_PCA <- ggplot(
+rectal_KO_PCA_pretty <- ggplot(
   rectal_pca_df,
   aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
 ) +
@@ -133,7 +133,7 @@ rectal_KO_PCA <- ggplot(
   ) +
   base_theme
 
-vaginal_KO_PCA<- ggplot(
+vaginal_KO_PCA_pretty <- ggplot(
   vaginal_pca_df,
   aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
 ) +
@@ -161,7 +161,7 @@ vaginal_KO_PCA<- ggplot(
   ) +
   base_theme
 
-gg_KO_PCA_combined <- rectal_KO_PCA + vaginal_KO_PCA +
+gg_KO_PCA_combined <- rectal_KO_PCA_pretty + vaginal_KO_PCA_pretty +
   plot_layout(guides = "collect") &
   theme(legend.position = "right")
 
