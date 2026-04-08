@@ -99,8 +99,11 @@ gg_KO_PCA_overlay <- ggplot(
 
 gg_KO_PCA_overlay
 
+gg_KO_PCA_overlay <- gg_KO_PCA_overlay +
+  coord_cartesian(ylim = c(-100, 80))
+
 ggsave(
-  "results/aim3/KO_PCA_overlay.png",
+  "results/aim3/KO_PCA_overlay_new.png",
   plot = gg_KO_PCA_overlay +
     coord_cartesian(ylim = c(-100, 80)),
   width = 10,
