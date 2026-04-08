@@ -87,121 +87,94 @@ head(sig_vaginal, 10)
 
 
 ###################################PCA plots################################################
+
 group_cols <- c(
   "Control" = "#c7e9b4",
   "CPP" = "#41b6c4",
   "CPP Endo" = "#225ea8"
 )
 
-rectal_mat_filtered <- rectal_mat[
-  apply(rectal_mat, 1, var) != 0,
-]
-
-rectal_pca <- prcomp(t(log1p(rectal_mat_filtered)), scale. = TRUE)
-
-rectal_pca_df <- data.frame(rectal_pca$x)
-rectal_pca_df$Host_disease <- rectal_meta$Host_disease
-
-rectal_var_explained <- summary(rectal_pca)$importance[2,]
+base_theme <- theme_classic() +
+  theme(
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 18),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5),
+    plot.margin = margin(15, 15, 15, 15),
+    panel.border = element_rect(color = "black", fill = NA)
+  )
 
 rectal_KO_PCA <- ggplot(
   rectal_pca_df,
   aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
 ) +
+  geom_point(size = 3.5, alpha = 0.9) +
   stat_ellipse(
+    aes(group = Host_disease, color = Host_disease),
+    level = 0.95,
+    linewidth = 1
+  ) +
+  stat_ellipse(
+    aes(group = Host_disease, fill = Host_disease),
     geom = "polygon",
-    alpha = 0.15,
+    alpha = 0.12,
     color = NA,
     level = 0.95
   ) +
-  geom_point(size = 3) +
-  stat_ellipse(level = 0.95, linewidth = 1) +
   scale_color_manual(values = group_cols) +
   scale_fill_manual(values = group_cols) +
-  theme_classic() +
-  theme(
-    axis.text = element_text(size = 14),
-    axis.title = element_text(size = 18),
-    legend.title = element_text(size = 16),
-    legend.text = element_text(size = 14),
-    strip.text = element_text(size = 18),
-    strip.background = element_rect(fill = "grey80", color = "black"),
-    panel.border = element_rect(color = "black", fill = NA),
-    plot.margin = margin(15, 15, 15, 15)
-  ) +
   labs(
-    x = paste0("PC1 (", round(rectal_var_explained[1] * 100, 1), "%)"),
-    y = paste0("PC2 (", round(rectal_var_explained[2] * 100, 1), "%)"),
-    color = "Host disease",
-    fill = "Host disease"
-  )
+    title = "Rectal",
+    color = "Host Disease",
+    fill = "Host Disease",
+    x = sprintf("PC1 (%.1f%% of variance explained)", rectal_var_explained[1] * 100),
+    y = sprintf("PC2 (%.1f%% of variance explained)", rectal_var_explained[2] * 100)
+  ) +
+  base_theme
 
-vaginal_mat_filtered <- vaginal_mat[
-  apply(vaginal_mat, 1, var) != 0,
-]
-
-vaginal_pca <- prcomp(t(log1p(vaginal_mat_filtered)), scale. = TRUE)
-
-vaginal_pca_df <- data.frame(vaginal_pca$x)
-vaginal_pca_df$Host_disease <- vaginal_meta$Host_disease
-
-vaginal_var_explained <- summary(vaginal_pca)$importance[2,]
-
-vaginal_KO_PCA <- ggplot(
+vaginal_KO_PCA<- ggplot(
   vaginal_pca_df,
   aes(x = PC1, y = PC2, color = Host_disease, fill = Host_disease)
 ) +
+  geom_point(size = 3.5, alpha = 0.9) +
   stat_ellipse(
+    aes(group = Host_disease, color = Host_disease),
+    level = 0.95,
+    linewidth = 1
+  ) +
+  stat_ellipse(
+    aes(group = Host_disease, fill = Host_disease),
     geom = "polygon",
-    alpha = 0.15,
+    alpha = 0.12,
     color = NA,
     level = 0.95
   ) +
-  geom_point(size = 3) +
-  stat_ellipse(level = 0.95, linewidth = 1) +
   scale_color_manual(values = group_cols) +
   scale_fill_manual(values = group_cols) +
-  theme_classic() +
-  theme(
-    axis.text = element_text(size = 14),
-    axis.title = element_text(size = 18),
-    legend.title = element_text(size = 16),
-    legend.text = element_text(size = 14),
-    strip.text = element_text(size = 18),
-    strip.background = element_rect(fill = "grey80", color = "black"),
-    panel.border = element_rect(color = "black", fill = NA),
-    plot.margin = margin(15, 15, 15, 15)
-  ) +
   labs(
-    x = paste0("PC1 (", round(vaginal_var_explained[1] * 100, 1), "%)"),
-    y = paste0("PC2 (", round(vaginal_var_explained[2] * 100, 1), "%)"),
-    color = "Host disease",
-    fill = "Host disease"
-  )
-rectal_KO_PCA
-vaginal_KO_PCA
+    title = "Vaginal",
+    color = "Host Disease",
+    fill = "Host Disease",
+    x = sprintf("PC1 (%.1f%% of variance explained)", vaginal_var_explained[1] * 100),
+    y = sprintf("PC2 (%.1f%% of variance explained)", vaginal_var_explained[2] * 100)
+  ) +
+  base_theme
 
-combined_KO_PCA <- rectal_KO_PCA + vaginal_KO_PCA
-combined_KO_PCA
+gg_KO_PCA_combined <- rectal_KO_PCA + vaginal_KO_PCA +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "right")
 
-ggsave(
-  "results/aim3/KO_rectal_vaginal_PCA_combined.png",
-  plot = combined_KO_PCA,
-  width = 16, height = 7, units = "in", dpi = 300
-)
+gg_KO_PCA_combined
 
 ggsave(
-  "results/aim3/KO_rectal_vaginal_PCA_combined.png",
-  plot = combined_KO_PCA,
-  width = 16, height = 7, units = "in", dpi = 300
+  "results/aim3/KO_PCA_combined_ellipse.png",
+  plot = gg_KO_PCA_combined,
+  width = 14,
+  height = 7,
+  units = "in",
+  dpi = 300
 )
-
-ggsave("results/aim3/KO_rectal_pcoa_ellipse.png",
-       plot = rectal_KO_PCA,
-       width = 10, height = 7, units = "in", dpi = 300)
-ggsave("results/aim3/KO_vaginal_pcoa_ellipse.png",
-       plot = vaginal_KO_PCA,
-       width = 10, height = 7, units = "in", dpi = 300)
 
 
 ######################################volcano plot#######
