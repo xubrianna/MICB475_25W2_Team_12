@@ -101,13 +101,13 @@ gg_KO_PCA_overlay
 
 ggsave(
   "results/aim3/KO_PCA_overlay.png",
-  plot = gg_KO_PCA_overlay,
+  plot = gg_KO_PCA_overlay +
+    coord_cartesian(ylim = c(-100, 80)),
   width = 10,
   height = 7,
   units = "in",
   dpi = 300
 )
-
 ######seperating to rectal and vafinal 
 
 rectal_meta <- meta %>%
