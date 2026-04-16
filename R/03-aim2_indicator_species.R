@@ -2,6 +2,18 @@ library(tidyverse)
 library(phyloseq)
 library(indicspecies)
 set.seed(2026)
+
+#### Define colors
+group_cols <- c(
+  "Control" = "#c7e9b4",
+  "CPP Only" = "#41b6c4",
+  "CPP Endo" = "#225ea8",
+  "Control + CPP Only" = "#84d0bc",
+  "Control + CPP Endo" = "#75a4ae",
+  "CPP Only + CPP Endo" = "#328ab6",
+  "Control + CPP Only + CPP Endo" = "#63aab5"
+)
+
 #### Load data ####
 phyloseq <- readRDS('data/phyloseq_filtered.rds')
 
@@ -41,7 +53,7 @@ CPP_table_vaginal <- isa_CPP_vaginal$sign %>%
   mutate(
     Host_disease = case_when(
       s.Control == 1 ~ "Control",
-      s.CPP == 1 ~ "CPP",
+      `s.CPP Only` == 1 ~ "CPP Only",
       `s.CPP Endo` == 1 ~ "CPP Endo",
       TRUE ~ "Mixed"
     )
@@ -56,6 +68,7 @@ View(CPP_table_vaginal)
 indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat), y = stat, fill = Host_disease)) +
   geom_col() +
   coord_flip() +
+  scale_fill_manual(values = group_cols) +
   labs(x = "Genus", y = "Indicator Value", fill = "Associated Condition") +
   theme_classic() +
   theme(
@@ -71,7 +84,7 @@ indicator_plot_vaginal <- ggplot(CPP_table_vaginal, aes(x = reorder(Genus, stat)
 
 indicator_plot_vaginal
 
-ggsave("results/aim2/04b-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
+ggsave("results/aim2/03-indicator_species/indicator_plot_vaginal.png", indicator_plot_vaginal, width = 10, height = 7)
 
 #### Indicator Species/Taxa Analysis for Rectal ####
 
@@ -102,14 +115,15 @@ CPP_table_rectal <- isa_CPP_rectal$sign %>%
   rownames_to_column(var = "ASV") %>%
   mutate(
     Host_disease = apply(
-      select(., s.Control, s.CPP, `s.CPP Endo`),
+      select(., s.Control, `s.CPP Only`, `s.CPP Endo`),
       1,
       function(x) paste(names(x)[x == 1], collapse = " + ")
     )
   ) %>%
   mutate(
     `Associated Conditions` = Host_disease %>%
-      str_replace_all("s.", "")   # remove s. prefix
+      str_replace_all("s\\.", "") %>%   # remove s. prefix
+      str_replace_all("CPP Only", "CPP Only")   # rename CPP to CPP Only
   ) %>% 
   left_join(taxtable_rectal, by = "ASV") %>%
   filter(p.value < 0.05)
@@ -122,6 +136,7 @@ view(CPP_table_rectal)
 indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), y = stat, fill = `Associated Conditions`)) +
   geom_col() +
   coord_flip() +
+  scale_fill_manual(values = group_cols) +
   labs(x = "Genus", y = "Indicator Value") +
   theme_classic() +
   theme(
@@ -137,5 +152,5 @@ indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), 
 
 indicator_plot_rectal
 
-ggsave("results/aim2/04b-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
+ggsave("results/aim2/03-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
 

@@ -27,7 +27,7 @@ rownames(ko) <- gsub("ko:", "", rownames(ko))
 
 group_cols <- c(
   "Control" = "#c7e9b4",
-  "CPP" = "#41b6c4",
+  "CPP Only" = "#41b6c4",
   "CPP Endo" = "#225ea8"
 )
 
@@ -37,6 +37,7 @@ meta$Body_site <- dplyr::case_when(
   meta$collection_method == "vaginal_swab" ~ "Vaginal",
   TRUE ~ NA_character_
 )
+
 
 # keep only samples that are in the KO table and are rectal/vaginal
 meta_pca <- meta %>%
@@ -58,7 +59,7 @@ ko_pca_res <- prcomp(t(log1p(ko_pca_filtered)), scale. = TRUE)
 ko_pca_df <- data.frame(ko_pca_res$x)
 ko_pca_df$Host_disease <- factor(
   meta_pca$Host_disease,
-  levels = c("Control", "CPP", "CPP Endo")
+  levels = c("Control", "CPP Only", "CPP Endo")
 )
 ko_pca_df$Body_site <- factor(
   meta_pca$Body_site,
@@ -85,7 +86,8 @@ gg_KO_PCA_overlay <- ggplot(
     axis.title = element_text(size = 18),
     legend.title = element_text(size = 16),
     legend.text = element_text(size = 14),
-    plot.margin = margin(15, 15, 15, 15),
+    legend.position = 'left',
+    plot.margin = margin(15, 15, 15, 40),
     panel.border = element_rect(color = "black", fill = NA)
   ) +
   scale_color_manual(values = group_cols) +
@@ -103,7 +105,7 @@ gg_KO_PCA_overlay <- gg_KO_PCA_overlay +
   coord_cartesian(ylim = c(-100, 80))
 
 ggsave(
-  "results/aim3/KO_PCA_overlay_new.png",
+  "results/aim3/KO_PCA_overlay.png",
   plot = gg_KO_PCA_overlay +
     coord_cartesian(ylim = c(-100, 80)),
   width = 10,
@@ -180,7 +182,7 @@ head(sig_vaginal, 10)
 
 group_cols <- c(
   "Control" = "#c7e9b4",
-  "CPP" = "#41b6c4",
+  "CPP Only" = "#41b6c4",
   "CPP Endo" = "#225ea8"
 )
 
@@ -233,6 +235,7 @@ vaginal_KO_PCA_pretty <- ggplot(
     level = 0.95,
     linewidth = 1
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   stat_ellipse(
     aes(group = Host_disease, fill = Host_disease),
     geom = "polygon",
@@ -272,7 +275,7 @@ ggsave(
 #rectal
 res_rectal_CPP_vs_Control <- results(
   dds_rectal,
-  contrast = c("Host_disease", "CPP", "Control")
+  contrast = c("Host_disease", "CPP Only", "Control")
 )
 
 res_rectal_Endo_vs_Control <- results(
@@ -282,7 +285,7 @@ res_rectal_Endo_vs_Control <- results(
 
 res_rectal_Endo_vs_CPP <- results(
   dds_rectal,
-  contrast = c("Host_disease", "CPP Endo", "CPP")
+  contrast = c("Host_disease", "CPP Endo", "CPP Only")
 )
 
 rectal_CPP_vs_Control_df <- as.data.frame(res_rectal_CPP_vs_Control)
@@ -338,8 +341,10 @@ volcano_rectal_CPP_vs_Control <- ggplot(
   geom_text_repel(
     data = top_labels,
     aes(label = KO),
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
@@ -375,8 +380,10 @@ volcano_rectal_Endo_vs_Control <- ggplot(
   geom_text_repel(
     data = top_labels_Endo_vs_Control,
     aes(label = KO),
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
@@ -424,7 +431,7 @@ rectal_Endo_vs_CPP_df$plot_group[
 
 rectal_Endo_vs_CPP_df$plot_group[
   rectal_Endo_vs_CPP_df$KO %in% rectal_unique_Endo_vs_CPP
-] <- "Unique to Endo vs CPP"
+] <- "Unique to Endo vs CPP Only"
 
 
 # label top 10 UNIQUE ones in dark blue
@@ -452,14 +459,16 @@ volcano_rectal_Endo_vs_CPP <- ggplot(
     data = top_unique_labels_Endo_vs_CPP,
     aes(label = KO),
     color = "blue",
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c(
     "Not Significant" = "grey70",
     "Significant (Overlapping)" = "red",
-    "Unique to Endo vs CPP" = "blue"
+    "Unique to Endo vs CPP Only" = "blue"
   )) +
   theme_classic() +
   theme(
@@ -485,7 +494,7 @@ volcano_rectal_Endo_vs_CPP
 
 res_vaginal_CPP_vs_Control <- results(
   dds_vaginal,
-  contrast = c("Host_disease", "CPP", "Control")
+  contrast = c("Host_disease", "CPP Only", "Control")
 )
 
 res_vaginal_Endo_vs_Control <- results(
@@ -495,7 +504,7 @@ res_vaginal_Endo_vs_Control <- results(
 
 res_vaginal_Endo_vs_CPP <- results(
   dds_vaginal,
-  contrast = c("Host_disease", "CPP Endo", "CPP")
+  contrast = c("Host_disease", "CPP Endo", "CPP Only")
 )
 
 vaginal_CPP_vs_Control_df <- as.data.frame(res_vaginal_CPP_vs_Control)
@@ -509,7 +518,7 @@ vaginal_Endo_vs_CPP_df$KO <- rownames(vaginal_Endo_vs_CPP_df)
 
 res_vaginal_CPP_vs_Control <- results(
   dds_vaginal,
-  contrast = c("Host_disease", "CPP", "Control")
+  contrast = c("Host_disease", "CPP Only", "Control")
 )
 
 res_vaginal_Endo_vs_Control <- results(
@@ -519,7 +528,7 @@ res_vaginal_Endo_vs_Control <- results(
 
 res_vaginal_Endo_vs_CPP <- results(
   dds_vaginal,
-  contrast = c("Host_disease", "CPP Endo", "CPP")
+  contrast = c("Host_disease", "CPP Endo", "CPP Only")
 )
 
 vaginal_CPP_vs_Control_df <- as.data.frame(res_vaginal_CPP_vs_Control)
@@ -576,8 +585,10 @@ volcano_vaginal_CPP_vs_Control <- ggplot(
   geom_text_repel(
     data = top_labels_vaginal_CPP_vs_Control,
     aes(label = KO),
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c("grey70", "red")) +
@@ -607,11 +618,13 @@ volcano_vaginal_Endo_vs_Control <- ggplot(
   vaginal_Endo_vs_Control_df,
   aes(x = log2FoldChange, y = -log10(padj), color = significance)
 ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_point(alpha = 0.7) +
   geom_text_repel(
     data = top_labels_vaginal_Endo_vs_Control,
     aes(label = KO),
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
@@ -658,7 +671,7 @@ vaginal_Endo_vs_CPP_df$plot_group[
 
 vaginal_Endo_vs_CPP_df$plot_group[
   vaginal_Endo_vs_CPP_df$KO %in% vaginal_unique_Endo_vs_CPP
-] <- "Unique to Endo vs CPP"
+] <- "Unique to Endo vs CPP Only"
 
 
 # label all UNIQUE ones in dark blue
@@ -687,14 +700,16 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
     data = top_unique_labels_vaginal_Endo_vs_CPP,
     aes(label = KO),
     color = "blue",
-    size = 3
+    size = 3,
+    max.overlaps = Inf
   ) +
+  xlim(-40, 40) + ylim(0, 20)+
   geom_hline(yintercept = -log10(p_threshold), linetype = "dashed") +
   geom_vline(xintercept = c(-logFC_threshold, logFC_threshold), linetype = "dashed") +
   scale_color_manual(values = c(
     "Not Significant" = "grey70",
     "Significant (Overlapping)" = "red",
-    "Unique to Endo vs CPP" = "blue"
+    "Unique to Endo vs CPP Only" = "blue"
   )) +
   theme_classic() +
   theme(
@@ -715,8 +730,22 @@ volcano_vaginal_Endo_vs_CPP <- ggplot(
   )
 
 volcano_vaginal_Endo_vs_CPP
+
+
+volcano_rectal_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + ggtitle("Rectal") + theme(plot.title = element_text(hjust = 0.5, size= 18))
+volcano_vaginal_CPP_vs_Control <- volcano_vaginal_CPP_vs_Control + ggtitle("Vaginal") + theme(plot.title = element_text(hjust = 0.5,  size= 18))
+
+
+volcano_rectal_Endo_vs_Control <- volcano_rectal_Endo_vs_Control + ggtitle("Rectal") + theme(plot.title = element_text(hjust = 0.5, size= 18))
+volcano_vaginal_Endo_vs_Control <- volcano_vaginal_Endo_vs_Control + ggtitle("Vaginal") + theme(plot.title = element_text(hjust = 0.5,  size= 18))
+
+
+volcano_rectal_Endo_vs_CPP <- volcano_rectal_Endo_vs_CPP + ggtitle("Rectal") + theme(plot.title = element_text(hjust = 0.5, size= 18))
+volcano_vaginal_Endo_vs_CPP <- volcano_vaginal_Endo_vs_CPP + ggtitle("Vaginal") + theme(plot.title = element_text(hjust = 0.5,  size= 18))
+
+
 # Combine rectal + vaginal panels per contrast
-panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control 
+panel_CPP_vs_Control <- volcano_rectal_CPP_vs_Control + volcano_vaginal_CPP_vs_Control
 
 panel_Endo_vs_Control <- volcano_rectal_Endo_vs_Control + volcano_vaginal_Endo_vs_Control 
 #  plot_annotation(title = "KO Differential Abundance (CPP Endo vs Control)") &
@@ -746,6 +775,7 @@ ggsave(
   width = 10, height = 7, units = "in", dpi = 300
 )
 
+
 ##########Bar###############
 df <- data.frame(
   pathway = c(
@@ -773,12 +803,43 @@ bar <- ggplot(df, aes(x = count, y = reorder(pathway, count), fill = count)) +
     y = NULL,
     fill = "Count"
   ) +
-  theme_classic(base_size = 12) +
-  xlim(0, max(df$count) + 0.5)
+  theme_classic() +
+  xlim(0, max(df$count) + 0.5) +
+  theme(legend.position = c(0.9, 0.5),
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 18),
+        axis.title.x = element_text(size = 18, margin = margin(t = 20)),
+        axis.title.y = element_text(size = 18, margin = margin(r = 20)),
+        plot.margin = margin(t = 10, 
+                             r = 40, 
+                             b = 15,  
+                             l = 40,  
+                             unit = "pt")
+  ) 
 
+bar
 ggsave(
   "results/aim3/bar.png",
   plot = bar,
   width = 10, height = 5, units = "in", dpi = 300
 )
 bar
+
+
+left <- plot_grid(gg_KO_PCA_overlay, bar, ncol = 1, labels = c('A', 'E'), label_size = 20)
+
+p <- plot_grid(
+  panel_CPP_vs_Control, panel_Endo_vs_Control, panel_Endo_vs_CPP,
+  labels = c("B", "C", "D"), ncol = 1, label_size = 20
+)
+
+final <- plot_grid(
+  left, p,
+  labels = c("", ""), ncol = 2, label_size = 20
+)
+
+
+ggsave(
+  "results/aim3/final_figure.png",
+  plot = final,
+  width = 20, height = 13, units = "in", dpi = 300)

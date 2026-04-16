@@ -23,7 +23,7 @@ pcoa_uni <- ordinate(ps_rarefied,
 meta_df <- as(sample_data(ps_rarefied), "data.frame")
 
 sample_data(ps_rarefied)$Host_disease <- factor(meta_df$Host_disease,
-                                                levels = c("Control","CPP","CPP Endo"))
+                                                levels = c("Control","CPP Only","CPP Endo"))
 meta_df$env_medium <- gsub("rectal", "Rectal", meta_df$env_medium)
 meta_df$env_medium <- gsub("vaginal", "Vaginal", meta_df$env_medium)
 sample_data(ps_rarefied)$env_medium <- factor(meta_df$env_medium,
@@ -34,7 +34,7 @@ sample_data(ps_rarefied)$env_medium <- factor(meta_df$env_medium,
 
 group_cols <- c(
   "Control" = "#c7e9b4",   # green
-  "CPP" = "#41b6c4",       # turquoise
+  "CPP Only" = "#41b6c4",       # turquoise
   "CPP Endo" = "#225ea8"   # dark blue
 )
 
