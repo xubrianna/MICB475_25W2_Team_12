@@ -97,19 +97,21 @@ PICRUSt2 was run to predict metagenome functional content (KEGG Orthologs) from 
 
 ![Faith's phylogenetic diversity (PD) across disease groups, faceted by body site.](../results/aim1/01_faith_PD_boxplot.png){#fig-faith-boxplot}
 
-<!-- TODO: Add Kruskal-Wallis and Dunn's test results summary here -->
+Faith's phylogenetic diversity was substantially higher in rectal samples (median ~12–14) compared to vaginal samples (median ~4–6) across all disease groups (@fig-faith-boxplot). Within each body site, no significant differences in alpha diversity were observed among Control, CPP, and CPP Endo groups (Kruskal-Wallis test, Dunn's post-hoc with Benjamini-Hochberg correction, all pairwise adjusted p > 0.05). This suggests that neither CPP nor endometriosis is associated with a significant loss or gain of phylogenetic diversity at either body site.
 
 #### Beta diversity
 
 ![PCoA of unweighted UniFrac distances with 95% confidence ellipses, colored by disease group and shaped by body site.](../results/aim1/02-pcoa_ellipse.png){#fig-pcoa}
 
-<!-- TODO: Add PERMANOVA results summary here -->
+PCoA of unweighted UniFrac distances revealed a strong separation by body site along Axis 1 (24.7% of variation), with rectal samples forming a tight cluster distinct from vaginal samples (@fig-pcoa). Within body sites, the 95% confidence ellipses for Control, CPP, and CPP Endo groups showed substantial overlap, indicating that microbial community composition does not differ dramatically between disease groups. PERMANOVA confirmed that body site (env_medium) was a significant driver of community structure, while the effect of Host_disease was comparatively modest.
 
 ### Aim 2: Taxonomic composition and differential abundance
 
 #### Taxonomic composition
 
-![Mean taxonomic composition (top 15 genera) by disease group, faceted by body site.](../results/aim2/03-tax_composition/03_taxa_barplot.png){#fig-taxa-barplot}
+![Mean taxonomic composition of genera by disease group, faceted by body site.](../results/aim2/03-tax_composition/03_taxa_genera_barplot.png){#fig-taxa-barplot}
+
+The taxonomic composition at the genus level differed markedly between body sites (@fig-taxa-barplot). Vaginal samples were dominated by *Lactobacillus*, consistent with a healthy vaginal microbiome, whereas rectal samples showed a more diverse community dominated by *Bacteroides*, *Prevotella*, and members of the Lachnospiraceae family. Across disease groups within each body site, the overall taxonomic profiles appeared broadly similar at this level of resolution.
 
 #### Core microbiome
 
@@ -119,7 +121,15 @@ PICRUSt2 was run to predict metagenome functional content (KEGG Orthologs) from 
 ![Vaginal core microbiome Venn diagram (detection = 0.001, prevalence = 50%)](../results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png){#fig-venn-vaginal}
 :::
 
-<!-- TODO: Add core microbiome  -->
+Core microbiome analysis at a detection threshold of 0.001 and 50% prevalence revealed 37 total core ASVs in rectal samples, of which 12 (32%) were shared across all three disease groups (@fig-venn-rectal). The Healthy group had the largest number of unique core ASVs (13, 35%), while CPP Only had 4 unique ASVs (11%) and CPP Endo had only 1 unique core ASV (3%). Six core ASVs (16%) were shared exclusively between Healthy and CPP Endo. In vaginal samples, the core microbiome was much smaller, with only 5 total core ASVs (@fig-venn-vaginal). One ASV was shared across all groups, 2 were unique to Healthy, and no ASVs were unique to CPP Only or CPP Endo alone. The reduced core in CPP groups suggests a loss of consistently present taxa associated with disease.
+
+##### Indicator Species 
+
+![Indicator species for rectal samples (p < 0.05). Bar color indicates the associated disease condition(s).](../results/aim2/03-indicator_species/indicator_plot_rectal.png){#fig-isa-rectal}
+
+![Indicator species for vaginal samples (p < 0.05). Bar color indicates the associated disease condition.](../results/aim2/03-indicator_species/indicator_plot_vaginal.png){#fig-isa-vaginal}
+
+Indicator species analysis identified 6 significant indicator taxa in rectal samples (@fig-isa-rectal). Five genera — *Senegalimassilia*, *Paraprevotella*, *Victivallis*, *Pyramidobacter*, and *Incertae_Sedis* — were associated with the Control group, while *GCA-900066575* was associated with both Control and CPP Endo. In vaginal samples (@fig-isa-vaginal), only one indicator taxon was identified: *Enterocloster*, associated with the Control group. Notably, no indicator species were uniquely associated with either the CPP or CPP Endo groups, suggesting that disease states may be more so characterized by the loss of health-associated taxa than by the gain of disease-specific organisms.
 
 
 
@@ -131,9 +141,13 @@ DESeq2 was used to identify differentially abundant ASVs between disease groups 
 
 ![Volcano plots for CPP vs. Control contrast for rectal (left) and vaginal (right) samples. Red points indicate significantly differentially abundant ASVs.](../results/aim2/05-deseq2/05-cpp_control_contrast.png){#fig-deseq-cpp-control}
 
+The CPP vs. Control contrast identified 131 significant ASVs in rectal samples and 14 in vaginal samples (@fig-deseq-cpp-control). In rectal samples, differentially abundant ASVs were distributed across both positive and negative log2 fold changes, indicating taxa both enriched and depleted in CPP relative to controls. Vaginal samples showed fewer significant hits, with the most significant ASVs showing large fold changes.
+
 ##### CPP Endo vs. Control
 
 ![Volcano plots for CPP Endo vs. Control contrast for rectal (left) and vaginal (right) samples.](../results/aim2/05-deseq2/05-cpp_endo_control_contrast.png){#fig-deseq-endo-control}
+
+The CPP Endo vs. Control contrast identified 89 significant ASVs in rectal samples and 19 in vaginal samples (@fig-deseq-endo-control). In rectal samples, significant ASVs spanned both directions of fold change. In vaginal samples, significant ASVs included both enriched and depleted taxa, with several highly significant hits at large fold changes.
 
 ##### CPP Endo vs. CPP
 
@@ -147,16 +161,10 @@ The significantly differentially abundant ASVs from the CPP Endo vs. CPP contras
 ![Significant DESeq2 ASVs (CPP Endo vs. CPP) in vaginal samples, shown by phylum with log2 fold change and standard error.](../results/aim2/05-deseq2/05-sigASVs_vag.png){#fig-sigASVs-vag}
 :::
 
-DESeq2 analysis of the CPP Endo vs. CPP contrast revealed substantially more differentially abundant ASVs in rectal samples compared to vaginal samples, suggesting that the rectal microbiome may be more broadly impacted by endometriosis-associated dysbiosis????
+The CPP Endo vs. CPP contrast identified 112 significant ASVs in rectal samples and 22 in vaginal samples (@fig-deseq-endo-cpp). 7 labeled genera in the rectal volcano plot include *Atopobium*, *UCG-003*, *Thomasclavelia*, and *Anaerofuncus*, while the vaginal plot highlights *Peptostreptococcus*, *Mycoplasma*, and *Escherichia-Shigella* to be uniquely enriched in CPP Endo. These genera are not found to be overlapping in any of the case-control contrasts. The substantially greater number of differentially abundant ASVs in rectal samples across all contrasts suggests that the rectal microbiome may be more broadly impacted by endometriosis-associated dysbiosis than the vaginal microbiome.
 
-In vaginal samples, there was a strong enrichment of multiple *Fannyhessea* ASVs 
+In rectal samples, the phylum-level bar plot (@fig-sigASVs-rect) shows differentially abundant ASVs spanning with roughly equal numbers of enriched and depleted taxa. In vaginal samples (@fig-sigASVs-vag), the majority of significant ASVs were enriched in CPP Endo (positive log2 fold change).
 
-##### Indicator Species 
-
-![Indicator Species Plot.](../results/aim2/06-indicator_species/indicator_plot_rectal.png)
-
-
-![Indicator Species Plot.](../results/aim2/06-indicator_species/indicator_plot_vaginal.png)
 
 
 ### Aim 3: Predicted functional profiling (PICRUSt2)
@@ -169,37 +177,41 @@ In vaginal samples, there was a strong enrichment of multiple *Fannyhessea* ASVs
 ![PCA of KEGG KO abundance for vaginal samples, colored by disease group with 95% confidence ellipses.](../results/aim3/KO_vaginal_pcoa_ellipse.png){#fig-ko-pca-vaginal}
 :::
 
-<!-- TODO: Add PCA interpretation here -->
+PCA of predicted KEGG KO abundance showed largely overlapping clusters among disease groups for both body sites. In rectal samples (@fig-ko-pca-rectal), PC1 explained 33.8% and PC2 12.5% of the variation, with all three groups clustering together and no clear separation. In vaginal samples (@fig-ko-pca-vaginal), PC1 explained 40.9% and PC2 17% of the variation, with similarly overlapping ellipses. A few outlier samples were observed in both body sites. Overall, the predicted functional profiles do not show strong global separation between disease groups, suggesting that functional differences may be limited to specific pathways rather than reflecting a broad shift.
+
+Investigating the corresponding KEGG PCA, we observed substantial overlap between disease groups across both body sites, with limited separation between healthy controls, CPP patients, and CPP patients with endometriosis. This suggests a lack of clear global functional differences between groups within the cohort and indicates that overall predicted microbial functional profiles were broadly similar across disease states.
 
 #### Differential KO abundance (volcano plots)
 
-##### Rectal samples
+![CPP vs. Control](../results/aim3/CPP_vs_Control_volcano.png){#fig-vol-vag-cpp-ctrl}
 
-::: {layout-ncol=3}
-![CPP vs. Control](../results/aim3/rectal_CPP_vs_Control_volcano.png){#fig-vol-rect-cpp-ctrl}
+The CPP vs. Control comparison identified 7 significant KOs in rectal samples and 17 in vaginal samples (@fig-vol-vag-cpp-ctrl). In rectal samples, 5 KOs were downregulated (including K01143, K06417, K16567, K19877, K13021) and 2 were upregulated (K05889, K20432) in CPP. In vaginal samples, the majority of significant KOs were downregulated in CPP, with K05937 being the only upregulated KO.
 
-![CPP Endo vs. Control](../results/aim3/rectal_Endo_vs_Control_volcano.png){#fig-vol-rect-endo-ctrl}
+![CPP Endo vs. Control](../results/aim3/Endo_vs_Control_volcano.png){#fig-vol-vag-endo-ctrl}
 
-![CPP Endo vs. CPP](../results/aim3/rectal_Endo_vs_CPP_volcano.png){#fig-vol-rect-endo-cpp}
-:::
+The CPP Endo vs. Control comparison identified 7 significant KOs in rectal samples and 4 in vaginal samples (@fig-vol-vag-endo-ctrl). In rectal samples, 6 KOs were upregulated and 1 (K13021) downregulated in CPP Endo. In vaginal samples, all 4 significant KOs (K04718, K05937, K18369, K06988) were upregulated in CPP Endo relative to Controls.
 
-##### Vaginal samples
+![CPP Endo vs. CPP](../results/aim3/Endo_vs_CPP_volcano.png){#fig-vol-vag-endo-cpp}
 
-::: {layout-ncol=3}
-![CPP vs. Control](../results/aim3/vaginal_CPP_vs_Control_volcano.png){#fig-vol-vag-cpp-ctrl}
+The CPP Endo vs. CPP comparison yielded the most differentially abundant KOs, with 9 significant KOs in rectal samples and 20 in vaginal samples (@fig-vol-vag-endo-cpp). In rectal samples, all significant KOs showed positive fold changes (enriched in CPP Endo), with the most significant being K04718. In vaginal samples, all 20 significant KOs were also enriched in CPP Endo, including K03760, K07221, K08156, K10189, and K16091 among the top hits. The substantially larger number of differentially abundant KOs in this contrast, particularly in vaginal samples, suggests that endometriosis is associated with distinct functional pathway enrichment beyond the baseline CPP-associated changes.
 
-![CPP Endo vs. Control](../results/aim3/vaginal_Endo_vs_Control_volcano.png){#fig-vol-vag-endo-ctrl}
-
-![CPP Endo vs. CPP](../results/aim3/vaginal_Endo_vs_CPP_volcano.png){#fig-vol-vag-endo-cpp}
-:::
-
-<!-- TODO: Add volcano plot interpretation here -->
-
-## Discussion
-
-## Core microbiome analysis
-
-The results showed that 
+Despite the overall similarity in predicted functional profiles across disease groups, we observed separation at the KEGG ortholog level between healthy controls, CPP-only patients, and CPP patients with endometriosis at both rectal and vaginal sampling sites. Compared with controls, both CPP-associated groups (CPP only and CPP Endo) showed differences in the abundance of multiple KEGG orthologs, including both enriched and depleted functions. When comparing CPP Endo specifically to controls, several uniquely enriched KEGG orthologs were identified, particularly at the vaginal site. Notably, a greater number of significant functional differences were observed in vaginal samples compared with rectal samples, which may reflect site-specific microbial community structure and functional adaptation within the reproductive tract environment.
 
 
-## References
+### Random Forest Classification: Microbiome and Metadata Predictive Models
+
+We evaluated the ability of both microbial taxa abundance and clinical metadata to predict Host_disease status (Control, CPP Only, CPP Endo) using random forest models, separately for rectal and vaginal samples.
+
+#### Microbiome-only models
+
+![Random forest ROC and feature importance for microbiome-only models. Left: ROC curves for rectal and vaginal samples. Right: Top taxa importance for each body site.](../results/aim4/07-final_taxa_only.png)
+
+The microbiome-based models showed poor predictive performance, with all AUC values below 0.7 for both rectal and vaginal samples. Feature importance analysis revealed that no single taxon dominated the model, with Fusobacterium among the top contributors.
+
+#### Metadata-only models
+
+![Random forest ROC and feature importance for metadata-only models. Left: ROC curves for rectal and vaginal samples. Right: Top metadata feature importance for each body site.](../results/aim4/07-final_metadata_only.png)
+
+Models using only clinical metadata (e.g., bleeding, cysts, fibroids) also performed poorly, with AUC values below 0.7. No metadata variable showed strong predictive power for distinguishing CPP Endo from other groups.
+
+These results indicate that neither the microbiome nor clinical metadata alone are strong predictors of CPP Endo status in this cohort.
