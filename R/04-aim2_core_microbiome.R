@@ -50,8 +50,6 @@ venn_all_diseases_rectal_0.001 <- ggVennDiagram(
   # scale_fill_manual(c("Control" = "#c7e9b4", "CPP Only" = "#41b6c4", "CPP Endo" = "#225ea8"))
 venn_all_diseases_rectal_0.001
 
-ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png",
-       venn_all_diseases_rectal_0.001, width = 7, height = 7)
 
 #get the taxonomic information for CPP_endo disease group and find the ASVs that are unique to the core of CPP-endo 
 tax_mat_rectal <- tax_table(CPP_endo_rectal)
@@ -78,9 +76,6 @@ CPP_list_vaginal_0.001 <- list(Control = CPP_healthy_ASVs_vaginal_0.001, CPP_Onl
 venn_all_diseases_vaginal_0.001 <- ggVennDiagram(x = CPP_list_vaginal_0.001, category.names = c("Control", "CPP Only", "CPP Endo"), label_alpha = 0)+ scale_fill_gradient(low = "#1B98E026", high="#225ea8") + 
   theme(legend.position = 'none')
 venn_all_diseases_vaginal_0.001
-
-ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001, width = 7, height = 7)
-
 
 #### MAKE PLOTS WITH SAME FILL SCALE
 
@@ -130,6 +125,13 @@ venn_all_diseases_vaginal_0.001 <- ggVennDiagram(
                              l = 15,  
                              unit = "pt"))
   
+
+
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_rectal_0.001.png",
+       venn_all_diseases_rectal_0.001, width = 7, height = 7)
+ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001, width = 7, height = 7)
+
+
 #prune 
 prune_taxa(CPP_only_ASVs_rectal_0.001,CPP_RA) %>%
   tax_table()
@@ -227,7 +229,7 @@ make_core_plot_by_sample <- function(df, title = "") {
     theme_classic() +
     labs(x = "Sample", y = "Relative Abundance", title = title) +
     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
-          plot.margin = margin(15,15,15,15,))
+          plot.margin = margin(15,15,15,15))
 }
 
 # Create all 6 plots
@@ -285,13 +287,13 @@ ggsave("results/aim2/04-core_microbiome/prune_taxa_panel.png",
 phylo_rectal <- subset_samples(phyloseq, collection_method == "rectal_swab")
 phylo_rectal_RA <- transform_sample_counts(phylo_rectal, function(x) x / sum(x))
 
-# Identify all ASVs classified as Campylobacter at genus level
-tax <- as.data.frame(tax_table(phylo_rectal_RA))
-campy_asvs <- rownames(tax[grepl("Campylobacter", tax$Genus, ignore.case = TRUE), ])
+campylobacter_asv <- "8365c56e7d1f57079c8821b426206d94"
 
-# Sum relative abundance of all Campylobacter ASVs per sample
+# Get relative abundance of that  ASV per sample
 otu_mat <- as.data.frame(as.matrix(otu_table(phylo_rectal_RA)))
-campy_abund <- colSums(otu_mat[campy_asvs, , drop = FALSE])
+campy_abund <- otu_mat[campylobacter_asv, ]
+campy_abund <- as.numeric(campy_abund)
+names(campy_abund) <- colnames(otu_mat)
 
 # Build data frame with disease group info
 campy_df <- data.frame(
@@ -317,7 +319,6 @@ campy_summary <- campy_df %>%
   group_by(Host_disease) %>%
   summarise(Mean_RA = mean(Campy_RA), .groups = "drop")
 print(campy_summary)
-
 campy_df$Host_disease <- factor(campy_df$Host_disease, levels = c("Control", "CPP Only", "CPP Endo"))
 # Plot
 plot_campylobacter <- ggplot(campy_df, aes(x = Host_disease, y = Campy_RA, fill = Host_disease)) +
@@ -350,6 +351,48 @@ ggsave("results/aim2/04-core_microbiome/plot_campylobacter.png",
        plot_campylobacter, width = 7, height = 7)
 
 
+###### prevalence plot 
+
+get_campy_prevalence <- function(ps_subset) {
+  asv_table <- as.data.frame(t(as.matrix(otu_table(ps_subset))))
+  n_total <- nrow(asv_table)
+  n_positive <- sum(asv_table[, campylobacter_asv] > 0)
+  return((n_positive / n_total) * 100)
+}
+
+campy_prev_df <- data.frame(
+  Host_disease = factor(c("Control", "CPP Only", "CPP Endo"), 
+                        levels = c("Control", "CPP Only", "CPP Endo")),
+  Percent_Campylobacter = c(
+    get_campy_prevalence(subset_samples(phylo_rectal, Host_disease == "Control")),
+    get_campy_prevalence(subset_samples(phylo_rectal, Host_disease == "CPP Only")),
+    get_campy_prevalence(subset_samples(phylo_rectal, Host_disease == "CPP Endo"))
+  )
+)
+
+
+plot_campylobacter_prevalence <- ggplot(campy_prev_df,
+                                        aes(x = Host_disease, y = Percent_Campylobacter, fill = Host_disease)) +
+  geom_col(color = "black", linewidth = 0.5) +
+  scale_fill_manual(values = c("Control" = "#c7e9b4", "CPP Only" = "#41b6c4", "CPP Endo" = "#225ea8")) +
+  theme_classic() +
+  xlab("Host Disease") +
+  ylab("Campylobacter Prevalence (%)") +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 18, margin = margin(r = 20)),
+        plot.margin = margin(15,15,15,15),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        plot.background = element_rect(fill = "transparent", colour = NA),
+        legend.background = element_rect(fill = "transparent"),
+        legend.box.background = element_rect(fill = "transparent"))
+
+
+ggsave("results/aim2/04-core_microbiome/plot_campylobacter_prevalence.png", plot_campylobacter_prevalence , width = 7, height = 7)
+
+
 
 ###################################
 ##### panel for final plot
@@ -365,7 +408,7 @@ venn_legend <- get_legend(venn_all_diseases_vaginal_0.001 + theme(legend.positio
 
 # Put vaginal plot + legend together, controlling widths
 venn_vaginal_with_legend <- plot_grid(
-  venn_vaginal, venn_legend,
+  venn_all_diseases_vaginal_0.001, venn_legend,
   ncol = 2,
   rel_widths = c(1, 0.25)
 )
@@ -380,12 +423,12 @@ p <- plot_grid(
   rel_widths = c(1, 1, 0.25)
 )
 
-p <- plot_grid(p, plot_campylobacter, labels = c("A", "B"),
+final <- plot_grid(p, plot_campylobacter, labels = c("A", "B"),
                ncol = 1, label_size = 20)
 
 ggsave(
   "results/aim2/04-core_microbiome/04-final_figure.png",
-  plot = p,
+  plot = final,
   width = 12, height = 13, units = "in", dpi = 300)
 
 

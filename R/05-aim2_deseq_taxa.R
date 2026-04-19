@@ -428,6 +428,8 @@ bar_rect <- ggplot(sigASVs_rect) +
   labs(
     x = "Log2 Fold Change",
     title = "Rectal",
+    fill= "Log2 Fold Change"
+  
   ) 
  
 bar_rect
@@ -468,6 +470,7 @@ bar_vag <- ggplot(sigASVs_vag) +
   labs(
     x = "Log2 Fold Change",
     title = "Vaginal",
+    fill= "Log2 Fold Change"
   ) 
 bar_vag
 

@@ -243,7 +243,7 @@ set.seed(2026)
 
 ps_rarefied <- readRDS('data/phyloseq_rarefied.rds')
 #beta diversity
-unifrac_dm <- distance(ps_rarefied, method = "unifrac")  # unweighted by default
+unifrac_dm <- phyloseq::distance(ps_rarefied, method = "unifrac")  # unweighted by default
 
 #PCoA ordination
 pcoa_uni <- ordinate(ps_rarefied,
