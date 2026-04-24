@@ -53,6 +53,14 @@ print(head(core_taxonomy_rectal)
 unique_to_CPP_endo_rectal<- setdiff(CPP_endo_ASVs_rectal_0.001, union(CPP_only_ASVs_rectal_0.001, CPP_healthy_ASVs_rectal_0.001))
 print(unique_to_CPP_endo_rectal)
 
+#get the taxonomic information for CPP_only disease group and find the ASVs that are unique to the core of CPP-only
+tax_mat_rectal_healthy <- tax_table(CPP_healthy_rectal)
+
+core_taxonomy_healthy_only <- as.data.frame(tax_mat_rectal_healthy[CPP_healthy_ASVs_rectal_0.001, ])
+
+unique_to_CPP_healthy_rectal<- setdiff(CPP_healthy_ASVs_rectal_0.001, union(CPP_endo_ASVs_rectal_0.001, CPP_only_ASVs_rectal_0.001))
+print(unique_to_CPP_healthy_rectal)
+
 #prune 
 prune_taxa(CPP_only_ASVs_rectal_0.001,CPP_RA) %>%
   tax_table()
@@ -138,6 +146,16 @@ venn_all_diseases_vaginal_0.001
 
 ggsave("results/aim2/04-core_microbiome/venn_all_diseases_vaginal_0.001.png", venn_all_diseases_vaginal_0.001, width = 7, height = 7)
  
+
+#get the taxonomic information for CPP_healthy disease group and find the ASVs that are unique to the core of CPP-healthy 
+tax_mat_vaginal_healthy <- tax_table(CPP_healthy_vaginal)
+
+core_taxonomy_vaginal_healthy <- as.data.frame(tax_mat_vaginal_healthy[CPP_healthy_ASVs_vaginal_0.001, ])
+print(head(core_taxonomy_vaginal_healthy)
+      
+unique_to_CPP_endo_rectal<- setdiff(CPP_healthy_ASVs_vaginal_0.001, union(CPP_only_ASVs_vaginal_0.001, CPP_endo_ASVs_vaginal_0.001))
+print(unique_to_CPP_endo_rectal)
+
 #prune 
 prune_taxa(CPP_only_ASVs_vaginal_0.001,CPP_RA) %>%
   tax_table()
@@ -351,12 +369,17 @@ taxasum <- taxa_sums(CPP_only_rectal_campylobacter)["g__Campylobacter"]
 
 #trying again using another approach 
 
-relative_abundance <- transform_sample_counts(phyloseq, function(x) x / sum(x))
-ps_genus <- subset_taxa(relative_abundance, Genus == "g__Campylobacter")
-ps_genus <- prune_taxa(taxa_sums(ps_genus) > 0, ps_genus)
-df <- psmelt(ps_genus)
+phylo_rectal <- subset_samples(phyloseq, collection_method == "rectal_swab")
+phylo_rectal_RA <- transform_sample_counts(phylo_rectal, function(x) x / sum(x))
 
-ggplot(df, aes(x = Host_disease, y = Abundance)) +
+
+phylo_rectal_RA_1 <- subset_taxa(phylo_rectal_RA, Genus == "g__Campylobacter")
+phylo_rectal_RA_2 <- prune_taxa(taxa_sums(phylo_rectal_RA_1) > 0, phylo_rectal_RA_1)
+df_2 <- psmelt(phylo_rectal_RA_2)
+
+print(df_2)
+
+ggplot(df_2, aes(x = Host_disease, y = Abundance, color = Sample)) +
   geom_boxplot() +
   geom_jitter(width = 0.2, alpha = 0.5) +
   theme_minimal()
