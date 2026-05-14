@@ -2,6 +2,7 @@ library(tidyverse)
 library(phyloseq)
 library(indicspecies)
 set.seed(2026)
+library(cowplot)
 
 #### Define colors
 group_cols <- c(
@@ -153,4 +154,9 @@ indicator_plot_rectal <- ggplot(CPP_table_rectal, aes(x = reorder(Genus, stat), 
 indicator_plot_rectal
 
 ggsave("results/aim2/03-indicator_species/indicator_plot_rectal.png", indicator_plot_rectal, width = 10, height = 7)
+
+
+final <- plot_grid(indicator_plot_vaginal, indicator_plot_rectal,ncol=2, labels = c('A', 'B'), label_size=20)
+
+ggsave("results/aim2/03-indicator_species/final.png", final, width = 25, height = 10)
 
